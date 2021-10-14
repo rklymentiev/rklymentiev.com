@@ -78,8 +78,7 @@ This is the place where I post stuff related to:
 * Machine Learning
 * Probability & Statistics
 * Data Visualization
-* (and a bit of) Neuroscience
+* Neuroscience
 </div>
-
 
 
