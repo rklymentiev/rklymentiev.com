@@ -1,7 +1,7 @@
 ---
 title: "Computational Models of Behavior, part 1"
 subtitle: How to fit RL models to the behavioral data using MLE
-date: '2021-10-30'
+date: '2021-10-25'
 image:
   caption: 'Image credit: <a href="https://pixabay.com/users/geralt-9301/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6655267">Gerd
     Altmann</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6655267">Pixabay</a>'
@@ -443,7 +443,7 @@ Sample of generated data:
 
 
 
-Even though this data is generated, that's the exact data you can get from a real behavioral experiment. Each row in a dataset represents a trial for a particular subject. `choice` column represents the option chosen, `gain` and `loss` represent the reward and punishment values for a given trial. Full generated data set can be viewed here (link).
+Even though this data is generated, that's the exact data you can get from a real behavioral experiment. Each row in a dataset represents a trial for a particular subject. `choice` column represents the option chosen, `gain` and `loss` represent the reward and punishment values for a given trial. Full generated data set can be found [here](https://github.com/ruslan-kl/defme.xyz/blob/master/content/post/computational-models-of-behavior-pt1/agent_data.csv).
 
 <details><summary><b><font color="#ff6969">Code</font></b></summary>
 <p>
