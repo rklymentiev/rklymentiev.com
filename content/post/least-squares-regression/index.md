@@ -1,5 +1,5 @@
 ---
-title: "A (not that) Simple Least Squares Regression"
+title: "A (not that simple) Least Squares Regression"
 date: "2020-09-15"
 summary: Overview of the math behind an Ordinary Least Squares method, and what is needed to be taken into consideration when fitting a regression line.
 image:
