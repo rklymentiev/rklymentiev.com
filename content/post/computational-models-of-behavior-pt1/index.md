@@ -79,7 +79,7 @@ We will also have two groups, control (CTR) and treatment (TRT), and compare the
 
 For this article, we will generate **artificial** data, but we will treat it as **real-life** data (at least most of the time). In other words, we will generate data with a set of parameter values, but then we will try to recover them using the modeling. On the one hand, this will open room for a quantitative assessment of model fitting techniques (since we know the ground truth). On the other hand, we can see how to perform a model fitting in a "real-life".
 
-We will use the model described by Seymour et al. (2012)[^5]. Parameters of the model are:
+We will use the model adapted from Seymour et al. (2012)[^5]. Parameters of the model are:
 
 * learning rate for reward outcomes $\alpha^{\text{reward}}$ (how fast agent learns from the positive feedback)
 * learning rate for punishment outcomes $\alpha^{\text{punishment}}$ (how fast agent learns from the negative feedback)
