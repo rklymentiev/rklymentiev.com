@@ -1743,6 +1743,8 @@ However, there are several limitations of this review. First of all, data was ar
 
 Secondly, it is worth mentioning, that the initial data was generated with the research question in mind (<s>cheating</s>) to make it more exciting, that's why the results came up significantly different. Although it doesn't change the modeling and analysis steps. 
 
+<i>P.S. Second part of the post is hopefully coming soon.</i>
+
 ## References
 
 [^1]: Schultz W. (1998). Predictive reward signal of dopamine neurons. *Journal of neurophysiology, 80*(1), 1–27. https://doi.org/10.1152/jn.1998.80.1.1
