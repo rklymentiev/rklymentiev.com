@@ -27,7 +27,7 @@ links:
 url_code: ""
 url_pdf: ""
 url_slides: "https://rpubs.com/ruslankl/766909"
-url_video: ""
+url_video: "https://www.youtube.com/watch?v=JIPX3LumJOI"
 
 # Markdown Slides (optional).
 #   Associate this talk with Markdown slides.
