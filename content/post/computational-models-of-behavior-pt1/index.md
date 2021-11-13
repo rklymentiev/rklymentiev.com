@@ -1,6 +1,6 @@
 ---
 title: "Computational Models of Behavior, part 1"
-subtitle: How to fit RL models to the behavioral data using MLE
+subtitle: How to fit reinforcement learning models to the behavioral data using MLE
 date: '2021-10-25'
 image:
   caption: 'Image credit: <a href="https://pixabay.com/users/geralt-9301/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6655267">Gerd

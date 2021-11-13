@@ -959,7 +959,7 @@ Overall MLE and BA lead to somewhat similar results. In both cases, we were able
 <tfoot>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<i>Note:</i>
+<i></i>
 </td>
 </tr>
 </tfoot>
