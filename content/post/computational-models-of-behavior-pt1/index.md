@@ -77,7 +77,7 @@ We will also have two groups, control (CTR) and treatment (TRT), and compare the
 
 ## Data generation
 
-For this article, we will generate **artificial** data, but we will treat it as **real-life** data (at least most of the time). In other words, we will generate data with a set of parameter values, but then we will try to recover them using the modeling. On the one hand, this will open room for a quantitative assessment of model fitting techniques (since we know the ground truth). On the other hand, we can see how to perform a model fitting in a "real-life".
+For this article, we will generate **artificial** data, but we will treat it as **real-life** data (at least most of the time). In other words, we will generate data with a set of parameter values, but then we will try to recover them using the modeling. On the one hand, this will allow to perform a quantitative assessment of model fitting techniques (since we know the ground truth). On the other hand, we can see how to perform a model fitting in a "real-life".
 
 We will use the model adapted from Seymour et al. (2012)[^5]. Parameters of the model are:
 
@@ -335,6 +335,9 @@ Sample of generated data:
     }
 </style>
 <table border="0" class="dataframe">
+<caption>
+<span id="tab:unnamed-chunk-2">Table 1: </span>Sample of the generated data 
+</caption>
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -504,7 +507,7 @@ Reminder, that we don't have information about the true parameter values in real
 
 Now we want to recover the parameters of subjects and basically check if our hypothesis is true and treatment affects the learning rate for positive feedback and sensitivity to a reward. As told before, there are two main approaches to do this, fitting the model using MLE and Bayesian way. Here we will focus on the MLE.
 
-The idea of MLE is pretty simple, however, math under the hood is a bit more sophisticated. We want to find such set of parameters $\hat{\theta} = { ( \alpha^{\text{reward}}, \alpha^{\text{punishment}}, R, P ) } $, that is more likely to be true. In a simplified version, one can start it by choosing 4 random values for $\hat{\theta}$, putting them into the algorithm described in [data generation part](#data-generation), and then answering the question "What is the probability that actions were selected given these four parameters" (or in a notation way, $P(\text{data}|\text{model})$). After this, one would have to change the values and answer the same question again for a new set of values. After $n$ of such runs, the winning set of parameters is the one that gives the **highest** probability of the data occurrence. Or in other words, it is the maximum likelihood estimator.
+The idea of MLE is pretty simple, however, math under the hood is a bit more sophisticated. We want to find such set of parameters $\hat{\Theta} = { \\{ \alpha^{\text{reward}}, \alpha^{\text{punishment}}, R, P \\} } $, that is more likely to be true. In a simplified version, one can start it by choosing 4 random values for $\hat{\Theta}$, putting them into the algorithm described in [data generation part](#data-generation), and then answering the question "What is the probability that actions were selected given these four parameters" (or in a notation way, $P(\text{data}|\Theta)$). After this, one would have to change the values and answer the same question again for a new set of values. After $n$ of such runs, the winning set of parameters is the one that gives the **highest** probability of the data occurrence. Or in other words, it is the maximum likelihood estimator.
 
 But of course, no one would do that by hand and we can use function optimization techniques to deal with it. In Python we can use `minimize` function from SciPy package to find the estimated values with the help of [limited-memory Broyden–Fletcher–Goldfarb–Shanno algorithm](https://en.wikipedia.org/wiki/Limited-memory_BFGS). This algorithm is a variation of a [gradient descent optimization method](https://en.wikipedia.org/wiki/Gradient_descent).
 
@@ -1119,6 +1122,9 @@ metrics_df.set_index(['subjID', 'metric']).style.highlight_min(
 }
 </style>
 <table id="T_e2d81_">
+<caption>
+<span id="tab:unnamed-chunk-2">Table 2: </span>Model comparison for all subjects
+</caption>
   <thead>
     <tr>
       <th class="blank" >&nbsp;</th>
@@ -1743,7 +1749,8 @@ However, there are several limitations of this review. First of all, data was ar
 
 Secondly, it is worth mentioning, that the initial data was generated with the research question in mind (<s>cheating</s>) to make it more exciting, that's why the results came up significantly different. Although it doesn't change the modeling and analysis steps. 
 
-<i>P.S. Second part of the post is hopefully coming soon.</i>
+[**►Computational Models of Behavior, part 2: Bayesian Inference**](https://defme.xyz/post/computational-models-of-behavior-pt2/)
+
 
 ## References
 

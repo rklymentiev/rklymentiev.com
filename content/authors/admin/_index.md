@@ -1,7 +1,7 @@
 ---
 authors:
 - admin
-bio: My life credo is "Never stop learning". When I am not learning, I am travelling or hiking.
+bio: I was using brain to understand math. Now I am using math to understand brain.
 email: "rklymentiev@gmail.com"
 name: Ruslan Klymentiev
 organizations:
