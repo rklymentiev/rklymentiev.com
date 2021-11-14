@@ -5,7 +5,7 @@
 
 [[main]]
   name = "Home"
-  url = "#intro"
+  url = "#about"
   weight = 10
 
 [[main]]
@@ -27,11 +27,16 @@
   name = "Tags"
   url = "#tags"
   weight = 50
-
+  
 [[main]]
-  name = "About Me"  # A link title for your page.
-  url = "about/"  # The URL of your page.
+  name = "Contact"
+  url = "#contact"
   weight = 60
+
+# [[main]]
+#  name = "About Me"  # A link title for your page.
+#  url = "about/"  # The URL of your page.
+#  weight = 60
 
 # Link to a PDF of your resume/CV from the menu.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.

@@ -17,5 +17,5 @@ subtitle = ""
 
 +++
 {{% alert note %}}
-Want to improve your programming skills? Check out my free online course [**Python for Neuroscience**](https://pyforneuro.com)!
+Want to improve your programming skills? Check out my free online course <a href="https://pyforneuro.com" target="_blank" rel="noopener noreferrer"><b>Python for Neuroscience</b></a>!
 {{% /alert %}}

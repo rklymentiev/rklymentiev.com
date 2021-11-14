@@ -11,13 +11,28 @@ role: 50% Data Scientist, 50% Neuroscientist
 social:
 - icon: envelope
   icon_pack: fas
-  link: '/about/#contact'
+  link: '#contact'
 - icon: twitter
   icon_pack: fab
   link: https://twitter.com/ruslan_kl
 - icon: github
   icon_pack: fab
   link: https://github.com/ruslan-kl
+
+# interests:
+#   - Computational Psychiatry
+#   - Bayesian Statistics
+#   - Reinforcement Learning
+
+# education:
+#   courses:
+#   - course: MSc in Integrative Neuroscience
+#     institution: Otto von Guericke University Magdeburg
+#     year: 2022
+#   - course: BSc in Radioelectronic Apparatuses
+#     institution: Odessa National Polytechnic University
+#     year: 2014
+    
 superuser: true
 ---
 
@@ -51,23 +66,18 @@ class AboutMe:
         if learning:
             self.activity = 'learning'
         else:
-            self.activity = 'travelling'
+            self.activity = 'traveling'
             
     def add_interest(self, interest):
         if interest not in self.interests:
             self.interests.append(interest)
-        
-    def preferences(self, r, python):
-        self.love_is_equal = r == python 
-    
+
     
 RK = AboutMe(name='Ruslan Klymentiev')
 RK.me(life_credo='Never stop learning')
 RK.add_interest('computational psychiatry')
 RK.add_interest('decision making')
-RK.preferences(r=True, python=True)
-print(RK.love_is_equal)
->> True
+RK.add_interest('Bayesian statistics')
 ```
 
 <center>
@@ -75,5 +85,3 @@ print(RK.love_is_equal)
 <button class="button">Download my CV</button>
 </a>
 </center>
-
-

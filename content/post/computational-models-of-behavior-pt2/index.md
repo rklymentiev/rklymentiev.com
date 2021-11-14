@@ -1,8 +1,8 @@
 ---
 title: "Computational Models of Behavior, part 2"
-subtitle: How to fit reinforcement learning models to the behavioral data using Bayesian inference
+subtitle: How to fit reinforcement learning models to behavioral data using Bayesian inference
 date: '2021-11-13'
-summary: How to fit reinforcement learning models to the behavioral data using Bayesian
+summary: How to fit reinforcement learning models to behavioral data using Bayesian
   inference.
 image:
   focal_point: ''
@@ -807,7 +807,7 @@ plot(output_trt)
 
 <img src="params_trt.png"></img>
 
-To compare the parameters we will look at the **difference** between posterior distributions (CTR - TRT). If the proportion of values in the difference distribution is much higher (or much less) than 0.5, then the difference between the groups is credible. You can think about this in a way that if there was no effect of the treatment, then on average difference values would be centered around 0 and if not, then values would be much different than 0. We can also use the highest density interval (HDI) to address the uncertainty of the values.
+To compare the parameters we will look at the **difference** between posterior distributions (CTR - TRT). If the proportion of values in the difference distribution is much higher (or much less) than $\approx 0.5$, then the difference between the groups is credible. You can think about this in a way that if there was no effect of the treatment, then on average difference values would be centered around 0 and if not, then values would be much different than 0. We can also use the highest density interval (HDI) to address the uncertainty of the values.
 
 ### Learning Rate (Reward)
 
