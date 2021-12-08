@@ -1,20 +1,21 @@
 ---
-title: How to start career in Data (in Russian)
-event: Podcast
-event_url: https://youtu.be/ech8RharVrg
+title: Introduction to Python
+event: Brainhack Magdeburg 2021
+event_url: 
 
 location: online
-summary: In this episode of DEVrepublik podcast I talked about my story how I got into Data Science field (spoiler, electronic engineering-fitness-marketing-data) and discussed what main skills are needed for a fresh data enthusiast.
-abstract: "In this episode of DEVrepublik podcast I talked about my story how I got into Data Science field (spoiler, electronic engineering-fitness-marketing-data) and discussed what main skills are needed for a fresh data enthusiast."
+
+summary: This introductory tutorial covers the very first steps how to start working with Python (installation, different IDEs, where to get help, and resources to learn Python) and brings you closer to the first coding.
+abstract: "This introductory tutorial covers the very first steps how to start working with Python (installation, different IDEs, where to get help, and resources to learn Python) and brings you closer to the first coding."
 
 # Talk start and end times.
 #   End time can optionally be hidden by prefixing the line with `#`.
-date: "2020-07-23T10:00:00Z"
-# date_end: "2020-07-23T10:30:00Z"
-# all_day: true
+date: "2021-12-07T14:15:00Z"
+# date_end: "2030-06-01T15:00:00Z"
+# all_day: false
 
 # Schedule page publish date (NOT talk date).
-publishDate: "2020-07-27"
+# publishDate: "2017-01-01T00:00:00Z"
 
 authors: []
 tags: []
@@ -23,14 +24,14 @@ tags: []
 featured: false
 
 image:
-  caption: 'Image credit: [**DEV republik**](https://devrepublik.com/)'
+  caption: ''
   focal_point: Right
 
 links:
 url_code: ""
 url_pdf: ""
-url_slides: ""
-url_video: "https://youtu.be/ech8RharVrg"
+url_slides: "Introduction to Python.pdf"
+url_video: ""
 
 # Markdown Slides (optional).
 #   Associate this talk with Markdown slides.
@@ -49,6 +50,3 @@ projects: []
 # Enable math on this page?
 math: true
 ---
-
-## Video
-{{< youtube ech8RharVrg >}}
