@@ -23,15 +23,15 @@
   url = "#talks"
   weight = 40
 
-[[main]]
-  name = "Tags"
-  url = "#tags"
-  weight = 50
+# [[main]]
+#  name = "Tags"
+#  url = "#tags"
+#  weight = 50
   
 [[main]]
   name = "Contact"
   url = "#contact"
-  weight = 60
+  weight = 50
 
 # [[main]]
 #  name = "About Me"  # A link title for your page.
