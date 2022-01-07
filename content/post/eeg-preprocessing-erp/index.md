@@ -244,7 +244,7 @@ EEG['DEP_data'].info['bads']
 
 ### Artifacts Removal
 
-The next step was to remove eye blinks from the data. HEOG and VEOG electrodes were put around an eye to measure the horizontal and vertical eye movements respectively and they could be used for references. I applied an Individual Component Analysis (ICA)[^7] to separate the signal sources.
+The next step was to remove eye blinks from the data. HEOG and VEOG electrodes were put around an eye to measure the horizontal and vertical eye movements respectively and they could be used for references. I applied an Independent Component Analysis (ICA)[^7] to separate the signal sources.
 
 
 ```python
