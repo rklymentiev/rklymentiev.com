@@ -294,8 +294,8 @@ kable(temp_df, format = &quot;markdown&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>entropy(temp_df$p)</code></pre>
-<pre><code>## [1] 0.9974016</code></pre>
+<pre class="r"><code>entropy(temp_df$p)
+## [1] 0.9974016</code></pre>
 <p>For the next step, we are going to split the data by <em>each</em> feature (<code>Gender</code>, <code>BMI</code>, <code>BP</code>), calculate the entropy, and check which split variant gives the highest IG.</p>
 <div id="gender" class="section level4">
 <h4>Gender</h4>
@@ -485,7 +485,7 @@ kable(temp_df, format = &quot;markdown&quot;)</code></pre>
 <div id="node-summary" class="section level4">
 <h4>Node Summary</h4>
 <p>As we can see <code>BP</code> gives the highest IG, or in other words, if we split the data by this column we will be more certain about the target variable distribution. So our first split will look like this:</p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
 <div id="bpnormal-node" class="section level3">
@@ -544,7 +544,7 @@ kable(temp_df, format = &quot;markdown&quot;)</code></pre>
 </tbody>
 </table>
 <p>As we can see, there is no Drug A for this node and entropy is already 0. This node is going to be last for this branch with the drug B as an output with probability of 1. We can also think about this in a way that for all subjects with normal blood pressure drug B worked best.</p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="bpnot-normal-node" class="section level3">
 <h3><code>BP:not normal</code> Node</h3>
@@ -703,7 +703,7 @@ kable(temp_df, format = &quot;markdown&quot;)</code></pre>
 <div id="node-summary-1" class="section level4">
 <h4>Node Summary</h4>
 <p><code>Gender</code> gives the highest IG after splitting the data. Now the tree will look like this:</p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 </div>
 <div id="genderm-node" class="section level3">
@@ -788,7 +788,7 @@ kable(temp_df, format = &quot;markdown&quot;)</code></pre>
 </tbody>
 </table>
 <p>For the <code>BMI:normal</code> node the predicted class is going to be Drug A, since its probability is higher. The same applies to <code>BMI:not normal</code> node.</p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="genderf-node" class="section level3">
 <h3><code>Gender:F</code> Node</h3>
@@ -862,7 +862,7 @@ text(290, 80, &quot;normal&quot;, col=&quot;black&quot;)
 text(420, 80, &quot;not normal&quot;, col=&quot;black&quot;)</code></pre>
 </p>
 </details>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 <div id="prediction" class="section level3">
 <h3><a name="prediction">Prediction</a></h3>
@@ -893,7 +893,7 @@ text(420, 80, &quot;not normal&quot;, col=&quot;black&quot;)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Check <code>BP</code>. Since <code>BP:not normal</code> go to right branch.</li>
 <li><code>Gender:M</code> =&gt; left branch.</li>
-<li><code>BMI:not normal</code> =&gt; left branch.</li>
+<li><code>BMI:not normal</code> =&gt; right branch.</li>
 </ol>
 <p>The predicted value is going to be <code>Drug A</code> with a probability of <span class="math inline">\(1.0\)</span>.</p>
 </div>
@@ -916,7 +916,7 @@ text(420, 80, &quot;not normal&quot;, col=&quot;black&quot;)</code></pre>
 
 #plot decision tree model
 fancyRpartPlot(model_dt, caption = NULL, type=4)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>Get a prediction for 16th patient:</p>
 <pre class="r"><code># return the class
 predict(object = model_dt, newdata = test_df, type = &quot;class&quot;)

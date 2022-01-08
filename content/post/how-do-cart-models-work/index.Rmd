@@ -201,7 +201,9 @@ temp_df <- train_df %>%
             p = round(n() / dim(train_df)[1], 2))
 
 kable(temp_df, format = "markdown")
+```
 
+```{r collapse=T}
 entropy(temp_df$p)
 ```
 
@@ -526,7 +528,7 @@ To make a prediction we just need to move top to bottom by the branches of our t
 
 1. Check `BP`. Since `BP:not normal` go to right branch.
 2. `Gender:M` => left branch.
-3. `BMI:not normal` => left branch.
+3. `BMI:not normal` => right branch.
 
 The predicted value is going to be `Drug A` with a probability of $1.0$.
 
