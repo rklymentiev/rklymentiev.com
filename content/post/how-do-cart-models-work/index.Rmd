@@ -54,11 +54,11 @@ import matplotlib.pyplot as plt
 
 ## <a name="cart">What is CART?</a>
 
-**C**lassification **a**nd **R**egression **T**rees (or **CART** for short) is a type of supervised learning algorithm [[1]](#1) that is mostly used in classification problems [[2]](#2), but can be applied for regression problems [[3]](#3) as well. It can handle both categorical and numerical input variables.
+**C**lassification **a**nd **R**egression **T**rees (or **CART** for short) is a type of supervised machine learning algorithm [[1]](#1) that is mostly used in classification problems [[2]](#2), but can be applied for regression problems [[3]](#3) as well. It can handle both categorical and numerical input variables.
 
 In this tutorial, we are going to go step-by-step and build a tree for the **classification** problem. A way to solve the regression problem will be discussed at the end.
 
-Imagine that we have medical data about patients and we have two drugs (Drug A and Drug B) that work differently for each patient based on their health metrics. We have historical data about 15 patients and what drug type has worked better for them. Now, the 16th patient comes in and we want to assign a drug to him based on this historical data. You can load the sample data set [here](DecisionTree_SampleData.csv).
+Imagine that we have medical data about patients and we have two drugs (Drug A and Drug B) that work differently for each patient based on their health metrics. We have such data for 15 patients. Now, the 16th patient comes in and we want to assign a drug to him based on this information. You can load the sample data set [here](DecisionTree_SampleData.csv).
 
 ```{r message=FALSE, warning=FALSE}
 patients_df <- read_csv("DecisionTree_SampleData.csv")
@@ -103,11 +103,11 @@ at <- list(node=list(fillcolor="lightblue",
 plot(rEG, attrs = at)
 ```
 
-In case you have been wodering why is it called "a tree", you have to look at it upside down:
+In case you are wondering why is it called "a tree", you have to look at it upside down:
 
 <center><img src="trees.jpg"></img></center>
 
-Imagine that all our data is located at the **root node** of the tree. Now we want to split the data by most significant features (that will create new **decision nodes**) until we reach the **leaf nodes** with the most homogeneous target possible (meaning that ideally just one class is present in each leaf node). 
+Imagine that all our data is located at the **root node** of the tree. We want to split the data by most significant features (that will create new **decision nodes**) until we reach the **leaf nodes** with the most homogeneous target possible (ideally just one class is present in each leaf node). 
 
 The question is how do we split the data at each node?
 
@@ -117,7 +117,7 @@ The main metrics to use for dealing with classification problems when building a
 
 IG is based on the concept of entropy [[4]](#4) and information content from information theory [[5]](#5). First of all, let's build an intuition behind the entropy. Simply saying, entropy is the measure of chaos or uncertainty in the data.
 
-Imagine that I asked you to play the following simple game: I have two coins, one coin is unfair ($P(\text{Heads}) = \frac{4}{5}$), the other one is fair ($P(\text{Heads}) = \frac{1}{2}$). You can pick a coin and flip it. If it comes up Heads, I will give you \$1. Which coin would you choose?
+Imagine that I asked you to play the following simple game: I have two coins, one coin is unfair $\left( P(\text{Heads}) = \frac{4}{5} \right)$, the other one is fair $\left( P(\text{Heads}) = \frac{1}{2} \right)$. Your task is to pick a coin, make a prediction of an outcome (either Heads or Tails) and flip it. If your prediction is correct, I will give you \$1. Which coin would you choose?
 
 Well, I hope that you would choose the unfair coin. In this case, you are *more certain* about the outcome of the coin flip (on average it will come up Heads in $80\%$ of the time). For the fair coin, you have the highest level of uncertainty, meaning that Heads and Tails can occur equally likely. Probability mass functions for both coins look as:
 
@@ -141,8 +141,8 @@ We can calculate the entropy using the formula:
 
 $$H(X) = - \sum_{i=1}^{n} p(x_i) \cdot log_2 \big( p(x_i) \big)$$
 
-* $n$ is the number of all possible outcomes for random variable $X$
-* $log_2$ is the logarithm with base 2 ($log_2 2 = 1$, $log_2 4 = 2$, etc)
+* $n$ is the number of all possible outcomes for random variable $X$;
+* $log_2$ is the logarithm with base 2 ($log_2 2 = 1$, $log_2 4 = 2$, etc).
 
 Entropy for the unfair coin:
 
@@ -165,7 +165,7 @@ entropy(p_fair)
 
 As you can see, entropy for the fair coin is higher, meaning that the level of uncertainty is also higher. Note that entropy cannot be negative and the minimum value is $0$ which means the highest level of certainty. For example, imagine the unfair coin with the probability $P(\text{Heads}) = 1$ and $P(\text{Tails}) = 0$. In such a way you are sure that the coin will come up Heads and entropy is equal to zero.
 
-Coming back to our decision tree problem we want to split out data into nodes that have reduced the level of uncertainty (or in other words increasing the IG). Basic algorithm look as follows:
+Coming back to our decision tree problem we want to split out data into nodes that have reduced the level of uncertainty. Basic algorithm look as follows:
 
 1. For each node:
   * Choose a feature from the data set.
@@ -227,7 +227,7 @@ Calculating the entropy for each gender label:
 | M | 6 | 2 | $\frac{6}{8}$ | $\frac{2}{8}$ | 0.811 |
 | F | 1 | 6 | $\frac{1}{6}$ | $\frac{5}{6}$ | 0.592 |
 
-Now we would like to know how much information did we gain after the split.
+To measure the uncertainty reduction after the split we are going to use IG:
 
 $$\scriptsize \text{IG} = \text{Entropy before the split} - \text{Weighted entropy after the split}$$
 
@@ -526,7 +526,7 @@ test_df %>%
 
 To make a prediction we just need to move top to bottom by the branches of our tree. 
 
-1. Check `BP`. Since `BP:not normal` go to right branch.
+1. Check `BP`. Since `BP:not normal`, go to the right branch.
 2. `Gender:M` => left branch.
 3. `BMI:not normal` => right branch.
 
@@ -536,11 +536,11 @@ The predicted value is going to be `Drug A` with a probability of $1.0$.
 
 ### <a name="r">R</a>
 
-We can build a decision tree using `rpart` function (from `rpart` package) and plot it with the help of `fancyRpartPlot` function (from `rattle` package). Note, that R doesn't require to encode the categorical variables since it can handle them by itself.
+We can build a decision tree using `rpart` function (from `rpart` package) and plot it with the help of `fancyRpartPlot` function (from `rattle` package). Note, that R doesn't require the categorical variables encoding since it can handle them by itself.
 
 ```{r}
 model_dt <- rpart(
-  formula = Drug~Gender+BMI+BP,
+  formula = Drug ~ Gender + BMI + BP,
   data = train_df,
   method = "class",
   minsplit = 1,
@@ -554,7 +554,7 @@ model_dt <- rpart(
 fancyRpartPlot(model_dt, caption = NULL, type=4)
 ```
 
-Get a prediction for 16th patient:
+Get a prediction for the 16th patient:
 
 ```{r collapse=T}
 # return the class
@@ -635,11 +635,11 @@ model.predict_proba(unknown_drug)
 
 ## <a name="numerical">Numerical Explanatory Variables</a>
 
-In our sample data set, we had only categorical variables (with 2 labels each). But what would the model do if we had numerical value as an input? 
+In our sample data set, we had only categorical variables (with 2 labels each). But what would the model do, if we had numerical value as an input? 
 
 Let's look again on the Python decision tree and its decision node conditions, for example, `Gender_M <= 0.5`. Where does `0.5` come from? The answer overlaps with the answer on how the model handles numerical input values.
 
-Recall the `Gender_M` column we created for the Python train set. It consisted of two *numerical* values (`0` and `1`). What the model does is filter the data by the average value among these two numbers. Average value was :$\frac{0+1}{2}=0.5$. Now model has two sets of data: one set has only those values that match the condition `Gender_M <= 0` (`Gender` is female) and the other set that doesn't (`Gender` is male).
+Recall the `Gender_M` column we created for the Python train set. It consisted of two *numerical* values (`0` and `1`). What the model does is filter the data by the average value among these two numbers. Average value was: $\frac{0+1}{2}=0.5$. Now model has two sets of data: one set that matches the condition `Gender_M <= 0.5` (`Gender` is female) and the other set that doesn't (`Gender` is male).
 
 Imagine that we have added a third category `Non-binary` to the `Gender` feature. First, we would encode the values and create a new column `Gender_encoded`, which would have three numerical values (`0`, `1` and `2`). Say, `Non-binary = 0`, `Male = 1`, `Female = 2`. Now model would have two conditions for filtering the data: 
 
@@ -660,16 +660,16 @@ For example:
 | p03 | 150 | B |
 | p03 | 200 | B |
 
-Threshold values are: `110` ($\frac{100+120}{2}$), `135` ($\frac{120+150}{2}$), `175` ($\frac{150+200}{2}$).
+Threshold values are: `110` $\left( \frac{100+120}{2} \right)$, `135` $\left( \frac{120+150}{2} \right)$, `175` $\left( \frac{150+200}{2} \right)$.
 
 ## <a name="metrics">Other Splitting Metrics</a>
 
 ### <a name="gini">Gini Impurity</a>
 
-As told before, for classification problems you can also use Gini impurity as a way to find the best splitting feature. The idea stays the same, but the only difference is that instead of the Entropy formula we are using the Gini formula:
+As told before, for classification problems one can also use Gini impurity as a way to find the best splitting feature. The idea stays the same, but the only difference is that instead of the Entropy formula we are using the Gini formula:
 
 $$G(X) = 1 - \sum_{i=1}^{n} p(x_i)^2$$
-After calculating the Gini impurity value for each feature we would calculate the gain and choose the feature that has the highest gain.
+After calculating the Gini impurity value for each feature, we would calculate the gain and choose the feature that provides the highest gain.
 
 $$\scriptsize \text{Gain} = \text{Gini impurity before the split} - \text{Weighted Gini impurity after the split}$$
 
@@ -685,7 +685,7 @@ $$\scriptsize \text{Variance Reduction} = \text{Variance before the split} - \te
 
 ## <a name="summary">Summary</a>
 
-I hope that it became a bit clearer how do CART models work. It is relatively simple algorithm that doesn't require much feature engineering and often used as a base estimator in more complex bagging and boosting models (for example, Random Forest algorithm).
+We have looked at the example of the CART model for the binary classification problem. It is a relatively simple algorithm that doesn't require much feature engineering. With the small data set and lots of free time, one can even build a model with "pen and paper". Compared to other ML algorithms, CART can be considered as a "weak learner" due to the overfitting issue. However, they are often used as a base estimator in more complex bagging and boosting models (for example, Random Forest algorithm). Additionally, CART can help with the hidden data patterns, since they can be visualized. 
 
 
 ## <a name="ref">References</a>
