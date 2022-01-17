@@ -225,7 +225,7 @@ Calculating the entropy for each gender label:
 | Gender Label | Drug A | Drug B | P(A) | P(B) | Entropy |
 |:-:|:-:|:-:|:-:|:-:|:-:|
 | M | 6 | 2 | $\frac{6}{8}$ | $\frac{2}{8}$ | 0.811 |
-| F | 1 | 6 | $\frac{1}{6}$ | $\frac{5}{6}$ | 0.592 |
+| F | 1 | 6 | $\frac{1}{7}$ | $\frac{6}{7}$ | 0.592 |
 
 To measure the uncertainty reduction after the split we are going to use IG:
 
@@ -241,7 +241,7 @@ $$\text{Weighted Entropy (M)} = \frac{8}{15} \cdot 0.811 = 0.433$$
 | Gender Label | Drug A | Drug B | P(A) | P(B) | Entropy | Weight | Weighted Entropy | 
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | M | 6 | 2 | $\frac{6}{8}$ | $\frac{2}{8}$ | 0.811 | $\frac{8}{15}$ | 0.433 |
-| F | 1 | 6 | $\frac{1}{6}$ | $\frac{5}{6}$ | 0.592 | $\frac{7}{15}$ | 0.276 |
+| F | 1 | 6 | $\frac{1}{7}$ | $\frac{6}{7}$ | 0.592 | $\frac{7}{15}$ | 0.276 |
 
 Now we can calculate the IG:
 

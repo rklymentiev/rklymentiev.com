@@ -1,5 +1,5 @@
 ---
-title: "Who would you rather date Bayes Factor or p-value?"
+title: "Who would you rather date, Bayes Factor or p-value?"
 subtitle: "An overview of the differences between Frequentist and Bayesian approaches for hypothesis testing for a population proportion"
 date: "2020-11-14"
 summary: An overview of the differences between Frequentist and Bayesian approaches for hypothesis testing for a population proportion.
