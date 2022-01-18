@@ -80,8 +80,8 @@ RK.add_interest('decision making')
 RK.add_interest('Bayesian statistics')
 ```
 
-<center>
+<!--- <center>
 <a class="btn" href="CV_Klymentiev.pdf" target="_blank">
-<button class="button">Download my CV</button>
-</a>
-</center>
+# <button class="button">CV</button>
+# </a>
+# </center> ---> 
