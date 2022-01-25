@@ -1,7 +1,7 @@
 ---
 authors:
 - admin
-bio: I was using brain to understand math. Now I am using math to understand brain.
+bio: I was using the brain to understand math. Now I am using math to understand the brain.
 email: "rklymentiev@gmail.com"
 name: Ruslan Klymentiev
 organizations:
@@ -14,10 +14,10 @@ social:
   link: '#contact'
 - icon: twitter
   icon_pack: fab
-  link: https://twitter.com/ruslan_kl
+  link: https://twitter.com/r_klymentiev
 - icon: github
   icon_pack: fab
-  link: https://github.com/ruslan-kl
+  link: https://github.com/rklymentiev
 
 # interests:
 #   - Computational Psychiatry
