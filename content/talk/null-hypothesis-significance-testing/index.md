@@ -14,7 +14,7 @@ date: "2020-06-04T10:00:00Z"
 # all_day: false
 
 authors: []
-tags: ["Statistics"]
+tags: ["Stats"]
 
 # Is this a featured talk? (true/false)
 featured: false

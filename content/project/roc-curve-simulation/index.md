@@ -4,7 +4,7 @@ image:
   focal_point: Smart
   preview_only: true
 summary: " "
-categories: ["Shiny App", "Machine Learning", "Statistics"]
+categories: ["Shiny App", "Machine Learning", "Stats"]
 title: ROC Curve Simulation
 ---
 

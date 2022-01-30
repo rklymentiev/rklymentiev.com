@@ -81,9 +81,15 @@ edit_page = {repo_url = "https://github.com/gcushen/hugo-academic", content_dir 
 ############################
 
 # Enter contact details (optional). To hide a field, clear it to "".
-email = "rklymentiev@gmail.com"
+email = "f/xyyllnzo"
 phone = ""
 
+contact_links = [
+  {icon = "twitter", icon_pack = "fab", name = "Get in touch on Twitter", link = "https://twitter.com/r_klymentiev"}
+  ]
+# formspree = {id = "xyyllnzo"}
+
+# provider = "formspree"
 # Address
 # For country_code, use the 2-letter ISO code (see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 )
 # address = ""
