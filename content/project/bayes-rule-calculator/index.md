@@ -6,8 +6,7 @@ image:
   focal_point: Smart
   preview_only: true
 summary: " "
-categories: ["Probability"]
-tags: ["Shiny App", "Probability", "Bayesian Inference", "Statistics"]
+categories: ["Shiny App", "Probability", "Bayesian Inference", "Statistics"]
 ---
 
 Open in the new window at [shinyapps.io](https://ruslankl.shinyapps.io/bayes_rule/)

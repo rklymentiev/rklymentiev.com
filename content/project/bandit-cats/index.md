@@ -5,8 +5,7 @@ image:
   focal_point: Smart
   preview_only: true
 summary: " "
-categories: ["Reinforcement Learning"]
-tags: ["Shiny App", "Probability", "Reinforcement Learning"]
+categories: ["Reinforcement Learning", "R", "Shiny App"]
 ---
 
 Open in the new window at [shinyapps.io](https://ruslankl.shinyapps.io/bandit_cats/)
