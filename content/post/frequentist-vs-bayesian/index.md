@@ -2,13 +2,13 @@
 title: "Who would you rather date, Bayes Factor or p-value?"
 subtitle: "An overview of the differences between Frequentist and Bayesian approaches for hypothesis testing for a population proportion"
 date: "2020-11-14"
-summary: An overview of the differences between Frequentist and Bayesian approaches for hypothesis testing for a population proportion.
+summary: Frequentist vs Bayesian battle is one of the “hot” topics in the statistics world. In this post, we will go over the differences between Frequentist and Bayesian approaches using a hypothesis testing for a population proportion. Note that the goal is to introduce the idea of both approaches, rather than selecting "the best" one.
 image:
   caption: 'Image by <a href="https://pixabay.com/users/qimono-1962238/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2635397">Arek Socha</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2635397">Pixabay</a>'
   focal_point: ""
   placement: 3
   preview_only: true
-categories: ["Statistics"]
+categories: ["Statistics", "Bayesian Inference"]
 tags: ["A/B Testing", "Bayesian Inference"]
 ---
 

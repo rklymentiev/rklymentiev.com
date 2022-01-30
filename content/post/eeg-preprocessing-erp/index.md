@@ -1,8 +1,8 @@
 ---
-title: "EEG Data Analysis"
+title: "Intro to EEG Data Analysis"
 subtitle: "Preprocessing & Event-related potential (ERP) of EEG data taken from Cavanagh et al. (2019) experiment."
 date: "2021-02-19"
-summary: Preprocessing & Event-related potential (ERP) of EEG data taken from Cavanagh et al. (2019) experiment.
+summary: This post serves as an introduction to the EEG data processing and particularly the usage of MNE-Python package. The post goes over such preprocessing steps as labeling bad channels and trials, artifacts removal, and data epoching. Additionally, the event-related potential is calculated and compared between groups and conditions. Sample of EEG data is taken from Cavanagh et al. (2019) experiment.
 image:
   caption: ''
   focal_point: ""

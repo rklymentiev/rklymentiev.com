@@ -1,14 +1,14 @@
 ---
 title: "Computational Models of Behavior, part 2"
-subtitle: How to fit reinforcement learning models to behavioral data using Bayesian inference
+subtitle: How to fit reinforcement learning models to behavioral data using hierarchical Bayesian inference
 date: '2021-11-13'
-summary: How to fit reinforcement learning models to behavioral data using Bayesian
-  inference.
+summary: How to fit reinforcement learning models to behavioral data using Bayesian inference. This part is focused on the hierarchical Bayesian modeling and particularly on the usage of hBayesDM package. Approaches for the model diagnostic, selection, validation are discussed. The post also goes over groups comparison using posterior distributions of model parameters. Additionally, a brief results comparison between Bayesian inference and Maximum Likelihood Estimation is provided.
+
 image:
   focal_point: ''
   placement: 3
   preview_only: yes
-categories: ['Neuroscience']
+categories: ['Neuroscience', 'Reinforcement Learning']
 tags: ['Reinforcement Learning', 'Neuroscience', 'R', 'Bayesian Inference']
 ---
 
@@ -16,7 +16,7 @@ tags: ['Reinforcement Learning', 'Neuroscience', 'R', 'Bayesian Inference']
 <p style="font-size:15px"><i> Cover image credit: <b><a href="https://pixabay.com/users/geralt-9301/">geralt</a></b> from <b><a href="https://pixabay.com">Pixabay</a></b>
 </i></p>
 
-[**►Computational Models of Behavior, part 1: MLE**](https://defme.xyz/post/computational-models-of-behavior-pt1/)
+[**►Computational Models of Behavior, part 1: MLE**](https://rklymentiev.com/post/computational-models-of-behavior-pt1/)
 
 ## Table of contents
 
@@ -31,7 +31,7 @@ tags: ['Reinforcement Learning', 'Neuroscience', 'R', 'Bayesian Inference']
 
 ## Recap on the Previous Part
 
-In the [previous part](https://defme.xyz/post/computational-models-of-behavior-pt1/) we saw an example of fitting a model to behavioral data using maximum likelihood estimation (MLE). The original data set was artificially generated using the modification of a Q-learning model (Seymour et al., 2012[^1]) for a 4-armed bandit paradigm, where each option had a unique probability of reward and punishment. We went over model comparison, model validation, and how to finally answer a research question using the fitted parameters. We have also discussed that MLE comes with its limitations, such as the possibility that the algorithm will be stuck at the local minimum, meaning that the fitted parameters may not be optimal.
+In the [previous part](https://rklymentiev.com/post/computational-models-of-behavior-pt1/) we saw an example of fitting a model to behavioral data using maximum likelihood estimation (MLE). The original data set was artificially generated using the modification of a Q-learning model (Seymour et al., 2012[^1]) for a 4-armed bandit paradigm, where each option had a unique probability of reward and punishment. We went over model comparison, model validation, and how to finally answer a research question using the fitted parameters. We have also discussed that MLE comes with its limitations, such as the possibility that the algorithm will be stuck at the local minimum, meaning that the fitted parameters may not be optimal.
 
 In this part we are going to look at another approach, Bayesian inference. And particular we will use the `hBayesDM: hierarchical Bayesian modeling of Decision-Making tasks` package (Ahn et al, 2017[^2]), which was built on top of the `RStan` interface (Stan Development Team, 2020[^3]) for Bayesian data analysis. We are going to use the same data set and will try to answer the same question: "*Does treatment affect humans’ reward sensitivity and the learning rate for a positive outcome?*". 
 

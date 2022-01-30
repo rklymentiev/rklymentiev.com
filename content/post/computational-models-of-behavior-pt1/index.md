@@ -8,8 +8,8 @@ image:
   focal_point: ''
   placement: 3
   preview_only: yes
-summary: How to fit reinforcement learning models to behavioral data using Maximum Likelihood Estimation.
-categories: ["Neuroscience"]
+summary: How to fit reinforcement learning models to behavioral data using Maximum Likelihood Estimation (MLE). The main goal is to show how to answer research questions using modeling. Post goes over important steps of modeling, such as model selection, model validation, and data generation. 
+categories: ["Neuroscience", "Reinforcement Learning"]
 tags: ["Reinforcement Learning", "Neuroscience", "Python"]
 ---
 
@@ -446,7 +446,7 @@ Sample of generated data:
 
 
 
-Even though this data is generated, that's the exact data you can get from a real behavioral experiment. Each row in a dataset represents a trial for a particular subject. `choice` column represents the option chosen, `gain` and `loss` represent the reward and punishment values for a given trial. Full generated data set can be found [here](https://github.com/ruslan-kl/defme.xyz/blob/master/content/post/computational-models-of-behavior-pt1/agent_data.csv).
+Even though this data is generated, that's the exact data you can get from a real behavioral experiment. Each row in a dataset represents a trial for a particular subject. `choice` column represents the option chosen, `gain` and `loss` represent the reward and punishment values for a given trial. Full generated data set can be found [here](https://github.com/ruslan-kl/rklymentiev.com/blob/master/content/post/computational-models-of-behavior-pt1/agent_data.csv).
 
 <details><summary><b><font color="#ff6969">Code</font></b></summary>
 <p>
@@ -1749,7 +1749,7 @@ However, there are several limitations of this review. First of all, data was ar
 
 Secondly, it is worth mentioning, that the initial data was generated with the research question in mind (<s>cheating</s>) to make it more exciting, that's why the results came up significantly different. Although it doesn't change the modeling and analysis steps. 
 
-[**►Computational Models of Behavior, part 2: Bayesian Inference**](https://defme.xyz/post/computational-models-of-behavior-pt2/)
+[**►Computational Models of Behavior, part 2: Bayesian Inference**](https://rklymentiev.com/post/computational-models-of-behavior-pt2/)
 
 
 ## References

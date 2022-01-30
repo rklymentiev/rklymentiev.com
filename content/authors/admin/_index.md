@@ -23,9 +23,13 @@ social:
 #   - Computational Psychiatry
 #   - Bayesian Statistics
 #   - Reinforcement Learning
-
+#   - Decision-making
+# 
 # education:
 #   courses:
+#   - course: PhD in Comptational Psychiatry
+#     institution: IMPRS COMP2PSYCH
+#     year: 2026
 #   - course: MSc in Integrative Neuroscience
 #     institution: Otto von Guericke University Magdeburg
 #     year: 2022
