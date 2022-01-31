@@ -7,7 +7,8 @@ image:
   focal_point: ""
   placement: 3
   preview_only: true
-categories: ["Reinforcement Learning", "Python"]
+categories: ["Reinforcement Learning"]
+tags: ["Reinforcement Learning", "Python"]
 ---
 
 <p style="font-size:15px"><i> Cover image credit: <b><a href="https://pixabay.com/users/AidanHowe-15857243/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=5012428">Aidan Howe</a></b> from <b><a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=5012428">Pixabay</a></b></i></p>

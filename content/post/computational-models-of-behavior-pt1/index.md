@@ -9,7 +9,8 @@ image:
   placement: 3
   preview_only: yes
 summary: How to fit reinforcement learning models to behavioral data using Maximum Likelihood Estimation (MLE). The main goal is to show how to answer research questions using modeling. Post goes over important steps of modeling, such as model selection, model validation, and data generation. 
-categories: ["Reinforcement Learning", "Neuroscience", "Modeling", "Python"]
+categories: ["Reinforcement Learning"]
+tags: ["Reinforcement Learning", "Neuroscience", "Modeling", "Python"]
 ---
 
 <p style="font-size:15px"><i>Cover image credit: <a href="https://pixabay.com/users/geralt-9301/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=6655267">Gerd

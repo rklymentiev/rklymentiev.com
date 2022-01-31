@@ -8,7 +8,8 @@ image:
   focal_point: ''
   placement: 3
   preview_only: yes
-categories: ['Reinforcement Learning', 'Neuroscience', 'Bayesian Inference', 'R']
+categories: ["Reinforcement Learning"]
+tags: ["Reinforcement Learning", "Neuroscience", "Bayesian Inference", "R", "Modeling"]
 ---
 
 

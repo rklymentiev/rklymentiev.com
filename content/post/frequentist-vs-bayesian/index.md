@@ -8,7 +8,8 @@ image:
   focal_point: ""
   placement: 3
   preview_only: true
-categories: ["Hypothesis testing", "Bayesian Inference", "Statistics"]
+categories: ["Statistics"]
+tags: ["Hypothesis testing", "Bayesian Inference", "Statistics"]
 ---
 
 

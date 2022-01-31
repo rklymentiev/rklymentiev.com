@@ -18,6 +18,7 @@ date: "2020-04-24T18:00:00Z"
 # publishDate: "2020-04-24"
 
 authors: []
+categories: ["Data Visualization"]
 tags: ["Python", "Data Visualization"]
 
 # Is this a featured talk? (true/false)

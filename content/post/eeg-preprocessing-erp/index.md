@@ -8,7 +8,8 @@ image:
   focal_point: ""
   placement: 3
   preview_only: true
-categories: ["Neuroscience", "EEG", "Python"]
+categories: ["Neuroscience"]
+tags: ["Neuroscience", "EEG", "Python"]
 ---
 
 ## Table of contents

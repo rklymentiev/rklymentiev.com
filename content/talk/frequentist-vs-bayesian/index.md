@@ -14,6 +14,7 @@ date: "2021-05-17T10:00:00Z"
 # all_day: false
 
 authors: []
+categories: ["Statistics"]
 tags: ["Statistics", "Hypothesis Testing", "Bayesian Inference"]
 
 # Is this a featured talk? (true/false)
