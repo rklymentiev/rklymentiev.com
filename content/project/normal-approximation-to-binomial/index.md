@@ -5,7 +5,7 @@ image:
   focal_point: Smart
   preview_only: true
 summary: " "
-categories: ["Shiny App", "Probability", "Stats"]
+categories: ["Shiny App", "Probability", "Statistics"]
 
 ---
 

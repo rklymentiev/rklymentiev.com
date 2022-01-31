@@ -6,7 +6,7 @@ image:
   focal_point: ""
   placement: 3
   preview_only: true
-categories: ["Stats", "Modeling"]
+categories: ["Statistics", "Modeling"]
 ---
 
 
