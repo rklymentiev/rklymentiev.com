@@ -1,6 +1,6 @@
 ---
 date: "2020-12-22"
-external_link: https://share.streamlit.io/ruslan-kl/ql_app/app.py
+external_link: https://share.streamlit.io/rklymentiev/ql_app/app.py
 summary: " "
 image:
   focal_point: Smart
