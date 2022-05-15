@@ -1,7 +1,7 @@
 ---
 title: "Psychopaths: the Good, the Bad, and the Crazy"
 date: "2022-05-14"
-summary: The post aims to give a brief review of psychopathy as a neuropsychiatric disorder. It starts with a discussion of what features define the psychopath. Then it takes a closer look at some of the traits, such as empathy, to show the general beliefs and controversy across the studies with the provided overview of the dysfunctions in the brain and impairments that stem from them. Lastly, the post includes an overview of the literature on “successful” and “unsuccessful” psychopaths and assesses the literature-based opinion on whether psychopathy can be treated.
+summary: The post aims to give a brief review of psychopathy as a neuropsychiatric disorder. It starts with a discussion of features that define the psychopath. Then it takes a closer look at some of the traits, such as empathy, to show the general beliefs and controversy across the studies with the provided overview of the dysfunctions in the brain and impairments that stem from them. Lastly, the post includes an overview of the literature on “successful” and “unsuccessful” psychopaths and assesses the literature-based opinion on whether psychopathy can be treated.
 image:
   caption: Photo by <a href="https://unsplash.com/@bradritson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Brad Ritson</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
   focal_point: ""
@@ -13,7 +13,7 @@ tags: ["Psychiatry", "Literature Review"]
 
 ## Abstract
 
-The post aims to give a brief review of psychopathy as a neuropsychiatric disorder. It starts with a discussion of what features define the psychopath. Then it takes a closer look at some of the traits, such as empathy, to show the general beliefs and controversy across the studies with the provided overview of the dysfunctions in the brain and impairments that stem from them. Lastly, the post includes an overview of the literature on “successful” and “unsuccessful” psychopaths and assesses the literature-based opinion on whether psychopathy can be treated.
+The post aims to give a brief review of psychopathy as a neuropsychiatric disorder. It starts with a discussion of features that define the psychopath. Then it takes a closer look at some of the traits, such as empathy, to show the general beliefs and controversy across the studies with the provided overview of the dysfunctions in the brain and impairments that stem from them. Lastly, the post includes an overview of the literature on “successful” and “unsuccessful” psychopaths and assesses the literature-based opinion on whether psychopathy can be treated.
 
 ## Table of contents
 
