@@ -20,6 +20,7 @@ The post aims to give a brief review of psychopathy as a neuropsychiatric disord
 -   [Disclaimer](#disclaimer)
 -   [Basic Traits of Psychopathy](#basic-traits-of-psychopathy)
 -   [Assessment](#assessment)
+-   [Can Psychopaths Feel Empathy?](#can-psychopaths-feel-empathy)
 -   [Brain Malfunctions](#brain-malfunctions)
 -   [In Love with Fear?](#in-love-with-fear)
 -   [Disturbances in Decision-Making](#disturbances-in-decision-making)
