@@ -44,13 +44,13 @@ social:
 superuser: true
 ---
 
-<under construction>
+under construction
 
-# My primary area of specialization is Data Science. Data Science is obviously a broad term and can be applied in various disciplines, but so is my career path. I started in the marketing field, trying to use data and Machine Learning to understand customers' behavior and increase profits. Later, during my Master's study, I have been primarily involved in decision-making research investigating how the brain makes decisions under risk and uncertainty. Currently, I'm working on my doctoral degree in Criminology at Ghent University where I am studying serial and co-offending networks and their spatiotemporal patterns.
-# 
-# This website is where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment. 
-# 
-# Lastly, I think that both R and Python are great.
+<!--- My primary area of specialization is Data Science. Data Science is obviously a broad term and can be applied in various disciplines, but so is my career path. I started in the marketing field, trying to use data and Machine Learning to understand customers' behavior and increase profits. Later, during my Master's study, I have been primarily involved in decision-making research investigating how the brain makes decisions under risk and uncertainty. Currently, I'm working on my doctoral degree in Criminology at Ghent University where I am studying serial and co-offending networks and their spatiotemporal patterns.
+
+This website is where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment.
+
+Lastly, I think that both R and Python are great.---> 
 
 
 <!---  <style>
