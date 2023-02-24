@@ -567,7 +567,7 @@ In the next part I am going to perform a time-frequency analysis for both subjec
 ## References
 
 [^1]: [UCI Machine Learning Repository: EEG Database Data Set	](https://archive.ics.uci.edu/ml/datasets/eeg+database)
-[^2]: [GitHub - ruslan-kl/EEG-data-analysis: analysis of EEG data of alcoholic and control groups](https://github.com/ruslan-kl/EEG-data-analysis)
+[^2]: Ruslan Klymentiev (2019, January 8). *EEG Data Analysis.* Kaggle. https://www.kaggle.com/code/ruslankl/eeg-data-analysis/
 [^3]: [Complete neural signal processing and analysis: Zero to hero | Udemy](https://www.udemy.com/course/solved-challenges-ants/)
 [^4]: Cavanagh, J. F., Bismark, A. W., Frank, M. J., & Allen, J. J. B. (2019). Multiple Dissociations Between Comorbid Depression and Anxiety on Reward and Punishment Processing: Evidence From Computationally Informed EEG. *Computational Psychiatry*, 3, 1–17. DOI: http://doi.org/10.1162/CPSY_a_00024
 [^5]: [MNE — MNE 0.22.0 documentation](https://mne.tools/stable/index.html)
