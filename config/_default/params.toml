@@ -84,9 +84,9 @@ edit_page = {repo_url = "https://github.com/gcushen/hugo-academic", content_dir 
 email = "f/xyyllnzo"
 phone = ""
 
-contact_links = [
-  {icon = "twitter", icon_pack = "fab", name = "Get in touch on Twitter", link = "https://twitter.com/r_klymentiev"}
-  ]
+#contact_links = [
+#  {icon = "twitter", icon_pack = "fab", name = "Get in touch on Twitter", link = "https://twitter.com/r_klymentiev"}
+#  ]
 # formspree = {id = "xyyllnzo"}
 
 # provider = "formspree"
@@ -120,7 +120,7 @@ contact_links = [
 # sharing_image = "sharing.png"
 
 # Twitter username (without @). Used when a visitor shares your site on Twitter.
-twitter = "r_klymentiev"
+# twitter = "r_klymentiev"
 
 ############################
 ## Regional Settings
