@@ -44,9 +44,9 @@ education:
 superuser: true
 ---
 
-My primary area of specialization is Data Science. Data Science is obviously a broad term and can be applied in various disciplines, but so is my career path. I started in the marketing field, trying to use data and Machine Learning to understand customers' behavior and increase profits. Later, during my Master's study, I have been primarily involved in decision-making research investigating how the brain makes decisions under risk and uncertainty. Now I am about to start a doctoral degree in Criminology at the Ghent University where I will be studying serial and co-offending networks and their spatiotemporal patterns.
+I am a PhD student in Criminology at Ghent University. My research project focuses on the dynamics of co-offending networks and their spatiotemporal patterns using tools such as Social Network Analysis and Agent-Based Modeling. 
 
-This website is where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment.
+This website is the place where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment.
 
 Lastly, I think that both R and Python are great.
 
