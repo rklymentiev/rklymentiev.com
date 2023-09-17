@@ -44,12 +44,11 @@ education:
 superuser: true
 ---
 
-I am a PhD student in Criminology at Ghent University. My research project focuses on the dynamics of co-offending networks and their spatiotemporal patterns using tools such as Social Network Analysis and Agent-Based Modeling. 
+I am a PhD researcher in (Computational) Criminology at Ghent University. My research is focused on social aspect of co-offending behavior and underlying mechanisms of criminal networks formation. In my work I mainly use computational tools like Social Network Analysis and Agent-Based Modeling.
 
 This website is the place where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment.
 
-Lastly, I think that both R and Python are great.
-
+Apart from being excited by the work I do, I feel passionate about mountains, bouldering, and post-rock. Lastly, I hold a strong belief that animals should not be abused for human entertainment.
 
 <!---  <style>
 .button {
