@@ -48,7 +48,7 @@ I am a PhD researcher in (Computational) Criminology at Ghent University. My res
 
 This website is the place where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment.
 
-Apart from being excited by the work I do, I feel passionate about mountains, bouldering, and post-rock. Lastly, I hold a strong belief that animals should not be abused for human entertainment.
+Apart from being excited by the work I do, I also feel passionate about mountains, bouldering, and post-rock. 
 
 <!---  <style>
 .button {
