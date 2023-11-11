@@ -18,7 +18,7 @@ tags: ["Criminology", "Sociology"]
 
 When we use the term “criminal” or “offender” we refer to a person who breaks the laws and rules of a given country. Some crimes can be performed by one person, for instance, tax fraud. However, some criminal acts can be more sophisticated and require collaboration between several people. For example, as criminal literature shows, burglary has the highest prevalence of co-offending. It is believed that criminals also form social networks, which we call “criminal networks”. These networks can serve as a pool of potential partners and collaborations. 
 
-<center><iframe src="https://giphy.com/embed/3o6gbchrcNIt4Ma8Tu" width="480" height="270" frameBorder="0" class="giphy-embed"></iframe></center>
+<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/3o6gbchrcNIt4Ma8Tu" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div>
 
 Suppose someone is seeking a partner to rob a house. What qualities would be the most important in a potential partner? To answer this question, let's take a look at business partnerships. Production companies are always trying to develop new solutions and products. However, sometimes this cannot be achieved internally, so they seek the help of external companies. For example, a leading electronics corporation, Samsung wouldn’t simply partner with a skin-care brand like Nivea to design an improved camera for its upcoming smartphone line. Instead, Samsung would most likely collaborate with a trustworthy company that is qualified for this specific task of camera design and importantly is willing to collaborate. When it comes to robbery, criminals are more likely to team up with someone who has relevant experience, can be trusted not to betray them, and is currently available.
 
@@ -38,7 +38,7 @@ In her work, ["Robbery arising out of a group drinking-context"](https://scholar
 
 > G. L. and R. were drinking and were “half crocked”. S. said he knew about a car [which they could steal] which somebody wanted so they could get rid of it. G. had doubts because he didn’t want to violate his parole. But he went along anyway and that’s how he ended up [in prison], (Cordilia, 1983)
 
-<center><iframe src="https://giphy.com/embed/fjxbfQKLcKzAJIqSuD" width="480" height="270" frameBorder="0" class="giphy-embed"></iframe></center>
+<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/fjxbfQKLcKzAJIqSuD" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div>
 
 [Marcus Felson has formulated](https://scholar.google.com/scholar_lookup?&title=The%20process%20of%20co-offending&journal=Crime%20Prev%20Stud&volume=16&pages=149-167&publication_year=2003&author=Felson%2CM) three requirements for a successful co-offense: (1) co-offenders must physically gather at the same place and time; (2) they should be able to communicate with each other without outside interference; and (3) they need enough time to socialize.
 
