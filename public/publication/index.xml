@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Publications | RK</title>
+    <link>http://localhost:4321/publication/</link>
+      <atom:link href="http://localhost:4321/publication/index.xml" rel="self" type="application/rss+xml" />
+    <description>Publications</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Wed, 10 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:4321/media/icon_hu5497558039692805424.png</url>
+      <title>Publications</title>
+      <link>http://localhost:4321/publication/</link>
+    </image>
+    
+    <item>
+      <title>Inhibiting presynaptic calcium channel motility in the auditory cortex suppresses synchronized input processing</title>
+      <link>http://localhost:4321/publication/journal-article/</link>
+      <pubDate>Wed, 10 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/publication/journal-article/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

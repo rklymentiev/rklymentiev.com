@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Psychiatry | RK</title>
+    <link>http://localhost:4321/tags/psychiatry/</link>
+      <atom:link href="http://localhost:4321/tags/psychiatry/index.xml" rel="self" type="application/rss+xml" />
+    <description>Psychiatry</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Sat, 14 May 2022 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:4321/media/icon_hu5497558039692805424.png</url>
+      <title>Psychiatry</title>
+      <link>http://localhost:4321/tags/psychiatry/</link>
+    </image>
+    
+    <item>
+      <title>Psychopaths: the Good, the Bad, and the Crazy</title>
+      <link>http://localhost:4321/post/psychopathy/</link>
+      <pubDate>Sat, 14 May 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/post/psychopathy/</guid>
+      <description>&lt;h2 id=&#34;abstract&#34;&gt;Abstract&lt;/h2&gt;
+&lt;p&gt;The post aims to give a brief review of psychopathy as a neuropsychiatric disorder. It starts with a discussion of features that define the psychopath. Then it takes a closer look at some of the traits, such as empathy, to show the general beliefs and controversy across the studies with the provided overview of the dysfunctions in the brain and impairments that stem from them. Lastly, the post includes an overview of research on “successful” and “unsuccessful” psychopaths and assesses the literature-based opinion on whether psychopathy can be treated.&lt;/p&gt;
+&lt;h2 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h2&gt;
+&lt;p&gt;As for mental health research in general, results can often be controversial. Therefore, even if I did not mention the study that failed to reproduce the same results or found the opposite results, it does not mean that such studies do not exist.&lt;/p&gt;
+&lt;p&gt;And no, this post is not about Vladimir Putin, although there is a reason to believe that he might have some psychopathic features.&lt;/p&gt;
+&lt;h2 id=&#34;basic-traits-of-psychopathy&#34;&gt;Basic Traits of Psychopathy&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Wanted charming, aggressive, carefree people who are impulsively irresponsible but are good at handling people and at looking after number one.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is a snippet of an advertisement in a Boston newspaper aimed to recruit participants with psychopathy for a study conducted by Cathy Widom in the seventies (Widom, 1977&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;). This short sentence gives a perfect overview of the complex disorder. A typical representative would normally have high irresponsibility and impulsivity rates, grandiose sense of self-worth, show an anti-social behavior, but at the same time could be extremely charming. The combination of these traits can make one relatively dangerous for society and consequently psychopathy is often associated with violent behavior.&lt;/p&gt;
+&lt;p&gt;But as one could guess, &lt;em&gt;typical&lt;/em&gt; does not mean &lt;em&gt;every&lt;/em&gt;, that is why we cannot imply that all psychopaths have the same set of traits and psychopathy does not necessarily make one an offender. Originally research on psychopathy was biased toward convicted subjects, but over the last decades have been shifted to investigating the psychopathy in the general population. Indeed, many individuals with psychopathy are not violent, as the media could portray them, but rather organized and foresighted. Some of them can be highly successful in their professional careers and can be found in all areas of life (e.g., business, banking, law).&lt;/p&gt;
+&lt;p&gt;To this date, the etiology of psychopathy is not well established (Perez, 2012&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;), however, several neural correlates and impairments can be distinguished, which will be reviewed later.&lt;/p&gt;
+&lt;h2 id=&#34;assessment&#34;&gt;Assessment&lt;/h2&gt;
+&lt;p&gt;Harpur et al. (1989)&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; have suggested a two-factor model of psychopathy, which divides it into primary, or Factor 1, and secondary, or Factor 2. Factor 1 covers interpersonal and affective traits, such as callousness and grandiosity. Whereas Factor 2 comprises impulsive and anti-social behavior. Primary psychopathy can be also named &amp;ldquo;successful&amp;rdquo; psychopathy, since it can be beneficial for achieving life-goals and increasing power in society. In fact, the estimated prevalence of psychopathy in the business world is 3-4% compared to 0.6-1% in the general population (Babiak &amp;amp; Hare, 2006&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;). On the other hand, secondary psychopathy is the one that is more likely to lead to criminal behavior (Skeem et al., 2011&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;p&gt;Psychopathy Checklist-Revised (PCL-R) is a commonly used measure of psychopathy (Hare, 2003&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;), which consists of four facets. These facets can be further summarized by two higher-order factors. The PCL-R involves a relatively time-consuming (around 2 hours) semi-structured interview and file review that is used by the interviewer to rate the presence of 20 characteristics.&lt;/p&gt;
+&lt;div style=&#34;background-color:#f2f2f2;color:black;padding:10px;border:1px&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Factor 1&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Facet 1 (Interpersonal)&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;Glibness/superficial harm&lt;/li&gt;
+&lt;li&gt;Grandiose sense of self-worth&lt;/li&gt;
+&lt;li&gt;Pathological lying&lt;/li&gt;
+&lt;li&gt;Conning/manipulative&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Facet 2 (Affective)&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;Lack of remorse of guilt&lt;/li&gt;
+&lt;li&gt;Shallow affect&lt;/li&gt;
+&lt;li&gt;Callousness/Lack of empathy&lt;/li&gt;
+&lt;li&gt;Failure to accept responsibility for own actions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Factor 2&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Facet 3 (Lifestyle)&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;Need for stimulation/proneness to boredom&lt;/li&gt;
+&lt;li&gt;Impulsivity&lt;/li&gt;
+&lt;li&gt;Irresponsibility&lt;/li&gt;
+&lt;li&gt;Lack of realistic, long-term goals&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Facet 4 (Antisocial)&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;Early behavioral problems&lt;/li&gt;
+&lt;li&gt;Poor behavioral controls&lt;/li&gt;
+&lt;li&gt;Jouvenile delinquency&lt;/li&gt;
+&lt;li&gt;Revocation of conditional release&lt;/li&gt;
+&lt;li&gt;Criminal versatility&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Items that did not saturate any factor:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Promiscuous sexual behavior&lt;/li&gt;
+&lt;li&gt;Many short-term marital relationships&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;center&gt;&lt;sup&gt;&lt;b&gt;Table 1&lt;/b&gt;. Elements of the PCL-R (Hare, 2003)&lt;/sup&gt;&lt;/center&gt;
+&lt;p&gt;Research has shown that Factor 2 traits of psychopathy are associated with environmental factors (e.g., childhood trauma). There is also a positive correlation with depression, substance abuse symptoms, and anxiety, whereas Factor 1 has little or no association with these factors.&lt;/p&gt;
+&lt;h2 id=&#34;can-psychopaths-feel-empathy&#34;&gt;Can Psychopaths Feel Empathy?&lt;/h2&gt;
+&lt;p&gt;Even though it is commonly believed that psychopaths do not have empathy (the ability &lt;em&gt;to understand&lt;/em&gt; and &lt;em&gt;share&lt;/em&gt; the feelings of another), the results across studies are not homogeneous. Moreover, the term &amp;ldquo;empathy&amp;rdquo; is often used interchangeably with the terms &amp;ldquo;sympathy&amp;rdquo; or &amp;ldquo;compassion&amp;rdquo; (the ability &lt;em&gt;to be concerned&lt;/em&gt; about the well-being of another), while they may have slightly different meanings (van Dongen, 2020&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;p&gt;Review from Burghart and Mier (2022)&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt; showed rather low to moderate associations between different aspects and psychopathy, such as empathy (&lt;em&gt;r&lt;/em&gt;=−0.31), empathic concern (&lt;em&gt;r&lt;/em&gt;=−0.29), alexithymia (&lt;em&gt;r&lt;/em&gt;= 0.21), and personal distress (&lt;em&gt;r&lt;/em&gt;=−0.14). The results also varied by psychopathy factors, and some were moderated by gender. For example, women are characterized by more emotional dysregulation than men (Kreis &amp;amp; Cooke, 2011&lt;sup id=&#34;fnref:9&#34;&gt;&lt;a href=&#34;#fn:9&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;9&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;p&gt;Results from van Dongen et al. (2018)&lt;sup id=&#34;fnref:10&#34;&gt;&lt;a href=&#34;#fn:10&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;10&lt;/a&gt;&lt;/sup&gt; showed that participants with higher &amp;ldquo;meanness&amp;rdquo; scores showed empathy for the perpetrator, but not the victim, while passively watching the pictures of aggressive (physical, sexual, or verbal) and neutral situations between two individuals. Also, meanness was positively correlated with subjective ratings of aggressive pictures, indicating that such situations were rather &amp;ldquo;enjoyable&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;Positive association with alexithymia can be of particular interest since it suggests that subjects with psychopathy struggle to identify and describe emotions experienced by themselves. The study by Garofalo and colleagues showed that emotion dysregulation plays a role in explaining the connection between psychopathy and aggression (Garofalo et al., 2020&lt;sup id=&#34;fnref:11&#34;&gt;&lt;a href=&#34;#fn:11&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;11&lt;/a&gt;&lt;/sup&gt;). Additionally, Shane and Groat (2018)&lt;sup id=&#34;fnref:12&#34;&gt;&lt;a href=&#34;#fn:12&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;12&lt;/a&gt;&lt;/sup&gt; have shown that subjects with psychopathy can increase or decrease their emotional response if they are asked to do so.&lt;/p&gt;
+&lt;p&gt;Similar results have been achieved by Meffert et al. (2013)&lt;sup id=&#34;fnref:13&#34;&gt;&lt;a href=&#34;#fn:13&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;13&lt;/a&gt;&lt;/sup&gt;. 20 male subjects with psychopathy have watched videos of hand interactions, with 4 conditions depicted, love (hands caressing), pain (one hand hitting the other), social exclusion (one hand pushing away the other friendly hand), and neutral (approaching hand touching the other and getting a non-emotional response) videos. Results showed reduced activation of brain areas involved in empathy compared to controls. However, similarly to Shane &amp;amp; Groat (2018)&lt;sup id=&#34;fnref1:12&#34;&gt;&lt;a href=&#34;#fn:12&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;12&lt;/a&gt;&lt;/sup&gt;, reduction became less prominent when subjects were instructed to emphasize the person in the video. These findings suggest that psychopaths &lt;em&gt;can&lt;/em&gt; empathize with people around, but the corresponding neural system is &amp;ldquo;switched off&amp;rdquo; by default. This finding can also be implemented for violence prevention and treatment in the population by means &amp;ldquo;teaching&amp;rdquo; individuals with psychopathy to empathize other people.&lt;/p&gt;
+&lt;h2 id=&#34;brain-malfunctions&#34;&gt;Brain Malfunctions&lt;/h2&gt;
+&lt;p&gt;Functional magnetic resonance imaging (fMRI) studies suggest that subjects with psychopathy have impairments in several brain regions compared to healthy controls.&lt;/p&gt;
+&lt;p&gt;Birbaumer et al. (2005)&lt;sup id=&#34;fnref:14&#34;&gt;&lt;a href=&#34;#fn:14&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;14&lt;/a&gt;&lt;/sup&gt; study showed reduced amygdala and orbitofrontal cortex (OFC) activation during the aversive differential conditioning experiment (Figure 1). OFC has been associated with the anticipation of punishment and reward and the ability to adapt learning in a volatile environment. The interaction of the amygdala and OFC seems to be crucial for encoding expected outcomes during learning. Subjects were presented with a set of 4 male neutral faces, which were used as conditional stimulus (CS). Painful pressure was used as an unconditional stimulus (US). Healthy controls showed sustained activation of the left amygdala throughout the acquisition phase, whereas the psychopaths displayed only right amygdala activation. Additionally, psychopaths showed reduced OFC activation, especially in the second half of the acquisition phase when the learned association needs to be translated into behavioral responses. Authors suggest that the psychopaths acquired some knowledge about the association between the CS and US but never processed the emotional significance of the association. However, intact the cognitive stimulus processing was intact.&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;birbaumer_et_al.png&#34; width=&#34;400&#34; alt=&#34;Figure 1&#34;&gt;&lt;/img&gt;
+  &lt;figcaption&gt;&lt;b&gt;Figure 1&lt;/b&gt;. Activation clusters for the contrast conditioned stimulus (CS) followed by the unconditioned stimulus (US) (CS+ condition) minus the CS never followed by the US (CS− condition) during acquisition for the healthy control subjects (A) and the psychopaths (B). Adopted from Birbaumer et al. (2005).&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id=&#34;in-love-with-fear&#34;&gt;In Love with Fear?&lt;/h2&gt;
+&lt;p&gt;Since amygdala is a key player in fear/risk processing, such impairments can explain a lack of fear in the psychopathic population to some extent. One of the earliest studies by Hare (1965)&lt;sup id=&#34;fnref:15&#34;&gt;&lt;a href=&#34;#fn:15&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;15&lt;/a&gt;&lt;/sup&gt; showed that psychopathic traits were related to lower and delayed arousal when anticipating an electric shock. Similarly, Blair et al. (2004)&lt;sup id=&#34;fnref:16&#34;&gt;&lt;a href=&#34;#fn:16&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;16&lt;/a&gt;&lt;/sup&gt; study showed that subjects with psychopathy performed worse at passive avoidance learning task (learning the association between numbers and point rewards, which could be positive or negative). Furthermore, their performance was not modulated by the level of punishment, compared to the control group. This could explain the good performance on tasks involving rewards only.&lt;/p&gt;
+&lt;p&gt;Kiehl et al. (2001)&lt;sup id=&#34;fnref:17&#34;&gt;&lt;a href=&#34;#fn:17&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;17&lt;/a&gt;&lt;/sup&gt; study compared three groups of subjects, criminal psychopaths, criminal non-psychopaths, and noncriminal controls, during the affective memory task. Subjects were asked to remember and later recognize a list of 12 words presented on a screen. The list of words included &amp;ldquo;negative&amp;rdquo; words (such as &amp;ldquo;hate&amp;rdquo;) and &amp;ldquo;neutral&amp;rdquo; words (such as &amp;ldquo;chair&amp;rdquo;). Results revealed that criminal psychopaths showed less affect-related activity, compared to the neutral baseline, than did criminal non-psychopaths and noncriminal controls in the rostral and caudal anterior cingulate, posterior cingulate, left inferior frontal gyrus, right amygdala, and ventral striatum. Importantly, there were no group differences in the above regions for processing neutral stimuli compared to the resting condition. These data suggest that the observed abnormalities in these regions for criminal psychopaths are limited to anomalies in processing affective stimuli and are not due to difficulties in processing neutral stimuli.&lt;/p&gt;
+&lt;p&gt;Psychopathy is also associated with a lower startle response (Oskarsson et al., 2021&lt;sup id=&#34;fnref:18&#34;&gt;&lt;a href=&#34;#fn:18&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;18&lt;/a&gt;&lt;/sup&gt;). Strikingly, in Levenston et al. (2000)&lt;sup id=&#34;fnref:19&#34;&gt;&lt;a href=&#34;#fn:19&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;19&lt;/a&gt;&lt;/sup&gt; study the startle response became the same for pleasant (erotic or thrilling images) and aversive (threat and victim scenes) stimuli over time. The subjective rating and heart rate deceleration for aversive images were also lower compared to the control group, which could be seen as subjects from the psychopathy group showed &amp;ldquo;a pleasurable response to the distress of others&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;According to the proposed Fear Enjoyment hypothesis (Hosker-Field et al., 2016&lt;sup id=&#34;fnref:20&#34;&gt;&lt;a href=&#34;#fn:20&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;20&lt;/a&gt;&lt;/sup&gt;) individuals high in psychopathic traits may experience positive affect in fear-inducing situations. They found that people with psychopathic traits, specifically Factor 1 traits, responded similarly to excitement and fear inducing videos (a skydiving clip was used as an excitement-inducing stimulus and a clip of a man being buried alive was from the movie &amp;ldquo;The Vanishing&amp;rdquo; was used as a fear-inducing stimulus). Finally, people with psychopathic traits were more likely to use positive descriptors when asked to explain what &amp;ldquo;fear&amp;rdquo; feels like and in their description of physiological experiences of fear. The Fear Enjoyment Hypothesis also overlaps with research that suggest that psychopathic traits are associated with the enjoyment of misfortune in others.&lt;/p&gt;
+&lt;h2 id=&#34;disturbances-in-decision-making&#34;&gt;Disturbances in Decision-Making&lt;/h2&gt;
+&lt;p&gt;Michael Koenigs has reviewed the neuroimaging data and revealed two particular regions in PFC that show abnormal function, ventromedial prefrontal cortex (vmPFC) and anterior cingulate cortex (ACC) (Koenigs, 2012&lt;sup id=&#34;fnref:21&#34;&gt;&lt;a href=&#34;#fn:21&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;21&lt;/a&gt;&lt;/sup&gt;). It is believed that vmPFC is involved in many cognitive functions, such as risk and fear processing, decision-making, self-control, and morality, and ACC is associated with emotion regulation and social behavior. Psychopathy was associated with significant reductions in prefrontal gray matter in these two regions. Additionally, both psychopaths and patients with vmPFC lesions show reduced autonomic arousal to emotionally charged stimuli.&lt;/p&gt;
+&lt;p&gt;In the earlier study, Koenigs used a group of prisoners (6 with primary psychopathy, 6 with secondary psychopathy, and 22 non-psychopaths) to play Ultimatum Game and Dictator Game. In the Ultimatum Game one player, the proposer, is endowed with a sum of money (Koenigs et al., 2010&lt;sup id=&#34;fnref:22&#34;&gt;&lt;a href=&#34;#fn:22&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;22&lt;/a&gt;&lt;/sup&gt;). The proposer&amp;rsquo;s task is to split the money with another player, the responder. The responder may accept it or reject it. If the responder accepts, the money is split as it was proposed. If the responder rejects, both players receive nothing. Both players know in advance the consequences of the responder accepting or rejecting the offer. In the Dictator Game, there are again two players with an opportunity to split a sum of money. However, in this case, the responder has no choice but to accept whatever split the proposer offers. Results were compared with the performance of vmPFC lesion patients and data revealed that primary psychopaths and vmPFC lesion patients have somewhat similar economic decision-making performance. Both groups showed significantly reduced Ultimatum acceptance rates and significantly lower Dictator offers, whereas this was not the case for secondary psychopaths. These results also suggest that primary and secondary psychopaths may differ in their decision-making.&lt;/p&gt;
+&lt;p&gt;Another comparison between subjects with psychopathy and subjects with lesions can be done with the help of Anderson et al. (1999)&lt;sup id=&#34;fnref:23&#34;&gt;&lt;a href=&#34;#fn:23&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;23&lt;/a&gt;&lt;/sup&gt; study. The authors looked at two subjects with early onset of frontal lobe damage due to the accident and tumor that happened in their early life (Figure 2). These subjects showed impairment of social and moral behavior, such as failure to comply with rules, confrontations with peers and adults, explosive outbursts of anger, and thievery. Additionally, during the Gambling Task, they failed to choose options with low immediate reward but positive long-term gains; rather, they persisted in choosing response options that provided high immediate reward but higher long-term loss. This is so-called myopic decision-making, which can be observed in subjects with psychopathy as well (Newman et al., 1992&lt;sup id=&#34;fnref:24&#34;&gt;&lt;a href=&#34;#fn:24&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;24&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;anderson_et_al.png&#34; width=&#34;550&#34;&gt;&lt;/img&gt;
+  &lt;figcaption&gt;&lt;b&gt;Figure 2&lt;/b&gt;. 3-D reconstructed brain of patient 1 (subject A) and patient 2 (subject B). Adopted from Anderson et al. (1999)&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Another brain region that can be distinguished in subjects with psychopathy is the striatum, which is increased in volume compared to healthy controls (Glenn et al., 2010&lt;sup id=&#34;fnref:25&#34;&gt;&lt;a href=&#34;#fn:25&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;25&lt;/a&gt;&lt;/sup&gt;; Choy et al., 2022&lt;sup id=&#34;fnref:26&#34;&gt;&lt;a href=&#34;#fn:26&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;26&lt;/a&gt;&lt;/sup&gt;). Striatum plays a role in motor and action planning, decision-making, motivation, reinforcement, and reward perception. This structural difference may partially underlie the reward-seeking and decision-making deficits associated with psychopathy. It has been also shown that psychopathy is associated with great tendencies to make risky selections in the context of risky decision-making (Yao et al., 2019&lt;sup id=&#34;fnref:27&#34;&gt;&lt;a href=&#34;#fn:27&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;27&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;h2 id=&#34;need-for-control&#34;&gt;Need for Control&lt;/h2&gt;
+&lt;p&gt;The large body of literature shows the association between psychopathy and socially dominant behavior. A comprehensive review by Palmen et al. (2021)&lt;sup id=&#34;fnref:28&#34;&gt;&lt;a href=&#34;#fn:28&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;28&lt;/a&gt;&lt;/sup&gt; points out that social dominance is a characteristic of the primary psychopathy, particularly interpersonal and affective traits, which in turn leads to sociable behavior. Individuals with secondary psychopathy, on the other hand, may be more socially withdrawn.&lt;/p&gt;
+&lt;p&gt;In the study of Lobbestael et al. (2017)&lt;sup id=&#34;fnref:29&#34;&gt;&lt;a href=&#34;#fn:29&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;29&lt;/a&gt;&lt;/sup&gt; 91 subjects underwent an identical interview with the subordinate or dominant interviewers. Dominant behavior towards the dominant interviewer has positively correlated with the high Factor 1 psychopathic traits. However, it was not the case for subjects with the high Factor 2 scores, who showed reduced defense distancing towards the interviewer (allowing the dominant interviewer to approach more closely).&lt;/p&gt;
+&lt;p&gt;After the examining results of an online questionnaire (with 3531 participants) Glenn and colleagues (2017)&lt;sup id=&#34;fnref:30&#34;&gt;&lt;a href=&#34;#fn:30&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;30&lt;/a&gt;&lt;/sup&gt; found that subjects with psychopathy may even value power and control over people much more than financial success. Furthermore, financial success can be viewed only as a tool to achieve power.&lt;/p&gt;
+&lt;p&gt;Son Hing et al. (2007)&lt;sup id=&#34;fnref:31&#34;&gt;&lt;a href=&#34;#fn:31&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;31&lt;/a&gt;&lt;/sup&gt; hypothesize that subjects with high social dominance rates have a greater chance to become leaders. Additionally, dominant behavior makes them look competent and proficient in their leadership, which is not necessarily the case. Using their charming and self-presentation skills they could easily create a perfect (but fake) image of a good leader and manipulate decision-makers into hiring them (Palmen et al., 2021&lt;sup id=&#34;fnref1:28&#34;&gt;&lt;a href=&#34;#fn:28&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;28&lt;/a&gt;&lt;/sup&gt;). In the earlier study, Palmen et al. (2019)&lt;sup id=&#34;fnref:32&#34;&gt;&lt;a href=&#34;#fn:32&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;32&lt;/a&gt;&lt;/sup&gt; proposed the model of the psychopathic leader (Figure 3). It suggests psychopathic individuals prefer leadership positions in order to fulfill the need for sensation seeking, gain financial success, and have control over other people.&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;palmen_et_al.jpg&#34; width=&#34;650&#34;&gt;&lt;/img&gt;
+  &lt;figcaption&gt;&lt;b&gt;Figure 3&lt;/b&gt;. The model of the psychopathic leader. Adopted from Palmen et al. (2019).&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;However, while achievement of leadership positions is beneficial for the subject with psychopathy, it is not necessarily helpful for others and can harm organizations and employees. According to Palmen et al. (2021)&lt;sup id=&#34;fnref2:28&#34;&gt;&lt;a href=&#34;#fn:28&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;28&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In several studies, psychopathic leaders were not only associated with their own negative job performance but their presence also had a negative impact on their employees. The studied employees were less committed to their organizations, exhibited lower work motivation, higher turn-over intentions, and higher job neglect. Furthermore, they felt dissatisfied with their supervisor and with their jobs and they experienced more frequent work-family related conflict.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;psychopathy-and-crime&#34;&gt;Psychopathy and Crime&lt;/h2&gt;
+&lt;p&gt;If we combine empathy, lack of fear, and dominant behavior in one individual, we have a perfect candidate for an offender. According to research, not all psychopaths are criminals, but those who are criminals are likely to be psychopaths. While the prevalence of psychopathy is around 1% in the general population, 20-30% of the prison population are found to have a psychopathic personality (Hare, 1999&lt;sup id=&#34;fnref:33&#34;&gt;&lt;a href=&#34;#fn:33&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;33&lt;/a&gt;&lt;/sup&gt;). A review by Reidy et al. (2015)&lt;sup id=&#34;fnref:34&#34;&gt;&lt;a href=&#34;#fn:34&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;34&lt;/a&gt;&lt;/sup&gt; summarized that psychopaths commit some of the most severe acts of violence (which can result in greater injury and death) and at a higher rate compared to non-psychopathic offenders. Also, they have a higher chance to recidivate violently than non-psychopathic offenders.&lt;/p&gt;
+&lt;p&gt;Porter et al. (2003)&lt;sup id=&#34;fnref:35&#34;&gt;&lt;a href=&#34;#fn:35&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;35&lt;/a&gt;&lt;/sup&gt; assessed 18 psychopathic and 20 non-psychopathic offenders and showed that the rate of sadistic behavior in homicides was 1.5 higher compared to non-psychopaths (82.4% compared to 52.6%). Additionally, they found that sadistic behavior was associated with Factor 1 traits and hypothesized that it could be a result of a lack of empathy combined with a thrill-seeking propensity. Similar results have been achieved by Holt et al. (1999)&lt;sup id=&#34;fnref:36&#34;&gt;&lt;a href=&#34;#fn:36&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;36&lt;/a&gt;&lt;/sup&gt;, where psychopaths were found to be significantly more sadistic than non-psychopaths in a sample of 41 violent inmates at a maximum-security prison.&lt;/p&gt;
+&lt;p&gt;It has been also shown that homicides by psychopathic offenders (mostly with Factor 1 traits) were mostly instrumental compared to the homicides by non-psychopathic offenders (Woodworth &amp;amp; Porter, 2002&lt;sup id=&#34;fnref:37&#34;&gt;&lt;a href=&#34;#fn:37&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;37&lt;/a&gt;&lt;/sup&gt;). This means that their actions were planned, lacked emotions, and were motivated by external goals, rather than being impulsive. The authors bring an example of an inmate who carefully planned and murdered his wife because it allowed him to get financial gains from her insurance policy. Although, these results may not agree with the knowledge that psychopaths generally have high impulsivity rates (Hare, 1996&lt;sup id=&#34;fnref:38&#34;&gt;&lt;a href=&#34;#fn:38&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;38&lt;/a&gt;&lt;/sup&gt;). Woodworth and Porter (2002)&lt;sup id=&#34;fnref1:37&#34;&gt;&lt;a href=&#34;#fn:37&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;37&lt;/a&gt;&lt;/sup&gt; suggest the idea of &amp;ldquo;selective impulsivity&amp;rdquo;, meaning that psychopaths may plan their actions to perform the crime since the stakes are high. Although this also does not lay with the idea of myopic decision making (Newman et al., 1992&lt;sup id=&#34;fnref1:24&#34;&gt;&lt;a href=&#34;#fn:24&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;24&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;p&gt;After reviewing the literature on &amp;ldquo;successful&amp;rdquo; and &amp;ldquo;unsuccessful&amp;rdquo; psychopaths, Gao et al. (2010)&lt;sup id=&#34;fnref:39&#34;&gt;&lt;a href=&#34;#fn:39&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;39&lt;/a&gt;&lt;/sup&gt; have suggested a model for these two aspects (Figure 4). While both groups have similar outcomes such as increased sensation-seeking (middle part), unsuccessful psychopathy seems to be more correlated with the impaired amygdala and OFC regions (top part), which may result in different manifestations (bottom part).&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;gao_et_al.png&#34; width=&#34;650&#34;&gt;&lt;/img&gt;
+  &lt;figcaption&gt;&lt;b&gt;Figure 4&lt;/b&gt;. Neurobiological model of successful and unsuccessful psychopaths. Adopted from Gao et al. (2010).&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id=&#34;can-psychopathy-be-cured&#34;&gt;Can Psychopathy be Cured?&lt;/h2&gt;
+&lt;p&gt;Given everything that has been said, one reasonable question to ask is &amp;ldquo;Can someone with psychopathy be treated?&amp;rdquo;. Unfortunately, research has not been very positive in this direction. While psychological interventions (e.g., cognitive behavior therapy, contingency management) are the most common choice of treatment, drug therapy has also been proposed (e.g., MDMA, oxytocin). But the initial problem with the treatment could be whether we even expect psychopaths to seek help. As one could imagine, psychopaths may perceive their traits as an advantage, rather than a disorder.&lt;/p&gt;
+&lt;p&gt;An extensive review from Salekin et al. (2010)&lt;sup id=&#34;fnref:40&#34;&gt;&lt;a href=&#34;#fn:40&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;40&lt;/a&gt;&lt;/sup&gt; goes over reviews research on the psychopathy treatment with adults and youth. Authors indicate that researchers have contrasting opinions on the matter. While some suggest that treatment can potentially better the condition, others believe that it will have no effect or even worsen it. They also rose three problems that can appear during the treatment: (1) due to their cunning and manipulative nature, psychopaths may be simply &amp;ldquo;playing along&amp;rdquo; with the therapist; (2) even if they come to the treatment they are not particularly motivated to change; and (3) due to callousness psychopathic individuals cannot make strong attachments to others and thus are not able to do well in psychotherapy. Overall results suggest that treatment for adults shows low to moderate success, whereas treatment for youth is more promising.&lt;/p&gt;
+&lt;p&gt;Moreover, some researchers have presumed that individuals with high levels of psychopathy maybe even untreatable (Harris and Rice, 2006&lt;sup id=&#34;fnref:41&#34;&gt;&lt;a href=&#34;#fn:41&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;41&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;h2 id=&#34;summary-and-conclusions&#34;&gt;Summary and Conclusions&lt;/h2&gt;
+&lt;p&gt;With everything being said, we can summarize the main points:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Psychopathy is a complex disorder with an unknown etiology and without well-established therapy.&lt;/li&gt;
+&lt;li&gt;Most commonly used model for psychopathy divides it into two factors, Factor 1 and Factor 2, which have different features.&lt;/li&gt;
+&lt;li&gt;Psychopaths tend to achieve leadership positions (e.g., in business or politics) due to the need for control and social dominance.&lt;/li&gt;
+&lt;li&gt;Individuals with psychopathy show impairments in several brain regions, including the amygdala, ventromedial prefrontal cortex, and orbitofrontal cortex.&lt;/li&gt;
+&lt;li&gt;Not all psychopaths are criminals, but those who are criminals are likely to be psychopaths.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;Widom, C. S. (1977). A methodology for studying noninstitutionalized psychopaths. &lt;em&gt;Journal of Consulting and Clinical Psychology, 45&lt;/em&gt;(4), 674&amp;ndash;683. 
+&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Perez, P. R. (2012). The etiology of psychopathy: A neuropsychological perspective. &lt;em&gt;Aggression and Violent Behavior, 17&lt;/em&gt;(6), 519&amp;ndash;522. 
+&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;Harpur, T. J., Hare, R. D., &amp;amp; Hakstian, A. R. (1989). Two-factor conceptualization of psychopathy: Construct validity and assessment implications. &lt;em&gt;Psychological Assessment: A Journal of Consulting and Clinical Psychology, 1&lt;/em&gt;(1), 6&amp;ndash;17. 
+&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;Babiak, P., &amp;amp; Hare, R. D. (2006). &lt;em&gt;Snakes in suits: When psychopaths go to work&lt;/em&gt;. Regan Books/Harper Collins Publishers.&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;Skeem, J. L., Polaschek, D. L. L., Patrick, C. J., &amp;amp; Lilienfeld, S. O. (2011). Psychopathic Personality. &lt;em&gt;Psychological Science in the Public Interest, 12&lt;/em&gt;(3), 95&amp;ndash;162. 
+&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
+&lt;p&gt;Hare, R. D. (2003). Hare Psychopathy Checklist-Revised (PCL-R). 2nd. &lt;em&gt;Toronto: MHS&lt;/em&gt;.&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
+&lt;p&gt;van Dongen, J. D. M. (2020). The Empathic Brain of Psychopaths: From Social Science to Neuroscience in Empathy. &lt;em&gt;Frontiers in Psychology, 11&lt;/em&gt;. 
+&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
+&lt;p&gt;Burghart, M., &amp;amp; Mier, D. (2022). No feelings for me, no feelings for you: A meta-analysis on alexithymia and empathy in psychopathy. &lt;em&gt;Personality and Individual Differences, 194&lt;/em&gt;, 111658. 
+&amp;#160;&lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:9&#34;&gt;
+&lt;p&gt;Kreis, M. K. F., &amp;amp; Cooke, D. J. (2011). Capturing the Psychopathic Female: A Prototypicality Analysis of the Comprehensive Assessment of Psychopathic Personality (CAPP) Across Gender. &lt;em&gt;Behavioral Sciences &amp;amp; the Law, 29&lt;/em&gt;(5), 634–648. 
+&amp;#160;&lt;a href=&#34;#fnref:9&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:10&#34;&gt;
+&lt;p&gt;van Dongen, J. D. M., Brazil, I. A., van der Veen, F. M., &amp;amp; Franken, I. H. A. (2018). Electrophysiological correlates of empathic processing and its relation to psychopathic meanness. &lt;em&gt;Neuropsychology, 32&lt;/em&gt;(8), 996&amp;ndash;1006. 
+&amp;#160;&lt;a href=&#34;#fnref:10&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:11&#34;&gt;
+&lt;p&gt;Garofalo, C., Neumann, C. S., &amp;amp; Velotti, P. (2020). Psychopathy and Aggression: The Role of Emotion Dysregulation. &lt;em&gt;Journal of Interpersonal Violence, 36&lt;/em&gt;(23&amp;ndash;24), NP12640&amp;ndash;NP12664. 
+&amp;#160;&lt;a href=&#34;#fnref:11&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:12&#34;&gt;
+&lt;p&gt;Shane, M. S., &amp;amp; Groat, L. L. (2018). Capacity for upregulation of emotional processing in psychopathy: all you have to do is ask. &lt;em&gt;Social Cognitive and Affective Neuroscience, 13&lt;/em&gt;(11), 1163&amp;ndash;1176. 
+&amp;#160;&lt;a href=&#34;#fnref:12&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref1:12&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:13&#34;&gt;
+&lt;p&gt;Meffert, H., Gazzola, V., den Boer, J. A., Bartels, A. A. J., &amp;amp; Keysers, C. (2013). Reduced spontaneous but relatively normal deliberate vicarious representations in psychopathy. &lt;em&gt;Brain, 136&lt;/em&gt;(8), 2550&amp;ndash;2562. 
+&amp;#160;&lt;a href=&#34;#fnref:13&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:14&#34;&gt;
+&lt;p&gt;Birbaumer, N., Veit, R., Lotze, M., Erb, M., Hermann, C., Grodd, W., &amp;amp; Flor, H. (2005). Deficient Fear Conditioning in Psychopathy. &lt;em&gt;Archives of General Psychiatry, 62&lt;/em&gt;(7), 799. 
+&amp;#160;&lt;a href=&#34;#fnref:14&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:15&#34;&gt;
+&lt;p&gt;Hare, R. D. (1965). Psychopathy, Fear Arousal and Anticipated Pain. &lt;em&gt;Psychological Reports, 16&lt;/em&gt;(2), 499–502. 
+&amp;#160;&lt;a href=&#34;#fnref:15&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:16&#34;&gt;
+&lt;p&gt;Blair, R., Mitchell, D., Leonard, A., Budhani, S., Peschardt, K., &amp;amp; Newman, C. (2004). Passive avoidance learning in individuals with psychopathy: modulation by reward but not by punishment. &lt;em&gt;Personality and Individual Differences, 37&lt;/em&gt;(6), 1179&amp;ndash;1192. 
+&amp;#160;&lt;a href=&#34;#fnref:16&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:17&#34;&gt;
+&lt;p&gt;Kiehl, K. A., Smith, A. M., Hare, R. D., Mendrek, A., Forster, B. B., Brink, J., &amp;amp; Liddle, P. F. (2001). Limbic abnormalities in affective processing by criminal psychopaths as revealed by functional magnetic resonance imaging. &lt;em&gt;Biological Psychiatry, 50&lt;/em&gt;(9), 677&amp;ndash;684. 
+&amp;#160;&lt;a href=&#34;#fnref:17&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:18&#34;&gt;
+&lt;p&gt;Oskarsson, S., Patrick, C. J., Siponen, R., Bertoldi, B. M., Evans, B., &amp;amp; Tuvblad, C. (2021). The startle reflex as an indicator of psychopathic personality from childhood to adulthood: A systematic review. &lt;em&gt;Acta Psychologica, 220&lt;/em&gt;, 103427. 
+&amp;#160;&lt;a href=&#34;#fnref:18&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:19&#34;&gt;
+&lt;p&gt;Levenston, G. K., Patrick, C. J., Bradley, M. M., &amp;amp; Lang, P. J. (2000). The psychopath as observer: Emotion and attention in picture processing. &lt;em&gt;Journal of Abnormal Psychology, 109&lt;/em&gt;(3), 373&amp;ndash;385. 
+&amp;#160;&lt;a href=&#34;#fnref:19&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:20&#34;&gt;
+&lt;p&gt;Hosker-Field, A. M., Gauthier, N. Y., &amp;amp; Book, A. S. (2016). If not fear, then what? A preliminary examination of psychopathic traits and the Fear Enjoyment Hypothesis. &lt;em&gt;Personality and Individual Differences, 90&lt;/em&gt;, 278&amp;ndash;282. 
+&amp;#160;&lt;a href=&#34;#fnref:20&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:21&#34;&gt;
+&lt;p&gt;Koenigs, M. (2012). The role of prefrontal cortex in psychopathy. &lt;em&gt;Reviews in the Neurosciences, 23&lt;/em&gt;(3). 
+&amp;#160;&lt;a href=&#34;#fnref:21&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:22&#34;&gt;
+&lt;p&gt;Koenigs, M., Kruepke, M., &amp;amp; Newman, J. P. (2010). Economic decision-making in psychopathy: A comparison with ventromedial prefrontal lesion patients. &lt;em&gt;Neuropsychologia, 48&lt;/em&gt;(7), 2198&amp;ndash;2204. 
+&amp;#160;&lt;a href=&#34;#fnref:22&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:23&#34;&gt;
+&lt;p&gt;Anderson, S. W., Bechara, A., Damasio, H., Tranel, D., &amp;amp; Damasio, A. R. (1999). Impairment of social and moral behavior related to early damage in human prefrontal cortex. &lt;em&gt;Nature Neuroscience, 2&lt;/em&gt;(11), 1032&amp;ndash;1037. 
+&amp;#160;&lt;a href=&#34;#fnref:23&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:24&#34;&gt;
+&lt;p&gt;Newman, J. P., Kosson, D. S., &amp;amp; Patterson, C. M. (1992). Delay of gratification in psychopathic and nonpsychopathic offenders. &lt;em&gt;Journal of Abnormal Psychology, 101&lt;/em&gt;(4), 630&amp;ndash;636. 
+&amp;#160;&lt;a href=&#34;#fnref:24&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref1:24&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:25&#34;&gt;
+&lt;p&gt;Glenn, A. L., Raine, A., Yaralian, P. S., &amp;amp; Yang, Y. (2010). Increased Volume of the Striatum in Psychopathic Individuals. Biological Psychiatry, 67(1), 52&amp;ndash;58. 
+&amp;#160;&lt;a href=&#34;#fnref:25&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:26&#34;&gt;
+&lt;p&gt;Choy, O., Raine, A., &amp;amp; Schug, R. (2022). Larger striatal volume is associated with increased adult psychopathy. &lt;em&gt;Journal of Psychiatric Research, 149&lt;/em&gt;, 185&amp;ndash;193. 
+&amp;#160;&lt;a href=&#34;#fnref:26&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:27&#34;&gt;
+&lt;p&gt;Yao, X., Zhang, F., Yang, T., Lin, T., Xiang, L., Xu, F., &amp;amp; He, G. (2019). Psychopathy and Decision-Making: Antisocial Factor Associated With Risky Decision-Making in Offenders. &lt;em&gt;Frontiers in Psychology, 10&lt;/em&gt;. 
+&amp;#160;&lt;a href=&#34;#fnref:27&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:28&#34;&gt;
+&lt;p&gt;Palmen, D. G., Kolthoff, E. W., &amp;amp; Derksen, J. J. (2021). The need for domination in psychopathic leadership: A clarification for the estimated high prevalence of psychopathic leaders. &lt;em&gt;Aggression and Violent Behavior, 61&lt;/em&gt;, 101650. 
+&amp;#160;&lt;a href=&#34;#fnref:28&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref1:28&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref2:28&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:29&#34;&gt;
+&lt;p&gt;Lobbestael, J., Arntz, A., Voncken, M., &amp;amp; Potegal, M. (2018). Responses to dominance challenge are a function of psychopathy level: A multimethod study. &lt;em&gt;Personality Disorders: Theory, Research, and Treatment, 9&lt;/em&gt;(4), 305&amp;ndash;314. 
+&amp;#160;&lt;a href=&#34;#fnref:29&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:30&#34;&gt;
+&lt;p&gt;Glenn, A. L., Efferson, L. M., Iyer, R., &amp;amp; Graham, J. (2017). Values, Goals, and Motivations Associated with Psychopathy. &lt;em&gt;Journal of Social and Clinical Psychology, 36&lt;/em&gt;(2), 108&amp;ndash;125. 
+&amp;#160;&lt;a href=&#34;#fnref:30&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:31&#34;&gt;
+&lt;p&gt;Son Hing, L. S., Bobocel, D. R., Zanna, M. P., &amp;amp; McBride, M. V. (2007). Authoritarian dynamics and unethical decision making: High social dominance orientation leaders and high right-wing authoritarianism followers. &lt;em&gt;Journal of Personality and Social Psychology, 92&lt;/em&gt;(1), 67&amp;ndash;81. 
+&amp;#160;&lt;a href=&#34;#fnref:31&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:32&#34;&gt;
+&lt;p&gt;Palmen, D. G., Derksen, J. J., &amp;amp; Kolthoff, E. (2020). High self-control may support &amp;lsquo;success&amp;rsquo; in psychopathic leadership: Self-control versus impulsivity in psychopathic leadership. &lt;em&gt;Aggression and Violent Behavior, 50&lt;/em&gt;, 101338. 
+&amp;#160;&lt;a href=&#34;#fnref:32&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:33&#34;&gt;
+&lt;p&gt;Hare, R. D. (1999). &lt;em&gt;Without Conscience: The Disturbing World of the Psychopaths Among Us (1st ed.)&lt;/em&gt;. The Guilford Press.&amp;#160;&lt;a href=&#34;#fnref:33&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:34&#34;&gt;
+&lt;p&gt;Reidy, D. E., Kearns, M. C., DeGue, S., Lilienfeld, S. O., Massetti, G., &amp;amp; Kiehl, K. A. (2015). Why psychopathy matters: Implications for public health and violence prevention. &lt;em&gt;Aggression and Violent Behavior, 24&lt;/em&gt;, 214&amp;ndash;225. 
+&amp;#160;&lt;a href=&#34;#fnref:34&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:35&#34;&gt;
+&lt;p&gt;Porter, S., Woodworth, M., Earle, J., Drugge, J., &amp;amp; Boer, D. (2003). Characteristics of sexual homicides committed by psychopathic and nonpsychopathic offenders. &lt;em&gt;Law and Human Behavior, 27&lt;/em&gt;(5), 459&amp;ndash;470. 
+&amp;#160;&lt;a href=&#34;#fnref:35&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:36&#34;&gt;
+&lt;p&gt;Holt, S. E., Meloy, J. R., &amp;amp; Strack, S. (1999). Sadism and psychopathy in violent and sexually violent offenders. &lt;em&gt;The journal of the American Academy of Psychiatry and the Law, 27&lt;/em&gt;(1), 23–32.&amp;#160;&lt;a href=&#34;#fnref:36&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:37&#34;&gt;
+&lt;p&gt;Woodworth, M., &amp;amp; Porter, S. (2002). In cold blood: Characteristics of criminal homicides as a function of psychopathy. &lt;em&gt;Journal of Abnormal Psychology, 111&lt;/em&gt;(3), 436&amp;ndash;445. 
+&amp;#160;&lt;a href=&#34;#fnref:37&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref1:37&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:38&#34;&gt;
+&lt;p&gt;Hare, R. D. (1996). Psychopathy. &lt;em&gt;Criminal Justice and Behavior, 23&lt;/em&gt;(1), 25&amp;ndash;54. 
+&amp;#160;&lt;a href=&#34;#fnref:38&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:39&#34;&gt;
+&lt;p&gt;Gao, Y., &amp;amp; Raine, A. (2010). Successful and unsuccessful psychopaths: A neurobiological model. &lt;em&gt;Behavioral Sciences &amp;amp; the Law&lt;/em&gt;, n/a. 
+&amp;#160;&lt;a href=&#34;#fnref:39&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:40&#34;&gt;
+&lt;p&gt;Salekin, R. T., Worley, C., &amp;amp; Grimes, R. D. (2010). Treatment of psychopathy: A review and brief introduction to the mental model approach for psychopathy. &lt;em&gt;Behavioral Sciences &amp;amp; the Law, 28&lt;/em&gt;(2), 235&amp;ndash;266. 
+&amp;#160;&lt;a href=&#34;#fnref:40&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:41&#34;&gt;
+&lt;p&gt;Harris, G. T., &amp;amp; Rice, M. E. (2006). Treatment of Psychopathy: A Review of Empirical Findings. In C. J. Patrick (Ed.), &lt;em&gt;Handbook of psychopathy&lt;/em&gt; (pp. 555–572). The Guilford Press.&amp;#160;&lt;a href=&#34;#fnref:41&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

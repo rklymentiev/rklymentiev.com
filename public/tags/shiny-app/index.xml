@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shiny App | RK</title>
+    <link>http://localhost:4321/tags/shiny-app/</link>
+      <atom:link href="http://localhost:4321/tags/shiny-app/index.xml" rel="self" type="application/rss+xml" />
+    <description>Shiny App</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Thu, 13 May 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:4321/media/icon_hu5497558039692805424.png</url>
+      <title>Shiny App</title>
+      <link>http://localhost:4321/tags/shiny-app/</link>
+    </image>
+    
+    <item>
+      <title>Bandit Cats and Exploration-Exploitation Trade-Off</title>
+      <link>http://localhost:4321/tutorial/bandit_cats/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/tutorial/bandit_cats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ROC Curve Simulation</title>
+      <link>http://localhost:4321/tutorial/roc-curve/</link>
+      <pubDate>Mon, 18 May 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/tutorial/roc-curve/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Normal Approximation to Binomial Distribution</title>
+      <link>http://localhost:4321/tutorial/norm-binom/</link>
+      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/tutorial/norm-binom/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bayes Rule and Disease Testing</title>
+      <link>http://localhost:4321/tutorial/bayes_disease/</link>
+      <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/tutorial/bayes_disease/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

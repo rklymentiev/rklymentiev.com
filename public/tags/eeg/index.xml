@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>EEG | RK</title>
+    <link>http://localhost:4321/tags/eeg/</link>
+      <atom:link href="http://localhost:4321/tags/eeg/index.xml" rel="self" type="application/rss+xml" />
+    <description>EEG</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:4321/media/icon_hu5497558039692805424.png</url>
+      <title>EEG</title>
+      <link>http://localhost:4321/tags/eeg/</link>
+    </image>
+    
+    <item>
+      <title>Intro to EEG Data Analysis</title>
+      <link>http://localhost:4321/tutorial/eeg-preprocessing-erp/</link>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/tutorial/eeg-preprocessing-erp/</guid>
+      <description>&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+&lt;p&gt;Two years ago I have been working on EEG data (found at Kaggle&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;) from an object recognition task experiment that was performed to investigate the genetic predisposition to alcoholism&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. My analysis was a pure mess since I didn&amp;rsquo;t know a lot about EEG data processing/analysis. Time has passed, I still don&amp;rsquo;t know much, but after finishing Mike X Cohen&amp;rsquo;s course &amp;ldquo;Complete neural signal processing and analysis: Zero to hero&amp;rdquo; on Udemy&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; (which I cannot recommend highly enough), I decided to get more practice with the help of publicly available data from Cavanagh et al. (2019)&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;. I used &lt;code&gt;MNE&lt;/code&gt; Python package&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; for this and tried to do it in a bit &amp;ldquo;tutorial&amp;rdquo; style for two reasons. First, it will be easier for me to remember after some time what the hell was I doing here. Second, I hope that other people who also start their journey in the EEG analysis can benefit from this.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This analysis was made for educational purposes in order to get an idea of how to work with the EEG data. I was not going to make any inference/conclusions about subjects or conditions (even if I did, they should not be taken seriously).&lt;/p&gt;
+&lt;h2 id=&#34;overview-of-the-experiment&#34;&gt;Overview of the Experiment&lt;/h2&gt;
+&lt;center&gt;&lt;img src=&#34;abstract.png&#34; border=1&gt;&lt;/center&gt;
+&lt;p&gt;The original paper was published in Computational Psychiatry open source journal (the MIT Press)&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt; in 2018. One of the aims of the experiment was to investigate the association of EEG responses to reward and punishment among two groups, the control group (CTL) and the high depressive symptomatology group (DEP). Participants performed a probabilistic learning task, where a combination of two different images from the set was shown. Each image had its own probabilistic chance of being correct. The task was divided into training (participants were expected to learn the probability of being correct for each stimulus) and testing phases (experiment itself).&lt;/p&gt;
+&lt;p&gt;Participants:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CTL: N = 75 (50 females)&lt;/li&gt;
+&lt;li&gt;DEP: N = 46 (34 females)&lt;/li&gt;
+&lt;li&gt;An average age among all participants was 18 years.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;preprocessing&#34;&gt;Preprocessing&lt;/h2&gt;
+&lt;h3 id=&#34;data-import&#34;&gt;Data Import&lt;/h3&gt;
+&lt;p&gt;For simplicity, I took just two data files, one subject from the DEP group (ID: 561), and one subject from the CTL group (ID: 507).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#81c8be&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;mne&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#81c8be&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;pickle&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#81c8be&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;np&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#81c8be&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;pandas&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;pd&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;5&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#81c8be&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;scipy.io&lt;/span&gt; &lt;span style=&#34;color:#81c8be&#34;&gt;import&lt;/span&gt; loadmat
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;6&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;7&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;%&lt;/span&gt;matplotlib qt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# loading raw matlab files&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 2&lt;/span&gt;&lt;span&gt;CTL &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; loadmat(&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;depression_data/task/507.mat&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 3&lt;/span&gt;&lt;span&gt;DEP &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; loadmat(&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;depression_data/task/561.mat&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 4&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 5&lt;/span&gt;&lt;span&gt;EEG &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#99d1db&#34;&gt;dict&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 6&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# data comes in a funny structure, so you have to dig deep with indexes &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 7&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# to extract it. `squeeze_me` argument doesn&amp;#39;t look to help in such case&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 8&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;timevec&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; CTL[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;EEG&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;times&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 9&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;srate&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#99d1db&#34;&gt;int&lt;/span&gt;(CTL[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;EEG&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;srate&amp;#39;&lt;/span&gt;]) &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# 1 sample/2 ms&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;10&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;11&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# get the channel labels in a bit sophisticated way&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;12&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlabels&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#99d1db&#34;&gt;list&lt;/span&gt;(np&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;hstack(CTL[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;EEG&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlocs&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;labels&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;]))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;13&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# mne package requires channel labels to be in a particular way, &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;14&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# so here I just change the cases for some channels&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;15&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#99d1db&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#99d1db&#34;&gt;len&lt;/span&gt;(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlabels&amp;#39;&lt;/span&gt;])):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;16&lt;/span&gt;&lt;span&gt;    EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlabels&amp;#39;&lt;/span&gt;][i] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlabels&amp;#39;&lt;/span&gt;][i]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;replace(&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;Z&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;z&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;17&lt;/span&gt;&lt;span&gt;    EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlabels&amp;#39;&lt;/span&gt;][i] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlabels&amp;#39;&lt;/span&gt;][i]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;replace(&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;FP&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;Fp&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;18&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;19&lt;/span&gt;&lt;span&gt;info &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;create_info(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;20&lt;/span&gt;&lt;span&gt;    ch_names&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;chanlabels&amp;#39;&lt;/span&gt;], 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;21&lt;/span&gt;&lt;span&gt;    sfreq&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;srate&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;22&lt;/span&gt;&lt;span&gt;    ch_types&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;eeg&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;23&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;24&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# convert raw data into mne object&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;25&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# also initial values were in microvolts, so convert them into volts&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;26&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;io&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;RawArray(CTL[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;EEG&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;**&lt;/span&gt;(&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;6&lt;/span&gt;), info)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;27&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;io&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;RawArray(DEP[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;EEG&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;**&lt;/span&gt;(&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;6&lt;/span&gt;), info)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Creating RawArray with float64 data, n_channels=66, n_times=356405
+    Range : 0 ... 356404 =      0.000 ...   712.808 secs
+Ready.
+Creating RawArray with float64 data, n_channels=66, n_times=575973
+    Range : 0 ... 575972 =      0.000 ...  1151.944 secs
+Ready.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Data was recorded at the 500 Hz rate. In other words, recordings were done every $\frac{1}{500} = 2 \cdot 10^{-3}$ seconds. Total duration of the recording for the CTL subject is 712.808 seconds, which is approximately 11-12 minutes. Total duration of the recording for the DEP subject is 1151.944 seconds, which is approximately 19 minutes.&lt;/p&gt;
+&lt;p&gt;Recordings were measured from 66 channels, including two electrooculography (EOG) electrodes placed near the eye (HEOG, VEOG), two electrodes on mastoid processes (M1, M2) and two cerebellar electrodes (CB1, CB2).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;biosemi_montage &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;channels&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;make_standard_montage(&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;biosemi64&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;set_montage(biosemi_montage, on_missing&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;ignore&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;set_montage(biosemi_montage, on_missing&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;ignore&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Some of the channels (M1, M2, PO5, PO6, CB1, CB2, HEOG, VEOG) were not recognized by the Biosemi 64 montage. It&amp;rsquo;s &amp;ldquo;okay&amp;rdquo; since I would drop most of them anyway (leaving 60 electrodes). HEOG and VEOG channels were used to detect eye blinks and to compare with ICA components. M1 and M2 channels were used for reference. Cannot say much about PO5 and PO6 channels. In the original paper, they also reported that they used 60 channels plus two mastoids for the preprocessing stage.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# referencing the data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# channel_i = channel_i - mean(channel_M1, channel_M2)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;set_eeg_reference(ref_channels&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M1&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M2&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;set_eeg_reference(ref_channels&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M1&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M2&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;EEG channel type selected for re-referencing
+Applying a custom EEG reference.
+EEG channel type selected for re-referencing
+Applying a custom EEG reference.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;EEG data of the CTL subject&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot(n_channels&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#99d1db&#34;&gt;len&lt;/span&gt;(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;ch_names))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_14_0_hu9596663366040284131.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_14_0_hu16745591642112663145.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_14_0_hu17214151286481523632.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_14_0_hu9596663366040284131.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;420&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EEG data of the DEP subject&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot(n_channels&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#99d1db&#34;&gt;len&lt;/span&gt;(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;ch_names))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_16_0_hu13312018444097644870.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_16_0_hu1473289205895040520.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_16_0_hu10336347785511475751.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_16_0_hu13312018444097644870.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;420&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;There was some funny business (voltage several orders higher than the rest of the signal) happening at the very of the recording, which I have removed.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;crop(tmax&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;700&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;crop(tmax&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;1140&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;bad-channelstrials&#34;&gt;Bad Channels/Trials&lt;/h3&gt;
+&lt;p&gt;All the channels for CTL subject looked fine to me. However, for the DEP subject F2 channel looked a bit suspicious (only high-frequency fluctuations), so I marked it as &amp;ldquo;bad&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;The next step was to extract events data from the raw object and add it to the EEG data. There were lots of different event IDs, but I just used two specific ones: &lt;code&gt;94&lt;/code&gt;, meaning correct trial, and &lt;code&gt;104&lt;/code&gt;, meaning incorrect trial.&lt;/p&gt;
+&lt;p&gt;Then I annotated &amp;ldquo;bad&amp;rdquo; time spans. I paid attention to those that overlap with &lt;code&gt;94&lt;/code&gt;/&lt;code&gt;104&lt;/code&gt; events with the +/- 2 seconds interval since this time interval would be used for making epochs and all other epochs would be lost anyway. There were several time spans for both subjects that looked &amp;ldquo;bad&amp;rdquo; for me. An example can be seen below on the plot, with the suspiciously high-frequency signal.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# extracting events info from the raw file&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;for&lt;/span&gt; data &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;in&lt;/span&gt; [CTL, DEP]:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 3&lt;/span&gt;&lt;span&gt;    event_df &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;DataFrame(data[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;EEG&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;event&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 4&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# fun with indexes again&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 5&lt;/span&gt;&lt;span&gt;    event_df[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;type&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; event_df[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;type&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;apply(&lt;span style=&#34;color:#ca9ee6&#34;&gt;lambda&lt;/span&gt; x: x[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 6&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;for&lt;/span&gt; col &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;in&lt;/span&gt; [&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;latency&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;urevent&amp;#39;&lt;/span&gt;]:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 7&lt;/span&gt;&lt;span&gt;        event_df[col] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; event_df[col]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;apply(&lt;span style=&#34;color:#ca9ee6&#34;&gt;lambda&lt;/span&gt; x: x[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;]) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 8&lt;/span&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 9&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# convert strings to integers&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;10&lt;/span&gt;&lt;span&gt;    event_df[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;type&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; event_df[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;type&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;apply(&lt;span style=&#34;color:#ca9ee6&#34;&gt;lambda&lt;/span&gt; x: &lt;span style=&#34;color:#ef9f76&#34;&gt;900&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;if&lt;/span&gt; x &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;keyboard0&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;else&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;11&lt;/span&gt;&lt;span&gt;        &lt;span style=&#34;color:#ef9f76&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;if&lt;/span&gt; x &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;keypad1&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;else&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;12&lt;/span&gt;&lt;span&gt;            &lt;span style=&#34;color:#ef9f76&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;if&lt;/span&gt; x &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;keypad2&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;else&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;13&lt;/span&gt;&lt;span&gt;                &lt;span style=&#34;color:#ef9f76&#34;&gt;999&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;if&lt;/span&gt; x &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;boundary&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#99d1db&#34;&gt;int&lt;/span&gt;(x)))))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;14&lt;/span&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;15&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# mne requires events data to be in numpy array with three columns:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;16&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# time of occurence; second column for whatever reason which is ignored anyway; event id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;17&lt;/span&gt;&lt;span&gt;    events &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;array(event_df[[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;latency&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;type&amp;#39;&lt;/span&gt;]])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;18&lt;/span&gt;&lt;span&gt;    events &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;insert(events, &lt;span style=&#34;color:#ef9f76&#34;&gt;1&lt;/span&gt;, values&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;, axis&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;19&lt;/span&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;20&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;if&lt;/span&gt; data &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;==&lt;/span&gt; CTL:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;21&lt;/span&gt;&lt;span&gt;        EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_events&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; events
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;22&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;23&lt;/span&gt;&lt;span&gt;        EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_events&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; events
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;24&lt;/span&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;25&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# just a fancy way to add colors and labels to the plot&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;26&lt;/span&gt;&lt;span&gt;event_color &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#99d1db&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#99d1db&#34;&gt;zip&lt;/span&gt;(event_df[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;type&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;unique(), [&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#99d1db&#34;&gt;len&lt;/span&gt;(event_df[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;type&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;unique())))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;27&lt;/span&gt;&lt;span&gt;event_color[&lt;span style=&#34;color:#ef9f76&#34;&gt;94&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;g&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;28&lt;/span&gt;&lt;span&gt;event_color[&lt;span style=&#34;color:#ef9f76&#34;&gt;104&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;29&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;30&lt;/span&gt;&lt;span&gt;event_id &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;COR&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color:#ef9f76&#34;&gt;94&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;INCOR&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color:#ef9f76&#34;&gt;104&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;31&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;32&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;del&lt;/span&gt; event_df, events, CTL, DEP
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot(events&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_events&amp;#39;&lt;/span&gt;], start&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;182&lt;/span&gt;, event_id&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;event_id, event_color&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;event_color)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_21_0_hu6221210493938963488.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_21_0_hu6237967852698514127.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_21_0_hu7414522136608057647.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_21_0_hu6221210493938963488.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;427&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot(events&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_events&amp;#39;&lt;/span&gt;], start&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;844&lt;/span&gt;, event_id&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;event_id, event_color&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;event_color)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_22_0_hu16476558694824778802.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_22_0_hu18140276111270532888.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_22_0_hu12203161922311816949.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_22_0_hu16476558694824778802.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;427&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# marked bad channel&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;info[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;bads&amp;#39;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;[&#39;F2&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;artifacts-removal&#34;&gt;Artifacts Removal&lt;/h3&gt;
+&lt;p&gt;The next step was to remove eye blinks from the data. HEOG and VEOG electrodes were put around an eye to measure the horizontal and vertical eye movements respectively and they could be used for references. I applied an Independent Component Analysis (ICA)&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt; to separate the signal sources.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# drop the redundant channels&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;drop_channels(ch_names&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;HEOG&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;VEOG&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CB1&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CB2&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M1&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M2&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;PO5&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;PO6&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;drop_channels(ch_names&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;HEOG&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;VEOG&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CB1&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CB2&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M1&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;M2&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;PO5&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;PO6&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;+&lt;/span&gt; EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;info[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;bads&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;ctl-group&#34;&gt;CTL Group&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# mne tutorial suggests to filter the data from low frequencies (keep 1Hz+)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# since they can affect ICA result&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;filt_raw &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;copy()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;filt_raw&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;load_data()&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;filter(l_freq&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;1.&lt;/span&gt;, h_freq&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;None&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Filtering raw data in 1 contiguous segment
+Setting up high-pass filter at 1 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal highpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 1.00
+- Lower transition bandwidth: 1.00 Hz (-6 dB cutoff frequency: 0.50 Hz)
+- Filter length: 1651 samples (3.302 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;preprocessing&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;ICA()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;fit(filt_raw)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Fitting ICA to data using 58 channels (please be patient, this may take a while)
+Inferring max_pca_components from picks
+Omitting 8222 of 350001 (2.35%) samples, retaining 341779 (97.65%) samples.
+Selecting all PCA components: 58 components
+Fitting ICA took 80.6s.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_sources(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_30_0_hu16686585208421026832.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_30_0_hu4899119909988869738.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_30_0_hu4888838268806204786.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_30_0_hu16686585208421026832.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;419&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_components(picks&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#99d1db&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#ef9f76&#34;&gt;15&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_31_0_hu15731764307559794293.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_31_0_hu18091178143428003255.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_31_0_hu10661035773903193611.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_31_0_hu15731764307559794293.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;543&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# make a plot of signal without the first component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_overlay(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;], exclude&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;], picks&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;eeg&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Transforming to ICA space (58 components)
+Zeroing out 1 ICA component
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_32_1_hu14697140269504582920.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_32_1_hu4316917905205640948.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_32_1_hu1522159892158187137.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_32_1_hu14697140269504582920.webp&#34;
+               width=&#34;626&#34;
+               height=&#34;473&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;THe first (ICA000) component was clearly an eye blink. The signal was stable for the whole time with some occasional drops caused by events at the front of the head.&lt;/p&gt;
+&lt;p&gt;Some other components, like ICA002 or ICA014, also looked weird for me, but that&amp;rsquo;s something for me to work on.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;exclude &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# exclude just first (ICA000) component&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;apply(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_data&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;del&lt;/span&gt; ica, filt_raw
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Transforming to ICA space (58 components)
+Zeroing out 1 ICA component
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;dep-group&#34;&gt;DEP Group&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;filt_raw &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;copy()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;filt_raw&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;load_data()&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;filter(l_freq&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;1.&lt;/span&gt;, h_freq&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;None&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Filtering raw data in 1 contiguous segment
+Setting up high-pass filter at 1 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal highpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 1.00
+- Lower transition bandwidth: 1.00 Hz (-6 dB cutoff frequency: 0.50 Hz)
+- Filter length: 1651 samples (3.302 sec)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;preprocessing&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;ICA()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;fit(filt_raw)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Fitting ICA to data using 57 channels (please be patient, this may take a while)
+Inferring max_pca_components from picks
+Omitting 5585 of 570001 (0.98%) samples, retaining 564416 (99.02%) samples.
+Selecting all PCA components: 57 components
+Fitting ICA took 141.5s.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_sources(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_38_0_hu10767097301570425752.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_38_0_hu1988865397929701757.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_38_0_hu1205104744481882022.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_38_0_hu10767097301570425752.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;419&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_components(picks&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#99d1db&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#ef9f76&#34;&gt;15&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_39_0_hu9929096222062929351.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_39_0_hu15700893971239888537.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_39_0_hu15083467710023858923.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_39_0_hu9929096222062929351.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;543&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_overlay(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;], exclude&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;], picks&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;eeg&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Transforming to ICA space (57 components)
+Zeroing out 1 ICA component
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_40_1_hu12460825978552992474.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_40_1_hu3545845445675879513.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_40_1_hu1788027235860753772.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_40_1_hu12460825978552992474.webp&#34;
+               width=&#34;626&#34;
+               height=&#34;473&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;exclude &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;] 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;ica&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;apply(EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_data&amp;#39;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;del&lt;/span&gt; ica, filt_raw
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Transforming to ICA space (57 components)
+Zeroing out 1 ICA component
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;DEP subject got even more &amp;ldquo;suspicious&amp;rdquo; components, which I ignored for now.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# at this stage I used to save the EEG locally to avoid repeating the same steps&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# every time I rerun the notebook&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# with open(&amp;#39;EEG.pickle&amp;#39;, &amp;#39;wb&amp;#39;) as f:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;5&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;#     pickle.dump(EEG, f)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;6&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;7&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# with open(&amp;#39;EEG.pickle&amp;#39;, &amp;#39;rb&amp;#39;) as f:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;8&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;#     EEG = pickle.load(f)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;event-related-potential&#34;&gt;Event-related potential&lt;/h2&gt;
+&lt;p&gt;The final step (for this part) was to get the Event-Related Potential (ERP)&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt; for both conditions: correct and incorrect, meaning that there were 4 ERPs: DEP&amp;amp;COR, DEP&amp;amp;INCOR, CTL&amp;amp;COR, CTL&amp;amp;INCOR.&lt;/p&gt;
+&lt;h3 id=&#34;epochs&#34;&gt;Epochs&lt;/h3&gt;
+&lt;p&gt;First signal had to be split into epochs according to the events (94/104) times. Time window is +/- 2 seconds around the feedback onset. Then signal was baseline corrected to the average signal from -0.2 to 0 seconds prefeedback. Bandpass filter (0.5-20 Hz) was applied.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;for&lt;/span&gt; g &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;in&lt;/span&gt; [&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL&amp;#39;&lt;/span&gt;]:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 2&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;for&lt;/span&gt; o &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;in&lt;/span&gt; [&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;correct&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;incorrect&amp;#39;&lt;/span&gt;]:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 3&lt;/span&gt;&lt;span&gt;        &lt;span style=&#34;color:#ca9ee6&#34;&gt;if&lt;/span&gt; o &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;correct&amp;#39;&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 4&lt;/span&gt;&lt;span&gt;            eid &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;94&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 5&lt;/span&gt;&lt;span&gt;        &lt;span style=&#34;color:#ca9ee6&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 6&lt;/span&gt;&lt;span&gt;            eid &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;104&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 7&lt;/span&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 8&lt;/span&gt;&lt;span&gt;        &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# copy of the signal to apply the bandpass filter on&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt; 9&lt;/span&gt;&lt;span&gt;        filt_raw &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;_data&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;copy()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;10&lt;/span&gt;&lt;span&gt;        filt_raw&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;load_data()&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;filter(l_freq&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;0.5&lt;/span&gt;, h_freq&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;20&lt;/span&gt;, verbose&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;False&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;11&lt;/span&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;12&lt;/span&gt;&lt;span&gt;        EEG[&lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;_epochs_&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;o&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;Epochs(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;13&lt;/span&gt;&lt;span&gt;            raw&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;filt_raw, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;14&lt;/span&gt;&lt;span&gt;            events&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;EEG[&lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;_events&amp;#39;&lt;/span&gt;], 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;15&lt;/span&gt;&lt;span&gt;            event_id&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;eid, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;16&lt;/span&gt;&lt;span&gt;            tmin&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;2&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;17&lt;/span&gt;&lt;span&gt;            tmax&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;2&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;18&lt;/span&gt;&lt;span&gt;            baseline&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ef9f76&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;19&lt;/span&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;20&lt;/span&gt;&lt;span&gt;        &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# drop bad time spans&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;21&lt;/span&gt;&lt;span&gt;        EEG[&lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;_epochs_&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;o&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;drop_bad()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;22&lt;/span&gt;&lt;span&gt;        &lt;span style=&#34;color:#737994;font-style:italic&#34;&gt;# get ERP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;23&lt;/span&gt;&lt;span&gt;        EEG[&lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;_erp_&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;o&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; EEG[&lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;_epochs_&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;o&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;average()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;24&lt;/span&gt;&lt;span&gt;        EEG[&lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;_erp_&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;o&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;comment &lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e78284&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;g&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;{&lt;/span&gt;o&lt;span style=&#34;color:#a6d189&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Total trials for each case:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CTL &amp;amp; correct: 72 total events, 7 bad events, final 55 events.&lt;/li&gt;
+&lt;li&gt;CTL &amp;amp; incorrect: 48 total events, 3 bad events, final 45 events.&lt;/li&gt;
+&lt;li&gt;DEP &amp;amp; correct: 169 total events, 5 bad events, final 164 events.&lt;/li&gt;
+&lt;li&gt;DEP &amp;amp; incorrect: 125 total events, 4 bad events, final 121 events.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;resulted-erps&#34;&gt;Resulted ERPs&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_erp_correct&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_joint(times&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.24&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.34&lt;/span&gt;], title&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL &amp;amp; Correct&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_49_1_hu10660529570727657776.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_49_1_hu3918348981004241198.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_49_1_hu4211621436630114998.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_49_1_hu10660529570727657776.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;417&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_erp_incorrect&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_joint(times&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.27&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.38&lt;/span&gt;], title&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL &amp;amp; Incorrect&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_50_1_hu5251106563751892566.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_50_1_hu2905613015811647331.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_50_1_hu6018348923000025614.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_50_1_hu5251106563751892566.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;413&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_erp_correct&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_joint(times&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.23&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.34&lt;/span&gt;], title&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP &amp;amp; Correct&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_51_1_hu2574417189315256138.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_51_1_hu17663927456534667312.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_51_1_hu5304066290237097327.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_51_1_hu2574417189315256138.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;413&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_erp_incorrect&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_joint(times&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#ef9f76&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.27&lt;/span&gt;, &lt;span style=&#34;color:#ef9f76&#34;&gt;0.38&lt;/span&gt;], title&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP &amp;amp; Incorrect&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;png&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/output_52_1_hu14783773799947217034.webp 400w,
+               /tutorial/eeg-preprocessing-erp/output_52_1_hu10511431020175138122.webp 760w,
+               /tutorial/eeg-preprocessing-erp/output_52_1_hu9185057364870390641.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/output_52_1_hu14783773799947217034.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;413&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;In most of the cases, picks in poststimulus response were caused by the increased activity around the Fz-FCz-Cz areas. Below is the comparing ERP signal at the FCz channel for CTL and DEP group for each outcome.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;viz&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_compare_evokeds(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;    [EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_erp_correct&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;copy()&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;pick_channels([&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;FCz&amp;#39;&lt;/span&gt;]), 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;     EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_erp_correct&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;copy()&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;pick_channels([&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;FCz&amp;#39;&lt;/span&gt;])], 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;    title&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;Correct at ch. FCz&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/erp_corr_fcz_hu12972282875895517379.webp 400w,
+               /tutorial/eeg-preprocessing-erp/erp_corr_fcz_hu12443852528490232547.webp 760w,
+               /tutorial/eeg-preprocessing-erp/erp_corr_fcz_hu5936127041250575076.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/erp_corr_fcz_hu12972282875895517379.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;570&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;1&lt;/span&gt;&lt;span&gt;mne&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;viz&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;plot_compare_evokeds(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;2&lt;/span&gt;&lt;span&gt;    [EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;CTL_erp_incorrect&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;copy()&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;pick_channels([&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;FCz&amp;#39;&lt;/span&gt;]), 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;3&lt;/span&gt;&lt;span&gt;     EEG[&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;DEP_erp_incorrect&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;copy()&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;.&lt;/span&gt;pick_channels([&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;FCz&amp;#39;&lt;/span&gt;])], 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7&#34;&gt;4&lt;/span&gt;&lt;span&gt;    title&lt;span style=&#34;color:#99d1db;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#39;Incorrect at ch. FCz&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;flex justify-center	&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /tutorial/eeg-preprocessing-erp/erp_incorr_fcz_hu5075965528815556437.webp 400w,
+               /tutorial/eeg-preprocessing-erp/erp_incorr_fcz_hu14592683874270501958.webp 760w,
+               /tutorial/eeg-preprocessing-erp/erp_incorr_fcz_hu5462674042292279599.webp 1200w&#34;
+               src=&#34;http://localhost:4321/tutorial/eeg-preprocessing-erp/erp_incorr_fcz_hu5075965528815556437.webp&#34;
+               width=&#34;760&#34;
+               height=&#34;570&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;The plots looked somewhat similar to the plot in the original paper (Figure 3). Prominent N2-P3 peaks for incorrect trials and two peaks at approximately the same level for correct trials.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;This was it for now. I learned how to perform first preprocessing steps on EEG data (referencing, eye blinks removal, baseline correction, epochs splitting). Some parts like detecting bad channels/trials and separating noise from the signal using ICA need more experience and practice from me.&lt;/p&gt;
+&lt;p&gt;In the next part I am going to perform a time-frequency analysis for both subjects.&lt;/p&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;
+&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Ruslan Klymentiev (2019, January 8). &lt;em&gt;EEG Data Analysis.&lt;/em&gt; Kaggle. 
+&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;
+&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;Cavanagh, J. F., Bismark, A. W., Frank, M. J., &amp;amp; Allen, J. J. B. (2019). Multiple Dissociations Between Comorbid Depression and Anxiety on Reward and Punishment Processing: Evidence From Computationally Informed EEG. &lt;em&gt;Computational Psychiatry&lt;/em&gt;, 3, 1–17. DOI: 
+&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;
+&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
+&lt;p&gt;
+&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
+&lt;p&gt;
+&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
+&lt;p&gt;
+&amp;#160;&lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

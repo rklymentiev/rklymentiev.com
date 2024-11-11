@@ -1,0 +1,3310 @@
+<!doctype html>
+<!-- This site was created with Hugo Blox. https://hugoblox.com -->
+<!-- Last Published: November 11, 2024 --><html lang="en-us" dir="ltr"
+      data-wc-theme-default="system">
+  
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="generator" content="Hugo Blox Builder 0.2.0" />
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Ruslan Klymentiev" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Overview of how classification and regression trees work behind the scenes using the binary classification example." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="http://localhost:4321/tutorial/how-do-cart-models-work/" />
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="/css/themes/emerald.min.css" />
+  
+
+  
+  
+    
+    <link href="/dist/wc.min.css" rel="stylesheet" />
+  
+
+  
+  
+  
+
+  
+    
+    <link href="/css/custom.min.15f6624443884362110ae1c63cfb1412c6924eea6b2373b4f708c498d4bf0f66.css" rel="stylesheet" />
+  
+
+  <script>
+     
+    window.hbb = {
+       defaultTheme: document.documentElement.dataset.wcThemeDefault,
+       setDarkTheme: () => {
+        document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = "dark";
+      },
+       setLightTheme: () => {
+        document.documentElement.classList.remove("dark");
+        document.documentElement.style.colorScheme = "light";
+      }
+    }
+
+    console.debug(`Default Hugo Blox Builder theme is ${window.hbb.defaultTheme}`);
+
+    if ("wc-color-theme" in localStorage) {
+      localStorage.getItem("wc-color-theme") === "dark" ? window.hbb.setDarkTheme() : window.hbb.setLightTheme();
+    } else {
+      window.hbb.defaultTheme === "dark" ? window.hbb.setDarkTheme() : window.hbb.setLightTheme();
+      if (window.hbb.defaultTheme === "system") {
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? window.hbb.setDarkTheme() : window.hbb.setLightTheme();
+      }
+    }
+  </script>
+
+  <script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      
+      let checkboxes = document.querySelectorAll('li input[type=\'checkbox\'][disabled]');
+      checkboxes.forEach(e => {
+        e.parentElement.parentElement.classList.add('task-list');
+      });
+
+      
+      const liNodes = document.querySelectorAll('.task-list li');
+      liNodes.forEach(nodes => {
+        let textNodes = Array.from(nodes.childNodes).filter(node => node.nodeType === 3 && node.textContent.trim().length > 1);
+        if (textNodes.length > 0) {
+          const span = document.createElement('label');
+          textNodes[0].after(span);  
+          span.appendChild(nodes.querySelector('input[type=\'checkbox\']'));
+          span.appendChild(textNodes[0]);
+        }
+      });
+    });
+  </script>
+
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  <link rel="icon" type="image/png" href="/media/icon_hu18111939623654241174.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hu8230923372197676942.png" />
+
+  <link rel="canonical" href="http://localhost:4321/tutorial/how-do-cart-models-work/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary_large_image" />
+  
+  <meta property="og:site_name" content="RK" />
+  <meta property="og:url" content="http://localhost:4321/tutorial/how-do-cart-models-work/" />
+  <meta property="og:title" content="How do CART models work | RK" />
+  <meta property="og:description" content="Overview of how classification and regression trees work behind the scenes using the binary classification example." /><meta property="og:image" content="http://localhost:4321/tutorial/how-do-cart-models-work/featured.jpg" />
+    <meta property="twitter:image" content="http://localhost:4321/tutorial/how-do-cart-models-work/featured.jpg" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2020-04-22T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2020-04-22T00:00:00&#43;00:00">
+  
+
+  
+
+
+
+  
+
+
+  <title>How do CART models work | RK</title>
+
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <style>
+    @font-face {
+      font-family: 'Inter var';
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url(/dist/font/Inter.var.woff2) format(woff2);
+    }
+  </style>
+
+  
+
+  
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+  
+  
+  
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="/dist/pagefind/pagefind-ui.be766eb419317a14ec769d216e9779bfe8f3737c80e780f4ba0dafb57a41a482.css" integrity="sha256-vnZutBkxehTsdp0hbpd5v&#43;jzc3yA54D0ug2vtXpBpII=" />
+
+
+<script src="/dist/pagefind/pagefind-ui.87693d7c6f2b3b347ce359d0ede762c033419f0a32b22ce508c335a81d841f1b.js" integrity="sha256-h2k9fG8rOzR841nQ7ediwDNBnwoysizlCMM1qB2EHxs="></script>
+
+
+<script>window.hbb.pagefind = {"baseUrl":"/"};</script>
+
+<style>
+  html.dark {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+  }
+</style>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    new PagefindUI({
+      element: "#search",
+      showSubResults: true,
+      baseUrl: window.hbb.pagefind.baseUrl,
+      bundlePath: window.hbb.pagefind.baseUrl + "pagefind/",
+    });
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    let element = document.getElementById('search');
+    let trigger = document.getElementById('search_toggle');
+
+    if (trigger) {
+      trigger.addEventListener('click', () => {
+        element.classList.toggle('hidden');
+        element.querySelector("input").value = ""
+        element.querySelector("input").focus()
+
+        if (!element.classList.contains('hidden')) {
+          let clear_trigger = document.querySelector('.pagefind-ui__search-clear');
+
+          if (clear_trigger && !clear_trigger.hasAttribute('listenerOnClick')) {
+            clear_trigger.setAttribute('listenerOnClick', 'true');
+
+            clear_trigger.addEventListener('click', () => {
+              element.classList.toggle('hidden');
+            });
+          }
+        }
+
+      });
+    }
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link type="text/css" rel="stylesheet" href="/dist/lib/katex/katex.min.505d5f829022bb7b4f24dfee0aa1141cd7bba67afe411d1240335f820960b5c3.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr&#43;QR0SQDNfgglgtcM=" />
+  
+  
+  <script defer src="/dist/lib/katex/katex.min.dc84b296ec3e884de093158f760fd9d45b6c7abe58b5381557f4e138f46a58ae.js" integrity="sha256-3ISyluw&#43;iE3gkxWPdg/Z1Ftser5YtTgVV/ThOPRqWK4="></script>
+  
+  
+  
+  
+  <script defer src="/js/katex-renderer.6579ec9683211cfb952064aedf3a3baea5eeb17a061775b32b70917474637c80.js" integrity="sha256-ZXnsloMhHPuVIGSu3zo7rqXusXoGF3WzK3CRdHRjfIA="></script>
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  <script
+    defer
+    src="/js/hugo-blox-en.min.js"
+    integrity=""
+  ></script>
+
+  
+  
+
+
+
+
+
+
+
+
+  
+    
+      
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+      
+    
+  
+
+
+
+
+</head>
+
+  <body class="dark:bg-hb-dark dark:text-white page-wrapper" id="top">
+    <div id="page-bg"></div>
+    <div class="page-header sticky top-0 z-30">
+      
+      
+      
+        
+        
+        
+          <header id="site-header" class="header">
+  <nav class="navbar px-3 flex justify-left">
+    <div class="order-0 h-100">
+      
+      <a class="navbar-brand" href="/" title="RK">
+        RK
+      </a>
+    </div>
+    
+    <input id="nav-toggle" type="checkbox" class="hidden" />
+    <label
+      for="nav-toggle"
+      class="order-3 cursor-pointer flex items-center lg:hidden text-dark dark:text-white lg:order-1">
+      <svg id="show-button" class="h-6 fill-current block" viewBox="0 0 20 20">
+        <title>Open Menu</title>
+        <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+      </svg>
+      <svg id="hide-button" class="h-6 fill-current hidden" viewBox="0 0 20 20">
+        <title>Close Menu</title>
+        <polygon
+          points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+          transform="rotate(45 10 10)"></polygon>
+      </svg>
+    </label>
+    
+
+    
+    
+    <ul
+      id="nav-menu"
+      class="navbar-nav order-3 hidden lg:flex w-full pb-6 lg:order-1 lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8 justify-left
+      ">
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/"
+        >Home</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/publication/"
+        >Publications</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/tutorial/"
+        >Tutorials</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/post/"
+        >Blog</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/event/"
+        >Talks</a
+        >
+      </li>
+      
+      
+      
+    </ul>
+
+    <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+
+      
+      
+      
+      <button
+        aria-label="search"
+        class="text-black hover:text-primary  inline-block px-3 text-xl dark:text-white"
+        id="search_toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512" fill="currentColor"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+      </button>
+      
+
+      
+      
+      <div class="px-3 text-black hover:text-primary-700 dark:text-white dark:hover:text-primary-300
+            [&.active]:font-bold [&.active]:text-black/90 dark:[&.active]:text-white">
+        <button class="theme-toggle mt-1" accesskey="t" title="appearance">
+          <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" class="dark:hidden">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" class=" dark:block [&:not(dark)]:hidden">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+      
+
+      
+      
+
+      
+      
+    </div>
+  </nav>
+</header>
+
+
+<div id="search" class="hidden p-3"></div>
+
+
+        
+      
+    </div>
+    <div class="page-body  my-10">
+      
+
+
+
+
+
+<div class="mx-auto flex max-w-screen-xl">
+  
+
+
+
+<aside class="hb-sidebar-container max-lg:[transform:translate3d(0,-100%,0)] lg:hidden xl:block">
+  
+  <div class="px-4 pt-4 lg:hidden">
+    
+    
+  </div>
+  <div class="hb-scrollbar lg:h-[calc(100vh-var(--navbar-height))]">
+    <ul class="flex flex-col gap-1 lg:hidden">
+      
+      
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/"
+    
+  >Recent Talks
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/presentation_cben2024/"
+    
+  >The Effect of Homophily on Co-Offending Outcomes
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/presentation_ssc2024/"
+    
+  >The Effect of Homophily on Co-Offending Outcomes
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/introduction-to-python/"
+    
+  >Introduction to Python
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/frequentist-vs-bayesian/"
+    
+  >Who would you rather date, Bayes Factor or p-value? (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/how-to-start-career-in-data/"
+    
+  >How to start career in Data (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/null-hypothesis-significance-testing/"
+    
+  >Statistical Hypothesis Testing (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/data-visualization/"
+    
+  >Packages for Data Visualization (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/numpy-pandas-sympy/"
+    
+  >Intro to NumPy, pandas &amp; SymPy (in Russian)
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/publication/"
+    
+  >Publications
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/publication/journal-article/"
+    
+  >Inhibiting presynaptic calcium channel motility in the auditory cortex suppresses synchronized input processing
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/"
+    
+  >Blog
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/how-i-met-my-partner-in-crime/"
+    
+  >How I Met My Partner In Crime
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/how-do-criminals-make-decisions/"
+    
+  >How Do Criminals Make Decisions?
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/psychopathy/"
+    
+  >Psychopaths: the Good, the Bad, and the Crazy
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/"
+    
+  >Projects
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/pandas/"
+    
+  >Pandas
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/pytorch/"
+    
+  >PyTorch
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/scikit/"
+    
+  >scikit-learn
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/experience/"
+    
+  >Experience
+    </a></li>
+        <li class="open"><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/"
+    
+  >Teaching
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/python_for_ds/"
+    
+  >Python for Data Science (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/computational-models-of-behavior-pt2/"
+    
+  >Computational Models of Behavior, part 2
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/computational-models-of-behavior-pt1/"
+    
+  >Computational Models of Behavior, part 1
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/pyforneuro/"
+    
+  >Python for Neuroscience
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/bandit_cats/"
+    
+  >Bandit Cats and Exploration-Exploitation Trade-Off
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/eeg-preprocessing-erp/"
+    
+  >Intro to EEG Data Analysis
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/frequentist-vs-bayesian/"
+    
+  >Who would you rather date, Bayes Factor or p-value?
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/null-hypothesis-significance-testing-part-3/"
+    
+  >Null Hypothesis Significance Testing, part 3
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/null-hypothesis-significance-testing-part-2/"
+    
+  >Null Hypothesis Significance Testing, part 2
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/roc-curve/"
+    
+  >ROC Curve Simulation
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/null-hypothesis-significance-testing-part-1/"
+    
+  >Null Hypothesis Significance Testing, part 1
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/norm-binom/"
+    
+  >Normal Approximation to Binomial Distribution
+    </a>
+              
+            </li><li class="flex flex-col open"><a
+    class="hb-sidebar-custom-link
+      sidebar-active-item bg-primary-100 font-semibold text-primary-800 dark:bg-primary-300 dark:text-primary-900"
+    href="/tutorial/how-do-cart-models-work/"
+    
+  >How do CART models work
+    </a>
+  
+    <ul class="hb-sidebar-mobile-toc"><li>
+              <a
+                href="#what-is-cart"
+                class="hb-docs-link"
+              >What is CART?</a>
+            </li>
+          <li>
+              <a
+                href="#information-gain-and-entropy"
+                class="hb-docs-link"
+              >Information Gain and Entropy</a>
+            </li>
+          <li>
+              <a
+                href="#growing-a-tree"
+                class="hb-docs-link"
+              >Growing a Tree</a>
+            </li>
+          <li>
+              <a
+                href="#let-computer-do-the-math"
+                class="hb-docs-link"
+              >Let Computer Do the Math</a>
+            </li>
+          <li>
+              <a
+                href="#numerical-explanatory-variables"
+                class="hb-docs-link"
+              >Numerical Explanatory Variables</a>
+            </li>
+          <li>
+              <a
+                href="#other-splitting-metrics"
+                class="hb-docs-link"
+              >Other Splitting Metrics</a>
+            </li>
+          <li>
+              <a
+                href="#summary"
+                class="hb-docs-link"
+              >Summary</a>
+            </li>
+          <li>
+              <a
+                href="#references"
+                class="hb-docs-link"
+              >References</a>
+            </li>
+          </ul>
+  
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/bayes_disease/"
+    
+  >Bayes Rule and Disease Testing
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/mab-problem/"
+    
+  >How to Deal with Multi-Armed Bandit Problem
+    </a>
+              
+            </li></ul>
+      </div></li>
+    </ul>
+
+    <div class="max-xl:hidden h-0 w-64 shrink-0"></div></div>
+
+</aside>
+  
+
+<nav class="hb-toc order-last hidden w-64 shrink-0 xl:block print:hidden px-4" aria-label="table of contents">
+  
+
+
+
+
+
+
+
+
+
+
+
+  <div class="hb-scrollbar text-sm [hyphens:auto] sticky top-16 overflow-y-auto pr-4 pt-6 max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] -mr-4 rtl:-ml-4"><p class="mb-4 font-semibold tracking-tight">On this page</p><ul>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#what-is-cart">What is CART?</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#information-gain-and-entropy">Information Gain and Entropy</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#growing-a-tree">Growing a Tree</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#root-node">Root Node</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-8 rtl:pr-8 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#gender">Gender</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-8 rtl:pr-8 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#bmi">BMI</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-8 rtl:pr-8 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#blood-pressure">Blood Pressure</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-8 rtl:pr-8 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#node-summary">Node Summary</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#bpnormal-node">BP:normal Node</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#bpnot-normal-node">BP:not normal Node</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-8 rtl:pr-8 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#gender-1">Gender</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-8 rtl:pr-8 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#bmi-1">BMI</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-8 rtl:pr-8 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#node-summary-1">Node Summary</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#genderm-node">Gender:M Node</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#genderf-node">Gender:F Node</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#final-tree">Final Tree</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#prediction">Prediction</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#let-computer-do-the-math">Let Computer Do the Math</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#r">R</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#python">Python</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#numerical-explanatory-variables">Numerical Explanatory Variables</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#other-splitting-metrics">Other Splitting Metrics</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#gini-impurity">Gini Impurity</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#variance-reduction">Variance Reduction</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#summary">Summary</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#references">References</a>
+      </li></ul>
+
+  
+  
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+  </nav>
+
+
+  <article class="w-full break-words flex min-h-[calc(100vh-var(--navbar-height))] min-w-0 justify-center pb-8 pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+    <main class="w-full min-w-0 max-w-6xl px-6 pt-4 md:px-12">
+
+      
+
+      <h1 class="mt-2 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">How do CART models work</h1>
+
+      <div class="mt-4 mb-16">
+      <div class="text-gray-500 dark:text-gray-300 text-sm flex items-center flex-wrap gap-y-2"><span class="mr-1">Apr 22, 2020</span><span class="mx-1">·</span>
+        
+          
+          
+          <div class="group inline-flex items-center text-current gap-x-1.5 mx-1">
+            
+            
+            <img src="/author/ruslan-klymentiev/avatar_hu16379050607528300314.webp" alt="Ruslan Klymentiev" class="inline-block h-4 w-4 rounded-full border border-current" loading="lazy" />
+            
+            <div >Ruslan Klymentiev</div>
+          </div>
+          
+        
+
+        
+        <span class="mx-1">·</span>
+        <span class="mx-1">
+          16 min read
+        </span>
+        
+        </div>
+
+        <div class="mt-3">
+          
+
+
+
+
+
+        </div>
+      </div>
+
+
+
+      
+      
+      
+      
+      
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="article-header article-container featured-image-wrapper mt-4 mb-16" style="max-width: 720px; max-height: 405px;">
+        <div style="position: relative">
+          <img src="/tutorial/how-do-cart-models-work/featured_hu1163070195170176589.webp" width="720" height="405" alt="" class="featured-image">
+          <span class="article-header-caption">Image credit: <a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@elliottengelmann?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Elliott Engelmann"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Elliott Engelmann</span></a></span>
+        </div>
+      </div>
+      
+
+      
+      
+
+      <div class="prose prose-slate lg:prose-xl dark:prose-invert">
+        <div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#737994;font-style:italic"># r import</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span><span style="color:#8caaee">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span><span style="color:#8caaee">library</span>(knitr)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span><span style="color:#8caaee">library</span>(kableExtra)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span><span style="color:#8caaee">library</span>(Rgraphviz)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span><span style="color:#8caaee">library</span>(rpart)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">7</span><span><span style="color:#8caaee">library</span>(rattle)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">8</span><span><span style="color:#8caaee">library</span>(reticulate)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#737994;font-style:italic"># python import</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">pandas</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">pd</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span><span style="color:#81c8be">from</span> <span style="color:#ef9f76">sklearn</span> <span style="color:#81c8be">import</span> tree
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">matplotlib.pyplot</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">plt</span>
+</span></span></code></pre></div><h2 id="what-is-cart">What is CART?</h2>
+<p><strong>C</strong>lassification <strong>a</strong>nd <strong>R</strong>egression <strong>T</strong>rees (or <strong>CART</strong> for short) is a type of supervised machine learning algorithm<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> that is mostly used in classification problems<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>, but can be applied for regression problems<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> as well. It can handle both categorical and numerical input variables.</p>
+<p>In this tutorial, we are going to go step-by-step and build a tree for the <strong>classification</strong> problem. A way to solve the regression problem will be discussed at the end.</p>
+<p>Imagine that we have medical data about patients and we have two drugs (Drug A and Drug B) that work differently for each patient based on their health metrics. We have such data for 15 patients. Now, the 16th patient comes in and we want to assign a drug to him based on this information. You can load the sample data set <a href="DecisionTree_SampleData.csv">here</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>patients_df <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">read_csv</span>(<span style="color:#a6d189">&#34;DecisionTree_SampleData.csv&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span><span style="color:#8caaee">kable</span>(patients_df, format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;markdown&#34;</span>, caption <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;&lt;b&gt;Patients Data&lt;/b&gt;&#34;</span>)
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Patient ID</th>
+          <th style="text-align: left">Gender</th>
+          <th style="text-align: left">BMI</th>
+          <th style="text-align: left">BP</th>
+          <th style="text-align: left">Drug</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">p01</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p02</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p03</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p04</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p05</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p06</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p07</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p08</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p09</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p10</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p11</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p12</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p13</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p14</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p15</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p16</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">???</td>
+      </tr>
+  </tbody>
+</table>
+<p><span id="tab:unnamed-chunk-4"></span>Table 1: <b>Patients Data</b></p>
+<p>Our decision tree is going to look something like this:</p>
+<img src="/tutorial/how-do-cart-models-work/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<p>In case you are wondering why is it called “a tree”, you have to look at it upside down:</p>
+<center>
+<img src="trees.jpg"></img>
+</center>
+<p>Imagine that all our data is located at the <strong>root node</strong> of the tree. We want to split the data by most significant features (that will create new <strong>decision nodes</strong>) until we reach the <strong>leaf nodes</strong> with the most homogeneous target possible (ideally just one class is present in each leaf node).</p>
+<p>The question is how do we split the data at each node?</p>
+<h2 id="information-gain-and-entropy">Information Gain and Entropy</h2>
+<p>The main metrics to use for dealing with classification problems when building a tree are Information Gain (IG) and Gini impurity. We are going to use IG for this example, however, Gini impurity will be also discussed at the end.</p>
+<p>IG is based on the concept of entropy<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> and information content from information theory<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>. First of all, let’s build an intuition behind the entropy. Simply saying, entropy is the measure of chaos or uncertainty in the data.</p>
+<p>Imagine that I asked you to play the following simple game: I have two coins, one coin is unfair $\left( P(\text{Heads}) = \frac{4}{5} \right)$, the other one is fair $\left( P(\text{Heads}) = \frac{1}{2} \right)$. Your task is to pick a coin, make a prediction of an outcome (either Heads or Tails) and flip it. If your prediction is correct, I will give you $1. Which coin would you choose?</p>
+<p>Well, I hope that you would choose the unfair coin. In this case, you are <em>more certain</em> about the outcome of the coin flip (on average it will come up Heads in $80\%$ of the time). For the fair coin, you have the highest level of uncertainty, meaning that Heads and Tails can occur equally likely. Probability mass functions for both coins look as:</p>
+$$p_{\text{unfair}} =     \begin{cases}       \frac{4}{5} & \text{Heads}\\       \frac{1}{5} & \text{Tails}\\     \end{cases}$$$$p_{\text{fair}} =     \begin{cases}       \frac{1}{2} & \text{Heads}\\       \frac{1}{2} & \text{Tails}\\     \end{cases}$$<p>We can calculate the entropy using the formula:</p>
+$$H(X) = - \sum_{i=1}^{n} p(x_i) \cdot log_2 \big( p(x_i) \big)$$<ul>
+<li>$n$ is the number of all possible outcomes for random variable $X$;</li>
+<li>$log_2$ is the logarithm with base 2 ($log_2 2 = 1$, $log_2 4 = 2$, etc).</li>
+</ul>
+<p>Entropy for the unfair coin:</p>
+$$H(\text{unfair}) = - \left( \frac{4}{5} \cdot log_2 \frac{4}{5} + \frac{1}{5} \cdot log_2 \frac{1}{5} \right) \\ \approx 0.72$$<p>
+Entropy for the fair coin:</p>
+$$H(\text{fair}) = - \left( \frac{1}{2} \cdot log_2 \frac{1}{2} + \frac{1}{2} \cdot log_2 \frac{1}{2} \right) \\ = 1$$<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span>entropy <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#ca9ee6">function</span>(p) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>  <span style="color:#ca9ee6">return</span>(<span style="color:#99d1db;font-weight:bold">-</span><span style="color:#8caaee">sum</span>(p<span style="color:#99d1db;font-weight:bold">*</span><span style="color:#8caaee">log</span>(p, base <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#ef9f76">2</span>)))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>p_unfair <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">c</span>(<span style="color:#ef9f76">4</span><span style="color:#99d1db;font-weight:bold">/</span><span style="color:#ef9f76">5</span>, <span style="color:#ef9f76">1</span><span style="color:#99d1db;font-weight:bold">/</span><span style="color:#ef9f76">5</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>p_fair <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">c</span>(<span style="color:#ef9f76">1</span><span style="color:#99d1db;font-weight:bold">/</span><span style="color:#ef9f76">2</span>, <span style="color:#ef9f76">1</span><span style="color:#99d1db;font-weight:bold">/</span><span style="color:#ef9f76">2</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span><span style="color:#8caaee">entropy</span>(p_unfair)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span><span style="color:#737994;font-style:italic">## [1] 0.7219281</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span><span style="color:#8caaee">entropy</span>(p_fair)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span><span style="color:#737994;font-style:italic">## [1] 1</span>
+</span></span></code></pre></div><p>As you can see, entropy for the fair coin is higher, meaning that the level of uncertainty is also higher. Note that entropy cannot be negative and the minimum value is $0$ which means the highest level of certainty. For example, imagine the unfair coin with the probability $P(\text{Heads}) = 1$ and $P(\text{Tails}) = 0$. In such a way you are sure that the coin will come up Heads and entropy is equal to zero.</p>
+<p>Coming back to our decision tree problem we want to split out data into nodes that have reduced the level of uncertainty. Basic algorithm look as follows:</p>
+<ol>
+<li>For each node:</li>
+</ol>
+<ul>
+<li>Choose a feature from the data set.</li>
+<li>Calculate the significance (e.g., IG) of that feature in the splitting of data.</li>
+<li>Repeat for each feature.</li>
+</ul>
+<ol start="2">
+<li>Split the data by the feature that is the most significant splitter (e.g., highest IG).</li>
+<li>Repeat until there are no features left.</li>
+</ol>
+<h2 id="growing-a-tree">Growing a Tree</h2>
+<p>We are going to split the data on training (first 15 patients) and test (16th patient) sets:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>train_df <span style="color:#99d1db;font-weight:bold">&lt;-</span> patients_df[<span style="color:#ef9f76">-16</span>, ]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>test_df <span style="color:#99d1db;font-weight:bold">&lt;-</span> patients_df[16, ]
+</span></span></code></pre></div><h3 id="root-node">Root Node</h3>
+<p>The initial entropy of the distribution of target variable (<code>Drug</code>) is:</p>
+$$H(X) = -\left( p(A) \cdot log_2 p(A) +  p(B) \cdot log_2 p(B) \right)$$<ul>
+<li>$p(A)$ - probability of Drug A. Since there are 7 observations out of 15 with the Drug A, $p(A) = \frac{7}{15} \approx 0.47$</li>
+<li>$p(B)$ - probability of Drug B. Since there are 8 observations out of 15 with the Drug A, $p(B) = \frac{8}{15} \approx 0.53$</li>
+</ul>
+$$H(X) = -\left(0.47 \cdot log_2 0.47 +  0.53 \cdot log_2 0.53 \right) \\ \approx 0.997$$<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>temp_df <span style="color:#99d1db;font-weight:bold">&lt;-</span> train_df <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>  <span style="color:#8caaee">group_by</span>(Drug) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>  <span style="color:#8caaee">summarise</span>(n <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#8caaee">n</span>(),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>            p <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#8caaee">round</span>(<span style="color:#8caaee">n</span>() <span style="color:#99d1db;font-weight:bold">/</span> <span style="color:#8caaee">dim</span>(train_df)[1], <span style="color:#ef9f76">2</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span><span style="color:#8caaee">kable</span>(temp_df, format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;markdown&#34;</span>)
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Drug</th>
+          <th style="text-align: right">n</th>
+          <th style="text-align: right">p</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Drug A</td>
+          <td style="text-align: right">7</td>
+          <td style="text-align: right">0.47</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Drug B</td>
+          <td style="text-align: right">8</td>
+          <td style="text-align: right">0.53</td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#8caaee">entropy</span>(temp_df<span style="color:#99d1db;font-weight:bold">$</span>p)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span><span style="color:#737994;font-style:italic">## [1] 0.9974016</span>
+</span></span></code></pre></div><p>For the next step, we are going to split the data by <em>each</em> feature (<code>Gender</code>, <code>BMI</code>, <code>BP</code>), calculate the entropy, and check which split variant gives the highest IG.</p>
+<h4 id="gender">Gender</h4>
+<p>Let’s start with <code>Gender</code>. We have two labels in the data set: <code>M</code> and <code>F</code>. After splitting the data we end up with the following proportions:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Gender Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">M</td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center">2</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">F</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">6</td>
+      </tr>
+  </tbody>
+</table>
+<p>Meaning that among 15 patients 6 men were assigned to drug A and 2 were assigned to drug B, whereas 1 woman was assigned to drug A and 6 women were assigned to drug B.</p>
+<p>Calculating the entropy for each gender label:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Gender Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+          <th style="text-align: center">P(A)</th>
+          <th style="text-align: center">P(B)</th>
+          <th style="text-align: center">Entropy</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">M</td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">$\frac{6}{8}$</td>
+          <td style="text-align: center">$\frac{2}{8}$</td>
+          <td style="text-align: center">0.811</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">F</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center">$\frac{1}{7}$</td>
+          <td style="text-align: center">$\frac{6}{7}$</td>
+          <td style="text-align: center">0.592</td>
+      </tr>
+  </tbody>
+</table>
+<p>To measure the uncertainty reduction after the split we are going to use IG:</p>
+$$ \scriptsize \text{IG} = \text{Entropy before the split} - \text{Weighted entropy after the split}$$<ul>
+<li>Entropy before the split is the entropy at the root in this case</li>
+<li>Weighted entropy is defined as entropy times the label proportion. For example, weighted entropy for male patients equals to:</li>
+</ul>
+$$ \text{Weighted Entropy (M)} = \frac{\text{\# Male patients}}{\text{\# All patients}} \cdot H(M) $$$$ \text{Weighted Entropy (M)} = \frac{8}{15} \cdot 0.811 = 0.433$$<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Gender Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+          <th style="text-align: center">P(A)</th>
+          <th style="text-align: center">P(B)</th>
+          <th style="text-align: center">Entropy</th>
+          <th style="text-align: center">Weight</th>
+          <th style="text-align: center">Weighted Entropy</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">M</td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">$\frac{6}{8}$</td>
+          <td style="text-align: center">$\frac{2}{8}$</td>
+          <td style="text-align: center">0.811</td>
+          <td style="text-align: center">$\frac{8}{15}$</td>
+          <td style="text-align: center">0.433</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">F</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center">$\frac{1}{7}$</td>
+          <td style="text-align: center">$\frac{6}{7}$</td>
+          <td style="text-align: center">0.592</td>
+          <td style="text-align: center">$\frac{7}{15}$</td>
+          <td style="text-align: center">0.276</td>
+      </tr>
+  </tbody>
+</table>
+<p>Now we can calculate the IG:</p>
+$$\text{IG} = 0.997 - (0.433 + 0.276) = 0.288$$<h4 id="bmi">BMI</h4>
+<p>Repeat the previous steps for the <code>BMI</code> feature. We have two labels: <code>normal</code> and <code>not normal</code>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">BMI Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+          <th style="text-align: center">P(A)</th>
+          <th style="text-align: center">P(B)</th>
+          <th style="text-align: center">Entropy</th>
+          <th style="text-align: center">Weight</th>
+          <th style="text-align: center">Weighted Entropy</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">normal</td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">$\frac{3}{6}$</td>
+          <td style="text-align: center">$\frac{3}{6}$</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">$\frac{6}{15}$</td>
+          <td style="text-align: center">0.4</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">not normal</td>
+          <td style="text-align: center">4</td>
+          <td style="text-align: center">5</td>
+          <td style="text-align: center">$\frac{4}{9}$</td>
+          <td style="text-align: center">$\frac{5}{9}$</td>
+          <td style="text-align: center">0.991</td>
+          <td style="text-align: center">$\frac{9}{15}$</td>
+          <td style="text-align: center">0.595</td>
+      </tr>
+  </tbody>
+</table>
+$$\text{IG} = 0.997 - (0.4 + 0.595) = 0.002$$<h4 id="blood-pressure">Blood Pressure</h4>
+<p>And the same for <code>BP</code> column (labels are the same: <code>normal</code> and <code>not normal</code>):</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">BP Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+          <th style="text-align: center">P(A)</th>
+          <th style="text-align: center">P(B)</th>
+          <th style="text-align: center">Entropy</th>
+          <th style="text-align: center">Weight</th>
+          <th style="text-align: center">Weighted Entropy</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">normal</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center">$\frac{0}{6}$</td>
+          <td style="text-align: center">$\frac{6}{6}$</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">$\frac{6}{15}$</td>
+          <td style="text-align: center">0</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">not normal</td>
+          <td style="text-align: center">7</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">$\frac{7}{9}$</td>
+          <td style="text-align: center">$\frac{2}{9}$</td>
+          <td style="text-align: center">0.764</td>
+          <td style="text-align: center">$\frac{9}{15}$</td>
+          <td style="text-align: center">0.459</td>
+      </tr>
+  </tbody>
+</table>
+$$\text{IG} = 0.997 - (0 + 0.459) = 0.538$$<h4 id="node-summary">Node Summary</h4>
+<p>As we can see <code>BP</code> gives the highest IG, or in other words, if we split the data by this column we will be more certain about the target variable distribution. So our first split will look like this:</p>
+<img src="/tutorial/how-do-cart-models-work/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<h3 id="bpnormal-node"><code>BP:normal</code> Node</h3>
+<p>Continue to grow the tree down from the <code>(normal node)</code>. We filter observations that have <code>normal</code> blood pressure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>train_df <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>  <span style="color:#8caaee">filter</span>(BP <span style="color:#99d1db;font-weight:bold">==</span> <span style="color:#a6d189">&#34;normal&#34;</span>) <span style="color:#99d1db;font-weight:bold">%&gt;%</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>  <span style="color:#8caaee">select</span>(<span style="color:#99d1db;font-weight:bold">-</span>BP) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>  <span style="color:#8caaee">kable</span>(format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;markdown&#34;</span>)
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Patient ID</th>
+          <th style="text-align: left">Gender</th>
+          <th style="text-align: left">BMI</th>
+          <th style="text-align: left">Drug</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">p02</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p06</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p08</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p12</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p13</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p15</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+  </tbody>
+</table>
+<p>As we can see, there is no Drug A for this node and entropy is already 0. This node is going to be last for this branch with the drug B as an output with probability of 1. We can also think about this in a way that for all subjects with normal blood pressure drug B worked best.</p>
+<img src="/tutorial/how-do-cart-models-work/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<h3 id="bpnot-normal-node"><code>BP:not normal</code> Node</h3>
+<p>Filter all the observations that have <code>not normal</code> blood pressure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>train_df <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>  <span style="color:#8caaee">filter</span>(BP <span style="color:#99d1db;font-weight:bold">==</span> <span style="color:#a6d189">&#34;not normal&#34;</span>) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>  <span style="color:#8caaee">select</span>(<span style="color:#99d1db;font-weight:bold">-</span>BP) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>  <span style="color:#8caaee">kable</span>(format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;markdown&#34;</span>)
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Patient ID</th>
+          <th style="text-align: left">Gender</th>
+          <th style="text-align: left">BMI</th>
+          <th style="text-align: left">Drug</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">p01</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p03</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p04</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p05</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p07</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p09</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p10</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p11</td>
+          <td style="text-align: left">F</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p14</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+  </tbody>
+</table>
+<p>Now we consider this set as “initial set”. The entropy of target distribution at this node is $0.764$ (as we have already calculated it). At this node we have two features: <code>Gender</code> and <code>BMI</code>. We perform the same procedure to find the best splitting feature.</p>
+<h4 id="gender-1">Gender</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Gender Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+          <th style="text-align: center">P(A)</th>
+          <th style="text-align: center">P(B)</th>
+          <th style="text-align: center">Entropy</th>
+          <th style="text-align: center">Weight</th>
+          <th style="text-align: center">Weighted Entropy</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">M</td>
+          <td style="text-align: center">6</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">$\frac{6}{7}$</td>
+          <td style="text-align: center">$\frac{1}{7}$</td>
+          <td style="text-align: center">0.592</td>
+          <td style="text-align: center">$\frac{7}{9}$</td>
+          <td style="text-align: center">0.46</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">F</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">$\frac{1}{2}$</td>
+          <td style="text-align: center">$\frac{1}{2}$</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">$\frac{2}{9}$</td>
+          <td style="text-align: center">0.222</td>
+      </tr>
+  </tbody>
+</table>
+$$\text{IG} = 0.764 - (0.46 + 0.222) = 0.082$$<h4 id="bmi-1">BMI</h4>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">BMI Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+          <th style="text-align: center">P(A)</th>
+          <th style="text-align: center">P(B)</th>
+          <th style="text-align: center">Entropy</th>
+          <th style="text-align: center">Weight</th>
+          <th style="text-align: center">Weighted Entropy</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">normal</td>
+          <td style="text-align: center">4</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">$\frac{4}{5}$</td>
+          <td style="text-align: center">$\frac{1}{5}$</td>
+          <td style="text-align: center">0.722</td>
+          <td style="text-align: center">$\frac{5}{9}$</td>
+          <td style="text-align: center">0.401</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">not normal</td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">$\frac{3}{4}$</td>
+          <td style="text-align: center">$\frac{1}{4}$</td>
+          <td style="text-align: center">0.811</td>
+          <td style="text-align: center">$\frac{4}{9}$</td>
+          <td style="text-align: center">0.361</td>
+      </tr>
+  </tbody>
+</table>
+$$\text{IG} = 0.764 - (0.401 + 0.361) = 0.002$$<h4 id="node-summary-1">Node Summary</h4>
+<p><code>Gender</code> gives the highest IG after splitting the data. Now the tree will look like this:</p>
+<img src="/tutorial/how-do-cart-models-work/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<h3 id="genderm-node"><code>Gender:M</code> Node</h3>
+<p>Now we filer the set so that we have only observations with <code>BP:not normal</code> and <code>Gender:M</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>train_df <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>  <span style="color:#8caaee">filter</span>(BP <span style="color:#99d1db;font-weight:bold">==</span> <span style="color:#a6d189">&#34;not normal&#34;</span> <span style="color:#99d1db;font-weight:bold">&amp;</span> Gender <span style="color:#99d1db;font-weight:bold">==</span> <span style="color:#a6d189">&#34;M&#34;</span>) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>  <span style="color:#8caaee">select</span>(<span style="color:#99d1db;font-weight:bold">-</span><span style="color:#8caaee">c</span>(BP, Gender)) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>  <span style="color:#8caaee">kable</span>(format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;markdown&#34;</span>)
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Patient ID</th>
+          <th style="text-align: left">BMI</th>
+          <th style="text-align: left">Drug</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">p01</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p03</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p04</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p05</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p09</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p10</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p14</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+  </tbody>
+</table>
+<p>There is just one feature left <code>BMI</code>. Since we have no more features apart from this one we are going to “grow” last nodes with <code>BMI:normal</code> and <code>BMI:not normal</code> labels:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">BMI Label</th>
+          <th style="text-align: center">Drug A</th>
+          <th style="text-align: center">Drug B</th>
+          <th style="text-align: center">P(A)</th>
+          <th style="text-align: center">P(B)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">normal</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">$\frac{2}{3}$</td>
+          <td style="text-align: center">$\frac{1}{3}$</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">not normal</td>
+          <td style="text-align: center">4</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">$\frac{4}{4}$</td>
+          <td style="text-align: center">$\frac{0}{4}$</td>
+      </tr>
+  </tbody>
+</table>
+<p>For the <code>BMI:normal</code> node the predicted class is going to be Drug A, since its probability is higher. The same applies to <code>BMI:not normal</code> node.</p>
+<img src="/tutorial/how-do-cart-models-work/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<h3 id="genderf-node"><code>Gender:F</code> Node</h3>
+<p>Now we filer the set so that we have only observations with <code>BP:not normal</code> and <code>Gender:F</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>train_df <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>  <span style="color:#8caaee">filter</span>(BP <span style="color:#99d1db;font-weight:bold">==</span> <span style="color:#a6d189">&#34;not normal&#34;</span> <span style="color:#99d1db;font-weight:bold">&amp;</span> Gender <span style="color:#99d1db;font-weight:bold">==</span> <span style="color:#a6d189">&#34;F&#34;</span>) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>  <span style="color:#8caaee">select</span>(<span style="color:#99d1db;font-weight:bold">-</span><span style="color:#8caaee">c</span>(BP, Gender)) <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>  <span style="color:#8caaee">kable</span>(format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;markdown&#34;</span>) 
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Patient ID</th>
+          <th style="text-align: left">BMI</th>
+          <th style="text-align: left">Drug</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">p07</td>
+          <td style="text-align: left">normal</td>
+          <td style="text-align: left">Drug A</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">p11</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">Drug B</td>
+      </tr>
+  </tbody>
+</table>
+<p>We are left with just 1 observation in each node. Predicted class for node <code>BMI:normal</code> is going to be Drug A ($P = 1.$). Predicted class for node <code>BMI:not normal</code> is going to be Drug B ($P = 1.$).</p>
+<h3 id="final-tree">Final Tree</h3>
+<p>Given all the calculations we visualize the final tree:</p>
+<details>
+<summary>
+Code
+</summary>
+<p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span>node0 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;Blood Pressure&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>node1 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;Drug B (P=1.)&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>node2 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;Gender&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>node3 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;BMI&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>node4 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;BMI &#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>node5 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;Drug A (P=0.66)&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>node6 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;Drug A (P=1.)&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>node7 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;Drug A (P=1.) &#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>node8 <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#a6d189">&#34;Drug B (P=1.) &#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>nodeNames <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">c</span>(node0, node1, node2, node3, 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>               node4, node5, node6, node7, node8)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>        
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span><span style="color:#737994;font-style:italic"># create new graph object</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">new</span>(<span style="color:#a6d189">&#34;graphNEL&#34;</span>, nodes<span style="color:#99d1db;font-weight:bold">=</span>nodeNames, edgemode<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;directed&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node0, node1, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node0, node2, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node2, node3, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node2, node4, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">19</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node3, node5, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">20</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node3, node6, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">21</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node4, node7, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">22</span><span>rEG <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">addEdge</span>(node4, node8, rEG)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">23</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">24</span><span><span style="color:#8caaee">plot</span>(rEG, attrs <span style="color:#99d1db;font-weight:bold">=</span> at)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">25</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">150</span>, <span style="color:#ef9f76">300</span>, <span style="color:#a6d189">&#34;normal&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">26</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">260</span>, <span style="color:#ef9f76">300</span>, <span style="color:#a6d189">&#34;not normal&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">27</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">200</span>, <span style="color:#ef9f76">190</span>, <span style="color:#a6d189">&#34;male&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">28</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">310</span>, <span style="color:#ef9f76">190</span>, <span style="color:#a6d189">&#34;female&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">29</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">100</span>, <span style="color:#ef9f76">80</span>, <span style="color:#a6d189">&#34;normal&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">30</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">230</span>, <span style="color:#ef9f76">80</span>, <span style="color:#a6d189">&#34;not normal&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">31</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">290</span>, <span style="color:#ef9f76">80</span>, <span style="color:#a6d189">&#34;normal&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">32</span><span><span style="color:#8caaee">text</span>(<span style="color:#ef9f76">420</span>, <span style="color:#ef9f76">80</span>, <span style="color:#a6d189">&#34;not normal&#34;</span>, col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>)
+</span></span></code></pre></div></p>
+</details>
+<img src="/tutorial/how-do-cart-models-work/index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+<h3 id="prediction">Prediction</h3>
+<p>Let’s look at the 16th patient:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>test_df <span style="color:#99d1db;font-weight:bold">%&gt;%</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>  <span style="color:#8caaee">kable</span>(format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;markdown&#34;</span>) 
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Patient ID</th>
+          <th style="text-align: left">Gender</th>
+          <th style="text-align: left">BMI</th>
+          <th style="text-align: left">BP</th>
+          <th style="text-align: left">Drug</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">p16</td>
+          <td style="text-align: left">M</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">not normal</td>
+          <td style="text-align: left">???</td>
+      </tr>
+  </tbody>
+</table>
+<p>To make a prediction we just need to move top to bottom by the branches of our tree.</p>
+<ol>
+<li>Check <code>BP</code>. Since <code>BP:not normal</code>, go to the right branch.</li>
+<li><code>Gender:M</code> =&gt; left branch.</li>
+<li><code>BMI:not normal</code> =&gt; right branch.</li>
+</ol>
+<p>The predicted value is going to be <code>Drug A</code> with a probability of $1.0$.</p>
+<h2 id="let-computer-do-the-math">Let Computer Do the Math</h2>
+<h3 id="r">R</h3>
+<p>We can build a decision tree using <code>rpart</code> function (from <code>rpart</code> package) and plot it with the help of <code>fancyRpartPlot</code> function (from <code>rattle</code> package). Note, that R doesn’t require the categorical variables encoding since it can handle them by itself.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span>model_dt <span style="color:#99d1db;font-weight:bold">&lt;-</span> <span style="color:#8caaee">rpart</span>(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>  formula <span style="color:#99d1db;font-weight:bold">=</span> Drug <span style="color:#99d1db;font-weight:bold">~</span> Gender <span style="color:#99d1db;font-weight:bold">+</span> BMI <span style="color:#99d1db;font-weight:bold">+</span> BP,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>  data <span style="color:#99d1db;font-weight:bold">=</span> train_df,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>  method <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;class&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>  minsplit <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#ef9f76">1</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>  minbucket <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#ef9f76">1</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>  parms <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#8caaee">list</span>(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>    split <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;information&#34;</span> <span style="color:#737994;font-style:italic"># for Gini impurity change to split = &#34;gini&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>  )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span><span style="color:#737994;font-style:italic">#plot decision tree model</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span><span style="color:#8caaee">fancyRpartPlot</span>(model_dt, caption <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#ef9f76">NULL</span>, type<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">4</span>)
+</span></span></code></pre></div><img src="/tutorial/how-do-cart-models-work/index_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<p>Get a prediction for the 16th patient:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># return the class</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span><span style="color:#8caaee">predict</span>(object <span style="color:#99d1db;font-weight:bold">=</span> model_dt, newdata <span style="color:#99d1db;font-weight:bold">=</span> test_df, type <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;class&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span><span style="color:#737994;font-style:italic">##      1 </span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span><span style="color:#737994;font-style:italic">## Drug A </span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span><span style="color:#737994;font-style:italic">## Levels: Drug A Drug B</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span><span style="color:#737994;font-style:italic"># return the probability of each class</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span><span style="color:#8caaee">predict</span>(object <span style="color:#99d1db;font-weight:bold">=</span> model_dt, newdata <span style="color:#99d1db;font-weight:bold">=</span> test_df, type <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#34;prob&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span><span style="color:#737994;font-style:italic">##      Drug A    Drug B</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span><span style="color:#737994;font-style:italic">## 1 0.8571429 0.1428571</span>
+</span></span></code></pre></div><p>Note that since R didn’t split <code>Gender:M</code> node by <code>BMI</code> the probabilities are quite different that we expected but it doesn’t effect the predicted class.</p>
+<h3 id="python">Python</h3>
+<p>Unlike R, Python doesn’t allow categorical input variables, so we need to encode them:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span>patients_df <span style="color:#99d1db;font-weight:bold">=</span> pd<span style="color:#99d1db;font-weight:bold">.</span>read_csv(<span style="color:#a6d189">&#34;DecisionTree_SampleData.csv&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span><span style="color:#737994;font-style:italic"># drop id column</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>patients_df<span style="color:#99d1db;font-weight:bold">.</span>drop(<span style="color:#a6d189">&#39;Patient ID&#39;</span>, axis<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">1</span>, inplace<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span><span style="color:#737994;font-style:italic"># convert to dummy variables</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>patients_df_labeled <span style="color:#99d1db;font-weight:bold">=</span> pd<span style="color:#99d1db;font-weight:bold">.</span>get_dummies(patients_df)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>columns_to_drop <span style="color:#99d1db;font-weight:bold">=</span> [<span style="color:#a6d189">&#39;Gender_F&#39;</span>, <span style="color:#a6d189">&#39;BMI_not normal&#39;</span>, <span style="color:#a6d189">&#39;BP_not normal&#39;</span>, <span style="color:#a6d189">&#39;Drug_???&#39;</span>, <span style="color:#a6d189">&#39;Drug_Drug B&#39;</span>]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>patients_df_labeled<span style="color:#99d1db;font-weight:bold">.</span>drop(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>    columns_to_drop, 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>    axis<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">1</span>, 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>    inplace<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>unknown_drug <span style="color:#99d1db;font-weight:bold">=</span> patients_df_labeled<span style="color:#99d1db;font-weight:bold">.</span>iloc[<span style="color:#ef9f76">15</span>, :]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>patients_df_labeled<span style="color:#99d1db;font-weight:bold">.</span>drop(<span style="color:#ef9f76">15</span>, axis<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">0</span>, inplace<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>) <span style="color:#737994;font-style:italic"># unknow drug row</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>patients_df_labeled<span style="color:#99d1db;font-weight:bold">.</span>head()<span style="color:#99d1db;font-weight:bold">.</span>to_html(classes<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;table table-striped&#39;</span>)
+</span></span></code></pre></div><center>
+<table border="0" class="dataframe table table-striped">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+Gender_M
+</th>
+<th>
+BMI_normal
+</th>
+<th>
+BP_normal
+</th>
+<th>
+Drug_Drug A
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+0
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+1
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+0
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+1
+</td>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+0
+</td>
+<td>
+1
+</td>
+</tr>
+</tbody>
+</table>
+</center>
+<p>For example <code>Gender_M:1</code> means that subject is Male and <code>Gender_M:0</code> means that subject is female.</p>
+<p>To build a decision tree model we can use a <code>DecisionTreeClassifier</code> function from <code>sklearn.tree</code> module.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#737994;font-style:italic"># split the data </span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>X <span style="color:#99d1db;font-weight:bold">=</span> patients_df_labeled<span style="color:#99d1db;font-weight:bold">.</span>drop(<span style="color:#a6d189">&#39;Drug_Drug A&#39;</span>, axis<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>y <span style="color:#99d1db;font-weight:bold">=</span> patients_df_labeled[<span style="color:#a6d189">&#39;Drug_Drug A&#39;</span>]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span><span style="color:#737994;font-style:italic"># fit the decision tree model</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span>model <span style="color:#99d1db;font-weight:bold">=</span> tree<span style="color:#99d1db;font-weight:bold">.</span>DecisionTreeClassifier(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">7</span><span>  criterion<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;entropy&#39;</span> <span style="color:#737994;font-style:italic"># for Gini impurity change to criterion=&#34;gini&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">8</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">9</span><span>model<span style="color:#99d1db;font-weight:bold">.</span>fit(X, y)
+</span></span></code></pre></div><style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+&#10;  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+&#10;  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+&#10;#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+&#10;#sk-container-id-1 pre {
+  padding: 0;
+}
+&#10;#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+&#10;#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+&#10;#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+&#10;#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+&#10;div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+&#10;/* Parallel-specific style estimator block */
+&#10;#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+&#10;#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+&#10;#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+&#10;#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+&#10;#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+&#10;#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+&#10;/* Serial-specific style estimator block */
+&#10;#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+&#10;
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+&#10;/* Pipeline and ColumnTransformer style (default) */
+&#10;#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+&#10;/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+&#10;#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+&#10;#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+&#10;/* Toggleable content - dropdown */
+&#10;#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+&#10;#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+&#10;#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+&#10;#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+&#10;#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+&#10;#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+&#10;/* Pipeline/ColumnTransformer-specific style */
+&#10;#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+&#10;#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+&#10;/* Estimator-specific style */
+&#10;/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+&#10;#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+&#10;#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+&#10;/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+&#10;/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+&#10;/* Estimator label */
+&#10;#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+&#10;#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+&#10;/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+&#10;#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+&#10;/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+&#10;#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+&#10;/* Specification for estimator info (e.g. "i" and "?") */
+&#10;/* Common style for "i" and "?" */
+&#10;.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+&#10;.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+&#10;/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+&#10;div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+&#10;/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+&#10;.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+&#10;.sk-estimator-doc-link:hover span {
+  display: block;
+}
+&#10;/* "?"-specific style due to the `<a>` HTML tag */
+&#10;#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+&#10;#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+&#10;/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+&#10;#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#737994;font-style:italic"># plot the tree</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>figure(figsize<span style="color:#99d1db;font-weight:bold">=</span>(<span style="color:#ef9f76">10</span>,<span style="color:#ef9f76">10</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>tree<span style="color:#99d1db;font-weight:bold">.</span>plot_tree(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>  model, filled<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>, rounded<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span>  feature_names<span style="color:#99d1db;font-weight:bold">=</span>X<span style="color:#99d1db;font-weight:bold">.</span>columns<span style="color:#99d1db;font-weight:bold">.</span>tolist(), proportion<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">False</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span>  class_names<span style="color:#99d1db;font-weight:bold">=</span>[<span style="color:#a6d189">&#39;Drug B&#39;</span>, <span style="color:#a6d189">&#39;Drug A&#39;</span>]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">7</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">8</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>show()
+</span></span></code></pre></div><center>
+<img src="python-tree.png"></img>
+</center>
+<p>Get a prediction for the 16th patient:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>unknown_drug <span style="color:#99d1db;font-weight:bold">=</span> pd<span style="color:#99d1db;font-weight:bold">.</span>DataFrame(unknown_drug)<span style="color:#99d1db;font-weight:bold">.</span>T
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>unknown_drug<span style="color:#99d1db;font-weight:bold">.</span>drop([<span style="color:#a6d189">&#39;Drug_Drug A&#39;</span>], axis<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">1</span>, inplace<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span><span style="color:#737994;font-style:italic"># return the class</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span>model<span style="color:#99d1db;font-weight:bold">.</span>predict(unknown_drug)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span><span style="color:#737994;font-style:italic">## array([1], dtype=uint8)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#737994;font-style:italic"># return the probability of each class</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>model<span style="color:#99d1db;font-weight:bold">.</span>predict_proba(unknown_drug)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span><span style="color:#737994;font-style:italic">## array([[0., 1.]])</span>
+</span></span></code></pre></div><h2 id="numerical-explanatory-variables">Numerical Explanatory Variables</h2>
+<p>In our sample data set, we had only categorical variables (with 2 labels each). But what would the model do, if we had numerical value as an input?</p>
+<p>Let’s look again on the Python decision tree and its decision node conditions, for example, <code>Gender_M &lt;= 0.5</code>. Where does <code>0.5</code> come from? The answer overlaps with the answer on how the model handles numerical input values.</p>
+<p>Recall the <code>Gender_M</code> column we created for the Python train set. It consisted of two <em>numerical</em> values (<code>0</code> and <code>1</code>). What the model does is filter the data by the average value among these two numbers. Average value was: $\frac{0+1}{2}=0.5$. Now model has two sets of data: one set that matches the condition <code>Gender_M &lt;= 0.5</code> (<code>Gender</code> is female) and the other set that doesn’t (<code>Gender</code> is male).</p>
+<p>Imagine that we have added a third category <code>Non-binary</code> to the <code>Gender</code> feature. First, we would encode the values and create a new column <code>Gender_encoded</code>, which would have three numerical values (<code>0</code>, <code>1</code> and <code>2</code>). Say, <code>Non-binary = 0</code>, <code>Male = 1</code>, <code>Female = 2</code>. Now model would have two conditions for filtering the data:</p>
+<ul>
+<li><code>Gender_encoded &lt;= 0.5</code> (<code>Gender</code> is non-binary)</li>
+<li><code>Gender_encoded &lt;= 1.5</code> (<code>Gender</code> is non-binary OR male)</li>
+</ul>
+<p>In a general way, we can say that if we have a numerical feature, the algorithm will convert it to “categorical” by choosing the average value as a threshold between actual input values:</p>
+<ul>
+<li>filter 1: feature &lt;= threshold</li>
+<li>filter 2: feature &gt; threshold</li>
+</ul>
+<p>For example:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">id</th>
+          <th style="text-align: center">blood_pressure</th>
+          <th style="text-align: center">drug</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">p01</td>
+          <td style="text-align: center">100</td>
+          <td style="text-align: center">A</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">p02</td>
+          <td style="text-align: center">120</td>
+          <td style="text-align: center">B</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">p03</td>
+          <td style="text-align: center">150</td>
+          <td style="text-align: center">B</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">p03</td>
+          <td style="text-align: center">200</td>
+          <td style="text-align: center">B</td>
+      </tr>
+  </tbody>
+</table>
+<p>Threshold values are: <code>110</code> $\left( \frac{100+120}{2} \right)$, <code>135</code> $\left( \frac{120+150}{2} \right)$, <code>175</code> $\left( \frac{150+200}{2} \right)$.</p>
+<h2 id="other-splitting-metrics">Other Splitting Metrics</h2>
+<h3 id="gini-impurity">Gini Impurity</h3>
+<p>As told before, for classification problems one can also use Gini impurity as a way to find the best splitting feature. The idea stays the same, but the only difference is that instead of the Entropy formula we are using the Gini formula:</p>
+$$G(X) = 1 - \sum_{i=1}^{n} p(x_i)^2$$<p>
+After calculating the Gini impurity value for each feature, we would calculate the gain and choose the feature that provides the highest gain.</p>
+$$\scriptsize \text{Gain} = \text{Gini impurity before the split} - \text{Weighted Gini impurity after the split}$$<h3 id="variance-reduction">Variance Reduction</h3>
+<p>If we are dealing with the regression problem (predicting numerical variable, rather than a class) we would use the variance reduction. Instead of calculating the probabilities of the target variable we calculate its variance:</p>
+$$Var(x) = \frac{\sum_{i=1}^n(x_i- \bar x)^2}{n-1}$$<p>
+And in the same way we are looking for a variable that has the highest variance reduction, or in other words variance in the target variable becomes lower after the split.</p>
+$$\scriptsize \text{Variance Reduction} = \text{Variance before the split} - \text{Weighted variance after the split}$$<h2 id="summary">Summary</h2>
+<p>We have looked at the example of the CART model for the binary classification problem. It is a relatively simple algorithm that doesn’t require much feature engineering. With the small data set and lots of free time, one can even build a model with “pen and paper”. Compared to other ML algorithms, CART can be considered as a “weak learner” due to the overfitting issue. However, they are often used as a base estimator in more complex bagging and boosting models (for example, Random Forest algorithm). Additionally, CART can help with the hidden data patterns, since they can be visualized.</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://en.wikipedia.org/wiki/Supervised_learning" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Supervised_learning</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://en.wikipedia.org/wiki/Statistical_classification" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Statistical_classification</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://en.wikipedia.org/wiki/Regression_analysis" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Regression_analysis</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://en.wikipedia.org/wiki/Entropy_%28information_theory%29" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Entropy_(information_theory)</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p><a href="https://en.wikipedia.org/wiki/Information_theory" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Information_theory</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+      </div>
+
+      
+  <time class="mt-12 mb-8 block text-xs text-gray-500 ltr:text-right rtl:text-left dark:text-gray-400" datetime="2020-04-22T00:00:00.000Z">
+    <span>Last updated on</span>
+    Apr 22, 2020</time>
+
+      <div class="container mx-auto prose prose-slate lg:prose-xl dark:prose-invert mt-5">
+        
+        <div class="max-w-prose print:hidden">
+  
+  
+
+  
+
+<div class="flex justify-center">
+  
+  <a class="no-underline bg-primary-100 hover:bg-primary-300 text-primary-800 text-xs font-medium mr-2 px-2.5 py-0.5 lg:px-5 lg:py-2 rounded dark:bg-primary-900 dark:hover:bg-primary-700 dark:text-primary-300" href="/tags/machine-learning/">Machine Learning</a>
+  
+  <a class="no-underline bg-primary-100 hover:bg-primary-300 text-primary-800 text-xs font-medium mr-2 px-2.5 py-0.5 lg:px-5 lg:py-2 rounded dark:bg-primary-900 dark:hover:bg-primary-700 dark:text-primary-300" href="/tags/modeling/">Modeling</a>
+  
+  <a class="no-underline bg-primary-100 hover:bg-primary-300 text-primary-800 text-xs font-medium mr-2 px-2.5 py-0.5 lg:px-5 lg:py-2 rounded dark:bg-primary-900 dark:hover:bg-primary-700 dark:text-primary-300" href="/tags/python/">Python</a>
+  
+  <a class="no-underline bg-primary-100 hover:bg-primary-300 text-primary-800 text-xs font-medium mr-2 px-2.5 py-0.5 lg:px-5 lg:py-2 rounded dark:bg-primary-900 dark:hover:bg-primary-700 dark:text-primary-300" href="/tags/r/">R</a>
+  
+</div>
+
+
+  
+<section class="flex flex-row flex-wrap justify-center pt-4 text-xl">
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A4321%2Ftutorial%2Fhow-do-cart-models-work%2F&amp;text=How&#43;do&#43;CART&#43;models&#43;work"
+    title="X"
+    aria-label="X"
+    id="share-link-x"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Flocalhost%3A4321%2Ftutorial%2Fhow-do-cart-models-work%2F&amp;t=How&#43;do&#43;CART&#43;models&#43;work"
+    title="Facebook"
+    aria-label="Facebook"
+    id="share-link-facebook"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+    
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="mailto:?subject=How%20do%20CART%20models%20work&amp;body=http%3A%2F%2Flocalhost%3A4321%2Ftutorial%2Fhow-do-cart-models-work%2F"
+    title="Email"
+    aria-label="Email"
+    id="share-link-email"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M16.5 12a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="https://www.linkedin.com/shareArticle?url=http%3A%2F%2Flocalhost%3A4321%2Ftutorial%2Fhow-do-cart-models-work%2F&amp;title=How&#43;do&#43;CART&#43;models&#43;work"
+    title="LinkedIn"
+    aria-label="LinkedIn"
+    id="share-link-linkedin"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="whatsapp://send?text=How&#43;do&#43;CART&#43;models&#43;work%20http%3A%2F%2Flocalhost%3A4321%2Ftutorial%2Fhow-do-cart-models-work%2F"
+    title="WhatsApp"
+    aria-label="WhatsApp"
+    id="share-link-whatsapp"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="m187.58 144.84-32-16a8 8 0 0 0-8 .5l-14.69 9.8a40.55 40.55 0 0 1-16-16l9.8-14.69a8 8 0 0 0 .5-8l-16-32A8 8 0 0 0 104 64a40 40 0 0 0-40 40 88.1 88.1 0 0 0 88 88 40 40 0 0 0 40-40 8 8 0 0 0-4.42-7.16ZM152 176a72.08 72.08 0 0 1-72-72 24 24 0 0 1 19.29-23.54l11.48 23L101 118a8 8 0 0 0-.73 7.51 56.47 56.47 0 0 0 30.15 30.15A8 8 0 0 0 138 155l14.61-9.74 23 11.48A24 24 0 0 1 152 176ZM128 24a104 104 0 0 0-91.82 152.88l-11.35 34.05a16 16 0 0 0 20.24 20.24l34.05-11.35A104 104 0 1 0 128 24Zm0 192a87.87 87.87 0 0 1-44.06-11.81 8 8 0 0 0-6.54-.67L40 216l12.47-37.4a8 8 0 0 0-.66-6.54A88 88 0 1 1 128 216Z"/></svg>
+  </a>
+  
+</section>
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+
+
+
+  
+  
+  
+    
+  
+  
+  
+
+<div class="flex pt-12 pb-4">
+  
+  
+  <img
+    class="mr-4 h-24 w-24 rounded-full"
+    width="96"
+    height="96"
+    alt="Ruslan Klymentiev"
+  src="/author/ruslan-klymentiev/avatar_hu14015720463236890778.png"
+  loading="lazy"
+  />
+  
+  <div class="place-self-center">
+    <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+      Authors
+    </div>
+    <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+      <a href="http://localhost:4321/" class="no-underline">
+      Ruslan Klymentiev
+      </a>
+    </div>
+
+    
+    <div class="text-sm font-bold text-neutral-700 dark:text-neutral-300">
+    Data-something-scientist
+    </div>
+    
+
+
+    
+
+    <div class="text-2xl sm:text-lg pt-1">
+
+      
+<div class="flex flex-wrap text-neutral-500 dark:text-neutral-300">
+  
+    
+    
+    
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="mailto:rklymentiev@gmail.com"
+      
+      aria-label="At-Symbol"
+    ><svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M16.5 12a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25"/></svg></a>
+  
+    
+    
+    
+    
+      
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="https://github.com/rklymentiev"
+      target="_blank" rel="noopener" rel="me noopener noreferrer"
+      aria-label="Brands/Github"
+    ><svg style="height: 1em;" fill="currentColor" viewBox="3 3 18 18"><path d="M12 3C7.0275 3 3 7.12937 3 12.2276C3 16.3109 5.57625 19.7597 9.15374 20.9824C9.60374 21.0631 9.77249 20.7863 9.77249 20.5441C9.77249 20.3249 9.76125 19.5982 9.76125 18.8254C7.5 19.2522 6.915 18.2602 6.735 17.7412C6.63375 17.4759 6.19499 16.6569 5.8125 16.4378C5.4975 16.2647 5.0475 15.838 5.80124 15.8264C6.51 15.8149 7.01625 16.4954 7.18499 16.7723C7.99499 18.1679 9.28875 17.7758 9.80625 17.5335C9.885 16.9337 10.1212 16.53 10.38 16.2993C8.3775 16.0687 6.285 15.2728 6.285 11.7432C6.285 10.7397 6.63375 9.9092 7.20749 9.26326C7.1175 9.03257 6.8025 8.08674 7.2975 6.81794C7.2975 6.81794 8.05125 6.57571 9.77249 7.76377C10.4925 7.55615 11.2575 7.45234 12.0225 7.45234C12.7875 7.45234 13.5525 7.55615 14.2725 7.76377C15.9937 6.56418 16.7475 6.81794 16.7475 6.81794C17.2424 8.08674 16.9275 9.03257 16.8375 9.26326C17.4113 9.9092 17.76 10.7281 17.76 11.7432C17.76 15.2843 15.6563 16.0687 13.6537 16.2993C13.98 16.5877 14.2613 17.1414 14.2613 18.0065C14.2613 19.2407 14.25 20.2326 14.25 20.5441C14.25 20.7863 14.4188 21.0746 14.8688 20.9824C16.6554 20.364 18.2079 19.1866 19.3078 17.6162C20.4077 16.0457 20.9995 14.1611 21 12.2276C21 7.12937 16.9725 3 12 3Z"></path></svg></a>
+  
+    
+    
+    
+    
+      
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="https://scholar.google.com/citations?user=prQO0zEAAAAJ"
+      target="_blank" rel="noopener" rel="me noopener noreferrer"
+      aria-label="Academicons/Google-Scholar"
+    ><svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M343.759 106.662V79.43L363.524 64h-213.89L20.476 176.274h85.656a82.339 82.339 0 0 0-.219 6.225c0 20.845 7.22 38.087 21.672 51.861c14.453 13.797 32.252 20.648 53.327 20.648c4.923 0 9.75-.368 14.438-1.024c-2.907 6.5-4.374 12.523-4.374 18.142c0 9.875 4.499 20.43 13.467 31.642c-39.234 2.67-68.061 9.732-86.437 21.163c-10.531 6.5-19 14.704-25.39 24.531c-6.391 9.9-9.578 20.515-9.578 31.962c0 9.648 2.062 18.336 6.219 26.062c4.156 7.726 9.578 14.07 16.312 18.984c6.718 4.968 14.469 9.101 23.219 12.469c8.734 3.344 17.406 5.718 26.061 7.062A167.052 167.052 0 0 0 180.555 448c13.469 0 26.953-1.734 40.547-5.187c13.562-3.485 26.28-8.642 38.171-15.493c11.86-6.805 21.515-16.086 28.922-27.718c7.39-11.68 11.094-24.805 11.094-39.336c0-11.016-2.25-21.039-6.75-30.14c-4.468-9.073-9.938-16.542-16.452-22.345c-6.501-5.813-13-11.155-19.516-15.968c-6.5-4.845-12-9.75-16.468-14.813c-4.485-5.046-6.735-10.054-6.735-14.984c0-4.921 1.734-9.672 5.216-14.265c3.455-4.61 7.674-9.048 12.61-13.306c4.937-4.25 9.875-8.968 14.796-14.133c4.922-5.147 9.141-11.827 12.61-20.008c3.485-8.18 5.203-17.445 5.203-27.757c0-13.453-2.547-24.46-7.547-33.314c-.594-1.022-1.218-1.803-1.875-3.022l56.907-46.672v17.119c-7.393.93-6.624 5.345-6.624 10.635V245.96c0 5.958 4.875 10.834 10.834 10.834h3.989c5.958 0 10.833-4.875 10.833-10.834V117.293c0-5.277.778-9.688-6.561-10.63zm-107.36 222.48c1.14.75 3.704 2.78 7.718 6.038c4.05 3.243 6.797 5.695 8.266 7.414a443.553 443.553 0 0 1 6.376 7.547c2.813 3.375 4.718 6.304 5.718 8.734c1 2.477 2.016 5.461 3.047 8.946a38.27 38.27 0 0 1 1.485 10.562c0 17.048-6.564 29.68-19.656 37.859c-13.125 8.18-28.767 12.274-46.938 12.274c-9.187 0-18.203-1.093-27.063-3.196c-8.843-2.116-17.311-5.336-25.39-9.601c-8.078-4.258-14.577-10.204-19.5-17.797c-4.938-7.64-7.407-16.415-7.407-26.25c0-10.32 2.797-19.29 8.422-26.906c5.594-7.625 12.938-13.391 22.032-17.315c9.063-3.946 18.25-6.742 27.562-8.398a157.865 157.865 0 0 1 28.438-2.555c4.47 0 7.936.25 10.405.696c.455.219 3.032 2.07 7.735 5.563c4.704 3.462 7.625 5.595 8.75 6.384zm-3.359-100.579c-7.406 8.86-17.734 13.288-30.953 13.288c-11.86 0-22.298-4.764-31.266-14.312c-9-9.523-15.422-20.328-19.344-32.43c-3.937-12.109-5.906-23.984-5.906-35.648c0-13.694 3.596-25.352 10.781-34.976c7.187-9.65 17.5-14.485 30.938-14.485c11.875 0 22.374 5.038 31.437 15.157c9.094 10.085 15.61 21.413 19.517 33.968c3.922 12.54 5.873 24.53 5.873 35.984c0 13.446-3.702 24.61-11.076 33.454z"/></svg></a>
+  
+    
+    
+    
+    
+      
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="https://orcid.org/0000-0002-0907-0908"
+      target="_blank" rel="noopener" rel="me noopener noreferrer"
+      aria-label="Academicons/Orcid"
+    ><svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M336.62 194.538c-7.13-3.328-13.866-5.56-20.253-6.614c-6.365-1.095-16.574-1.612-30.71-1.612h-36.704v152.747h37.634c14.673 0 26.081-1.013 34.224-3.017c8.142-2.004 14.921-4.526 20.356-7.626a69.448 69.448 0 0 0 14.942-11.388c14.488-14.714 21.742-33.273 21.742-55.717c0-22.052-7.44-40.052-22.341-53.982c-5.498-5.166-11.822-9.444-18.89-12.793zM256 8C119.022 8 8 119.042 8 256s111.022 248 248 248s248-111.042 248-248S392.978 8 256 8Zm-82.336 357.513h-29.389V160.148h29.389zM158.95 138.696c-11.14 0-20.213-9.01-20.213-20.212c0-11.118 9.052-20.191 20.213-20.191c11.18 0 20.232 9.052 20.232 20.191a20.194 20.194 0 0 1-20.232 20.212zm241.386 163.597c-5.29 12.545-12.834 23.581-22.65 33.088c-9.982 9.837-21.597 17.194-34.844 22.196c-7.75 3.017-14.839 5.063-21.307 6.117c-6.49 1.013-18.828 1.509-37.076 1.509h-64.956V160.148h69.233c27.962 0 50.034 4.154 66.32 12.545c16.265 8.37 29.181 20.728 38.792 36.972c9.61 16.265 14.425 34.018 14.425 53.196c.023 13.765-2.666 26.908-7.936 39.432z"/></svg></a>
+  
+    
+    
+    
+    
+      
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="https://www.instagram.com/rklymentiev/"
+      target="_blank" rel="noopener" rel="me noopener noreferrer"
+      aria-label="Brands/Instagram"
+    ><svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="currentColor" fill-rule="evenodd" d="M12.91 12.909c.326-.327.582-.72.749-1.151c.16-.414.27-.886.302-1.578c.032-.693.04-.915.04-2.68c0-1.765-.008-1.987-.04-2.68c-.032-.692-.142-1.164-.302-1.578a3.185 3.185 0 0 0-.75-1.151a3.187 3.187 0 0 0-1.151-.75c-.414-.16-.886-.27-1.578-.302C9.487 1.007 9.265 1 7.5 1c-1.765 0-1.987.007-2.68.04c-.692.03-1.164.14-1.578.301a3.2 3.2 0 0 0-1.151.75a3.2 3.2 0 0 0-.75 1.151c-.16.414-.27.886-.302 1.578C1.007 5.513 1 5.735 1 7.5c0 1.765.007 1.987.04 2.68c.03.692.14 1.164.301 1.578c.164.434.42.826.75 1.151c.325.33.718.586 1.151.75c.414.16.886.27 1.578.302c.693.031.915.039 2.68.039c1.765 0 1.987-.008 2.68-.04c.692-.03 1.164-.14 1.578-.301a3.323 3.323 0 0 0 1.151-.75ZM2 6.735v1.53c-.002.821-.002 1.034.02 1.5c.026.586.058 1.016.156 1.34c.094.312.199.63.543 1.012c.344.383.675.556 1.097.684c.423.127.954.154 1.415.175c.522.024.73.024 1.826.024H8.24c.842.001 1.054.002 1.526-.02c.585-.027 1.015-.059 1.34-.156c.311-.094.629-.2 1.011-.543c.383-.344.556-.676.684-1.098c.127-.422.155-.953.176-1.414C13 9.247 13 9.04 13 7.947v-.89c0-1.096 0-1.303-.023-1.826c-.021-.461-.049-.992-.176-1.414c-.127-.423-.3-.754-.684-1.098c-.383-.344-.7-.449-1.011-.543c-.325-.097-.755-.13-1.34-.156A27.29 27.29 0 0 0 8.24 2H7.057c-1.096 0-1.304 0-1.826.023c-.461.021-.992.049-1.415.176c-.422.128-.753.301-1.097.684c-.344.383-.45.7-.543 1.012c-.098.324-.13.754-.156 1.34c-.022.466-.022.679-.02 1.5ZM7.5 5.25a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5ZM4.25 7.5a3.25 3.25 0 1 1 6.5 0a3.25 3.25 0 0 1-6.5 0Zm6.72-2.72a.75.75 0 1 0 0-1.5a.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/></svg></a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+    
+<div class="pt-1 no-prose w-full">
+  <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+  <div class="flex flex-col md:flex-row flex-nowrap justify-between gap-5 pt-2">
+    <div class="">
+      
+        <a class="group flex no-underline" href="/tutorial/norm-binom/">
+          <span
+            class="mt-[-0.3rem] me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+          ><span class="ltr:inline rtl:hidden">&larr;</span></span>
+          <span class="flex flex-col">
+            <span
+              class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+            >Normal Approximation to Binomial Distribution</span>
+            <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+              
+                Apr 25, 2020
+              
+            </span>
+          </span>
+        </a>
+      
+    </div>
+    <div class="">
+      
+        <a class="group flex text-right no-underline" href="/tutorial/bayes_disease/">
+          <span class="flex flex-col">
+            <span
+              class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+            >Bayes Rule and Disease Testing</span
+            >
+            <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+              
+                Apr 10, 2020
+              
+            </span>
+          </span>
+          <span
+            class="mt-[-0.3rem] ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+          ><span class="ltr:inline">&rarr;</span></span>
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+
+  
+
+
+
+</div>
+
+      </div>
+
+    </main>
+  </article>
+</div>
+
+    </div>
+    <div class="page-footer">
+      <footer class="container mx-auto flex flex-col justify-items-center text-sm leading-6 mt-24 mb-4 text-slate-700 dark:text-slate-200">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by text-center">
+    © 2024. This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+
+  <p class="powered-by text-center">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://hugoblox.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Hugo Blox Builder</a> — the free, <a href="https://github.com/HugoBlox/hugo-blox-builder" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+
+</footer>
+
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

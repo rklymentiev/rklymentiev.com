@@ -1,0 +1,4 @@
+/* Change font size for code blocks */
+pre code {
+  font-size: 6px; /* Adjust this value as needed */
+}

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Psychology | RK</title>
+    <link>http://localhost:4321/tags/psychology/</link>
+      <atom:link href="http://localhost:4321/tags/psychology/index.xml" rel="self" type="application/rss+xml" />
+    <description>Psychology</description>
+    <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Sun, 31 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>http://localhost:4321/media/icon_hu5497558039692805424.png</url>
+      <title>Psychology</title>
+      <link>http://localhost:4321/tags/psychology/</link>
+    </image>
+    
+    <item>
+      <title>How Do Criminals Make Decisions?</title>
+      <link>http://localhost:4321/post/how-do-criminals-make-decisions/</link>
+      <pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:4321/post/how-do-criminals-make-decisions/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;The ability to read the mind of criminals for sure sounds exciting. On the one hand, it can help with the understanding of the nature of human violence. On the other hand, it can help prevent future crimes. TV shows like Profiler, Criminal Minds, and Mindhunter have tried to depict what it is like to get into the mind of offenders. In such shows, a group of special agents usually investigates the crime scenes, talks to the witnesses and relatives of the victim, and then tries to build up a profile of the offender using the combination of the obtained information and the relevant historical crime data. Such analysis helps them understand the offenders’ motives and predict their future actions.&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;criminal_minds.png&#34; width=&#34;600&#34; alt=&#34;Figure 1&#34;&gt;&lt;/img&gt;
+  &lt;figcaption&gt;&lt;b&gt;Figure 1&lt;/b&gt;. Photo from the “Broken Wing” episode of Criminal Minds. Source: IMDb.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;In this post, I will give an overview of how such fields as economics, psychology, and criminology have combined in real life to investigate criminal behavior. I will briefly introduce the economic models of human decision-making and how they have been tested in criminal research. Additionally, I will introduce other factors that may influence offenders’ decision-making, such as emotions, mental health impairments, and social interactions.&lt;/p&gt;
+&lt;h2 id=&#34;decision-making-assessment&#34;&gt;Decision-Making Assessment&lt;/h2&gt;
+&lt;p&gt;As exciting as it may sound, assessing anyone’s decision-making processes is not the most straightforward task. However, there is still something we can do.&lt;/p&gt;
+&lt;p&gt;Imagine you want to know whether you have abnormal blood sugar levels. If you went to a doctor, they could take a blood sample to check your glucose level. Then the doctor would compare your results with the “normal” values and speculate how substantial the deviation is. In this case, these normal values would be the conventional ones. Say, on average for healthy people of your gender, age, and dietary preferences, the glucose level is in a $[a, b]$ range. Comparing your results to these values could tell whether your blood sugar level is low, normal, or high.&lt;/p&gt;
+&lt;p&gt;Now let’s apply the same idea to decision-making measures. Even though it may sound more abstract, over the last decade, scholars have developed several tests and games that could help understand patterns and approaches people make when facing particular dilemmas. The same as for the blood sugar values, outcomes of such tests alone may not be very informative as when compared between different groups. For example, if we wanted to know whether burglars show, on average, a risky behavior, the good approach would be asking “Riskier than who?”. And then compare the test results between burglars and the control non-burglary group, which ideally would perfectly match by relevant parameters, such as gender, social-economic status, demographic, etc. Table 1 gives an overview of several such games that will also be mentioned later in this post.&lt;/p&gt;
+&lt;div style=&#34;background-color:#f2f2f2;color:black;border:1px&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Ultimatum Game (UG)&lt;/strong&gt;: This is a two-player game with one person being a Proposer and the other being a Responder. At the beginning of the game, the Proposer is given money, which they have to split between themselves and the Responder. The Responder can either accept the offer or decline. If the Responder accepts the offer, both players receive the money as proposed by the Proposer, whereas rejected offer results in both players receiving nothing.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cambridge Gambling Task (CGT)&lt;/strong&gt;: Individuals bet on the occurrence of either of two mutually exclusive events (whether a token is hidden inside either a red or blue box) differing in their probability.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Iowa Gambling Task (IGT)&lt;/strong&gt;: Individuals choose from four decks of cards, which differ in their reward-punishment profiles. Two decks are advantageous and result in an overall high reward. Two other decks are disadvantageous and result in more significant losses.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Affective Decision-Making-Task (ADMT)&lt;/strong&gt;: Participants are learning to approach or avoid different stimuli that have different probabilistic reinforcement profiles. At the start of each trial, the task-irrelevant angry or happy face is presented. This introduces the emotional biasing of instrumental action, whereby angry faces provoke instrumental avoidance.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;center&gt;&lt;sup&gt;&lt;b&gt;Table 1&lt;/b&gt;. Example of decision-making tasks used in decision-making research. Adapted from Jones et al. (2019)[^3]&lt;/sup&gt;&lt;/center&gt;
+&lt;p&gt;Another more theoretical approach is comparing the offenders’ behavior to the behavior from so-called &lt;strong&gt;normative models&lt;/strong&gt;. Normative models provide a standard for defining the type of thinking that is optimal for achieving one’s goals. Whereas &lt;strong&gt;descriptive models&lt;/strong&gt;, on the other hand, refer to theories of how people typically think and make decisions.&lt;/p&gt;
+&lt;h2 id=&#34;playing-games-with-offenders&#34;&gt;Playing Games with Offenders&lt;/h2&gt;
+&lt;p&gt;In 2019 Jones and colleagues performed a review and meta-analysis of experiments on the offenders’ decision-making (Jones et al., 2019&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;). Even though the individual studies showed that offenders with mental disorders make poorer decisions compared to controls, the meta-analysis didn’t reveal statistical significance in their performance (IGT was chosen as a primary means of comparison). Let’s take a look at some individual studies.&lt;/p&gt;
+&lt;p&gt;In a study by Radke et al. (2013)&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;, social decision-making was compared between three groups of subjects, male offenders with and without psychopathy and healthy controls, using the UG. Results showed that offenders without psychopathic traits showed deficits in social decision-making, while offenders with psychopathy behaved similarly to healthy controls, showing the same rejection rates for the proposals. On the other hand, results from Koenigs et al. (2010)&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; revealed no difference in the acceptance rate between secondary psychopaths and non-psychopaths. Still, they found a lower acceptance of unfair offers for primary psychopaths.&lt;/p&gt;
+&lt;p&gt;Nishinaka et al. (2016)&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; looked at the decision-making of Japanese forensic psychiatric patients using IGT. Forensic patients exhibited poorer performance than the control group since they were less likely to avoid making risky selections during the task, suggesting that they may fail to learn from emotional feedback. Authors conclude that forensic patients with psychiatric disorders exhibit a wide range of neuropsychological impairments, suggesting that these impairments may increase the risk of violent behavior.&lt;/p&gt;
+&lt;p&gt;In line with these results, Kirkpatrick and colleagues also showed that offenders with mental health impairment show risky behavior (Kirkpatrick et al., 2017&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;). They compared offenders with histories of serious violent or sexual offences and a diagnosis of borderline personality disorder (BPD) with controls (please refer to the original publication for the description of the task). Offenders with BPD engaged in more risky options than controls, exhibiting deficits in processing information about the potential loss when the probability of gains was high. Authors argued that a diagnosis of BPD and a history of serious offences result in problems integrating different reinforcement signals when choosing between risky actions.&lt;/p&gt;
+&lt;p&gt;DeBrito et al. (2013)&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt; examined executive functioning in violent offenders with antisocial personality disorder (ASPD) and psychopathy, violent offenders with ASPD without psychopathy, and non-offenders using CGT. Results showed that both groups of offenders made poorer decisions. The decision time was increasing as the box ratio became less favorable, which suggests that offender groups were aware of the changing probabilities and increased risk of losing points but did not adjust their behavior. Authors related this to real-life decision-making, when antisocial behavior is continued, despite an awareness of the negative consequences. There were no between-group differences for offender groups, suggesting similar decision-making patterns.&lt;/p&gt;
+&lt;p&gt;Using the ADMT, Ly et al. (2016)&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt; examined affective decision-making in violent offenders with a history of psychiatric disorders and controls with no criminal record or history of mental illness. Results showed that control participants avoided angry faces, but violent offenders did not. Results suggest disordered affective processing in violent offender groups. This may explain to some extent why people with a history of violent offending may not be affected by social-emotional cues (e.g., screaming or crying) that would interfere with their decision to commit the act.&lt;/p&gt;
+&lt;p&gt;Examining the relationship between offending behavior and mental health is particularly interesting since evidence exists for higher rates of mental disorders among prisoners than in the general population (such as psychosis, substance use disorders, or depression). Moreover, mental illnesses increase re-offending risk (Jones et al., 2019&lt;sup id=&#34;fnref1:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+&lt;h2 id=&#34;behavioral-economics-models&#34;&gt;Behavioral Economics Models&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“We don’t have to stop inventing abstract models that describe the behavior of imaginary Econs. We do, however, have to stop assuming that those models are accurate descriptions of behavior, and stop basing policy decisions on such flawed analysis.”&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;― Richard H. Thaler, Misbehaving: The Making of Behavioural Economics&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Behavioral economics has been particularly useful in modeling human decision-making, and later these models have been applied in criminology. However, for most theories and models, there is always controversy and inconsistency, especially when we think about complex human nature.&lt;/p&gt;
+&lt;h3 id=&#34;rational-choice-and-expected-utility-theory&#34;&gt;Rational Choice and Expected Utility Theory&lt;/h3&gt;
+&lt;p&gt;Rational choice theory prescribes that individuals perform a cost-benefit analysis to make rational choices and achieve outcomes that fit their needs and desires. Consider an ultimatum game with you being a Responder. The Proposer has been given 100 dollars and proposed you take $x$ of it (while they end up with $(100-x)$). Would you accept the offer?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Option 1: accept the offer.
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Benefits&lt;/em&gt;: $x$ dollars.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Costs&lt;/em&gt;: 0.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Option 2: reject the offer.
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Benefits&lt;/em&gt;: 0.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Costs&lt;/em&gt;: 0.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Being entirely rational, you would choose option one since the benefits outweigh the costs regardless of how much the Proposer would offer. Or in other words, you would rather end up with any amount of money than nothing. However, as one could imagine, human decision-making has much more to unpack.&lt;/p&gt;
+&lt;p&gt;First, economic theory introduces the term &lt;strong&gt;utility function&lt;/strong&gt; $U = f(X)$ that, technically speaking, reflects the total satisfaction/benefit an actor gets from the consumption of the commodities. For instance, an incremental dollar bill given to a billionaire has less utility than an incremental dollar bill given to someone with nothing. In the simple case, the utility function could be linear $U(X) = X$ (Figure 2), where utility is the same as the absolute wealth obtained from the goods. More commonly proposed function is however $U(X) = \sqrt{X}$, which includes the &lt;em&gt;risk aversion&lt;/em&gt;. Risk aversion property will be discussed later in the post. The main point of the utility function is that not all risks, costs, and benefits carry equal weight in the decision-making process for different individuals or for the same individual over time.&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;utility_function.png&#34; width=&#34;600&#34; alt=&#34;Figure 2&#34;&gt;&lt;/img&gt;
+  &lt;figcaption&gt;&lt;b&gt;Figure 2. Utility as a function of absolute wealth.&lt;/b&gt; For the risk-neutral condition (black line), utility is the same as wealth. For the risk aversive condition (red line), the shape of the utility function is concave, and the marginal increase of the high wealth values adds just a little to the utility (an increase from 0 to 50 dollars perceives better than an increase from 1500 to 1550 dollars). For the risk-seeking condition (green line), the shape of the utility function is convex, and the marginal increase of the high wealth values adds a lot to the utility (an increase from 1500 to 1550 dollars perceives better than an increase from 0 to 50 dollars).&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Secondly, think about two scenarios. In the first one, the Proposer suggests a 50-50 split, and 95-5 (where the Proposer takes the bigger half) in the second one. Would your decision of acceptance be the same? Various experiments have shown that people are more likely to accept the offer in the first case but reject the offer in the second case. Moreover, Schweitzer and Gibson (2008)&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt; found that when people think they are mistreated, they become angry at the person responsible for it and feel justified in taking revenge. As discussed before, in both scenarios, a Responder initially starts with 0 and ends with a value greater than 0. So in terms of maximizing self-interest, both actions are considered optional. However, the problem is that humans are often not rational. We can feel unfairness or jealousy when given just 5 dollars out of 100, so we may reject the offer to “punish” the Proposer in return. This is the flaw of rational choice theory. It doesn’t account for emotions, cultural nuance, or unconscious behavior and instead shows how decisions &lt;em&gt;should&lt;/em&gt; be made.&lt;/p&gt;
+&lt;p&gt;Thirdly, it is worth mentioning that actors often face uncertainty around events and actions in real life. Imagine somewhat different rules of a game. Now the Proposer flips a coin. If it comes up Heads, they split the money with $x$ for you and $(100-x)$ for them, and if it comes up Tails, they take all the money. You can again either agree to flip the coin or reject it, and everyone ends with nothing. This is where the term &lt;strong&gt;expected utility&lt;/strong&gt; $\mathbb{E} \big[ U(X) \big]$ comes into play, which can be thought of as a sum of utility values weighted by their probabilities. Assuming $U(X) = X$ utility function we have the following options:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Option 1: accept the game offer.
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Benefits&lt;/em&gt;: $x$ dollars with the probability of 0.5.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Costs&lt;/em&gt;: 0 dollars with the probability of 0.5.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Expected utility&lt;/em&gt;: $\mathbb{E} \big[ U(X_1) \big] = 0.5 \cdot x + 0.5 \cdot 0 = \frac{x}{2}$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Option 2: reject the game offer.
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Benefits&lt;/em&gt;: N/A.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Costs&lt;/em&gt;: 0 with the probability of 1 (certainly don’t lose anything).&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Expected utility&lt;/em&gt;: $\mathbb{E} \big[ U(X_2) \big] = 1 \cdot 0 = 0$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In this case $\mathbb{E} \big[ U(X_1) \big] &gt; \mathbb{E} \big[ U(X_2) \big]$, so the rational actor would still choose to play regardless of the proposed amount in the case of Heads.&lt;/p&gt;
+&lt;p&gt;Thus probabilities of benefits and risks (which could be either known or perceived) affect the decision-making. For example, in a series of experiments, Casey and Scholz (1991)&lt;sup id=&#34;fnref:9&#34;&gt;&lt;a href=&#34;#fn:9&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;9&lt;/a&gt;&lt;/sup&gt; found that ambiguity around detection risk reduced college students’ willingness to commit tax noncompliance when detection risk was low but had the opposite effect when detection risk was high.&lt;/p&gt;
+&lt;p&gt;Lastly, apart from uncertainty, humans face other factors like imperfect information or time constraints that limit their rationality. When you want to buy the best sauce for pasta, you will not consider different sauces in every grocery store in your city. In the same way, when a burglar wants to rob a house, they probably will not explore &lt;em&gt;each&lt;/em&gt; house in the neighborhood to find the target that fulfills all criteria. This reflects so-called &lt;em&gt;bounded rationality&lt;/em&gt;, which suggests that humans make suboptimal decisions that are good enough for the current state of the environment, purposes, etc. Bounded decision-making has been shown in the review of sexual crimes by Pedneault et al. (2017)&lt;sup id=&#34;fnref:10&#34;&gt;&lt;a href=&#34;#fn:10&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;10&lt;/a&gt;&lt;/sup&gt;. They have shown that often the decisions were sub-optimal and were concerned for immediate positive and negative outcomes but discounted delayed consequences. For example, the selected crime location could be accessed by a third party, preventing the crime. These results also suggest that sexual offenders engage in myopic decision-making.&lt;/p&gt;
+&lt;p&gt;Furthermore, humans often make “intuitive” decisions using so-called cognitive heuristics (shortcuts), which may lead to systematic biases. Such heuristics save effort but can reduce the accuracy. For example, for residential burglars, environmental cues (the lighting, conspicuousness of the target, etc.) constitute rules of thumb for intuitive cost-benefit perceptions. Pogarsky and Piquero (2003)&lt;sup id=&#34;fnref:11&#34;&gt;&lt;a href=&#34;#fn:11&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;11&lt;/a&gt;&lt;/sup&gt; have shown that offenders with a short criminal history tended to reduce their perceived arrest risk after experiencing punishment, which reflects the gambler’s fallacy. The &lt;strong&gt;gambler’s fallacy&lt;/strong&gt; is the incorrect belief that if a particular event occurs more frequently than normal during the past, it is less likely to happen in the future (or vice versa) when it has otherwise been established that the probability of such events does not depend on what has happened in the past. So it may look like such offenders are using the philosophy “If I was caught once, it’s doubtful that I will be caught again”.&lt;/p&gt;
+&lt;h3 id=&#34;prospect-theory&#34;&gt;Prospect Theory&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Prospect theory&lt;/strong&gt; describes how humans &lt;em&gt;actually&lt;/em&gt; make decisions without rationality assumption. It prescribes that individuals make decisions based on expectations of loss or gain from their relative position (sometimes called the reference point). An essential element of prospect theory is that individuals are particularly averse to losing what they already have and less concerned about gaining. Given a choice of equal probability, individuals would choose to preserve their existing wealth rather than risk the chance to increase wealth.&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img src=&#34;prospective_value.png&#34; width=&#34;600&#34; alt=&#34;Figure 3&#34;&gt;&lt;/img&gt;
+  &lt;figcaption&gt;&lt;b&gt;Figure 3. Prospective value.&lt;/b&gt; The perceived value function has a concave shape for the Gains domain and a convex shape for the Losses domain. Gains and Losses of the same magnitude (for example, 50) are perceived differently.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Consider a classical &lt;strong&gt;Asian disease paradox&lt;/strong&gt;. Imagine that the US is preparing for an unusual Asian disease outbreak, which is expected to kill 600 people. Two alternative programs to combat the disease have been proposed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Problem 1&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Program A: 200 people will be saved.&lt;/li&gt;
+&lt;li&gt;Program B:
+&lt;ul&gt;
+&lt;li&gt;1/3 probability that 600 people will be saved.&lt;/li&gt;
+&lt;li&gt;2/3 probability that no people will be saved.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Which of the two programs would you prefer?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Problem 2&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Program A: 400 people will die.&lt;/li&gt;
+&lt;li&gt;Program B:
+&lt;ul&gt;
+&lt;li&gt;1/3 probability that nobody will die.&lt;/li&gt;
+&lt;li&gt;2/3 probability that 600 people will die.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Again, which of the two programs would you prefer?&lt;/p&gt;
+&lt;p&gt;If you paid close attention to the numbers and expected outcome, you could notice that programs use the same logic in both problems but are described differently. However, Tversky and Kahneman have shown that people are more likely to select program A in the first problem and program B in the second one (Tversky &amp;amp; Kahneman, 1981&lt;sup id=&#34;fnref:12&#34;&gt;&lt;a href=&#34;#fn:12&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;12&lt;/a&gt;&lt;/sup&gt;). The main idea here is that humans have different preferences depending on their perceptions. An emphasis on gains evokes risk-averse behavior, whereas a focus on losses evokes risk-seeking behavior.&lt;/p&gt;
+&lt;p&gt;The hyperbolic shape of preferences for gains and losses can also be observed for delayed outcomes. Loughran and colleagues collected data from university undergraduate students who responded to a hypothetical scenario involving drunk driving (Loughran et al., 2012&lt;sup id=&#34;fnref:13&#34;&gt;&lt;a href=&#34;#fn:13&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;13&lt;/a&gt;&lt;/sup&gt;). Participants had to indicate the estimated probability that they would drink and drive under the conditions described in the scenario. Scenarios involved several time points, starting from “tonight” up to “10 years from now”. They found that participants put more weight on close-in-time outcomes than the same outcomes in some observable future, whereas this was more pronounced for gains than losses. For example, when the benefit of drinking and driving was delayed by one week, the self-reported intention to drink and drive increased by nearly 10%. However, when the gain was postponed by one month, intentions to drink and drive increased by only 4%.&lt;/p&gt;
+&lt;p&gt;Whichard and Felson (2016)&lt;sup id=&#34;fnref:14&#34;&gt;&lt;a href=&#34;#fn:14&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;14&lt;/a&gt;&lt;/sup&gt; have related loss aversion property to the crimes that a priori have a low probability of success. For example, a target of a verbal attack which is facing the options to retaliate and possibly get physical injuries or to walk away and lose face, could go with the first option if they perceive losing face as a more significant loss. Another example would be the increased likelihood of homicide. Offenders are likely to anticipate a specific loss if they know that the victim or other witnesses can identify them. When offenders believe that allowing a witness to survive will lead to incarceration, homicide is more likely. The risk of severe punishment increases, but they take the risk to avoid a sure loss. The perception of inevitable loss is also expected to lead to lethal intent when people conflict with an armed or otherwise dangerous adversary. They are likely to take significant risks when
+it is “kill or be killed” and may engage in preemptive strikes when they anticipate an attack.&lt;/p&gt;
+&lt;p&gt;In the same way, the decision to resist the arrest may also seem irrational due to the estimated low chances of success. However, once the suspect perceives that they will be arrested, this realization can shift the offender’s reference point such that the impending arrest is a loss, thereby triggering the type of risk-seeking behavior that resisting arrest entails. However, as the authors pointed out, the decision to perform “senseless” or irrational choices can be influenced not only by the desire to avoid a sure loss but also by intoxication, mental impairments (as discussed in the 
+ section), or intelligence lack.&lt;/p&gt;
+&lt;p&gt;Additionally, a large body of literature suggests that individuals are more likely to make risky decisions when they are emotionally aroused. An example of such findings is work from Ariely and Lowenstein (2006)&lt;sup id=&#34;fnref:15&#34;&gt;&lt;a href=&#34;#fn:15&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;15&lt;/a&gt;&lt;/sup&gt;. Recruited male undergraduate students were asked to evaluate the attractiveness of different sexual activities under the effect of high arousal achieved by masturbation. Results revealed that participants in the aroused group were more willing to engage in “date-rape” like behaviors and risky sexual practices than the control group. For example, they got significantly higher answer scoring for the questions like “Would you keep trying to have sex after your date says ‘no’?” or “Would you slip a woman a drug to increase the chance that she would have sex with you?” and lower scoring for the questions like “Would you always use a condom if you didn’t know the sexual history of a new sexual partner?”. Although it is important to note that the authors didn’t observe actual behavior, the questionnaire responses, so the results show what subjects &lt;em&gt;think they would do&lt;/em&gt; in situations like these rather than &lt;em&gt;what they did&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Notably, the decision to offend may be produced in a reinforcement way. If individuals experience that acts of crime do not result in legal punishment or feelings of shame or guilt, they may, over time, internalize the idea that such acts are acceptable or justifiable, thus, adjusting their perceptions about risks and costs. If the consequences of the action were overall positive, individuals would change their perceptions of rewards accordingly and would be more likely to engage in similar acts in the future. Vice versa, when individuals feel that an experience does not meet their expectations about the potential “thrill” or increased social status, they may internalize this and readjust their perceptions of benefits.&lt;/p&gt;
+&lt;h2 id=&#34;social-influence&#34;&gt;Social Influence&lt;/h2&gt;
+&lt;p&gt;Regardless of how strongly we believe that we don’t rely on the opinion or validation of others, we are still social creatures. Here I will provide several notes on the social influence on offender decision-making based on the comprehensive review by Hoeben and Thomas (2019)&lt;sup id=&#34;fnref:16&#34;&gt;&lt;a href=&#34;#fn:16&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;16&lt;/a&gt;&lt;/sup&gt;. As discussed in the 
+ part, most of the time, we don’t have enough information about all the possible outcomes of all possible actions. But even if an individual has never experienced the crime they are about to commit, observation of others may shape their own perceived costs and benefits. For example, observing peers getting away with a crime may decrease an individual’s risk of being caught, and vice versa, when individuals observe that their peers are caught and punished, it may increase their perceived sanction risk.&lt;/p&gt;
+&lt;p&gt;Moreover, as highlighted by Hoeben and Thomas, the influence of peers can be &lt;em&gt;passive&lt;/em&gt; (without direct interaction) and &lt;em&gt;active&lt;/em&gt; (with direct interaction). For the passive peer influence authors highlight five important points:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Social validation can play an important role without being directly involved in crime decision-making. According to Maslow’s Hierarchy of Needs theory, humans have the need for affection, intimacy, and acceptance. When these needs are not met, they can experience feelings of inferiority and weakness.&lt;/li&gt;
+&lt;li&gt;Presence of peers may increase the weight attributed to social costs and rewards.&lt;/li&gt;
+&lt;li&gt;Presence of peers may reduce the perceived risk of detection. For example, McGloin and Thomas (2016)&lt;sup id=&#34;fnref:17&#34;&gt;&lt;a href=&#34;#fn:17&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;17&lt;/a&gt;&lt;/sup&gt; showed that as the size of the co-offending group increased, the anticipation of sanction risk and several informal social costs associated with engaging in the act decreased.&lt;/li&gt;
+&lt;li&gt;Presence of others may reduce the feeling of responsibility, shame, or guilt. Acting in a social group may induce a psychological sense of unity, like fans feeling the one with the tribunes while shouting their favorite team slogan during the football game. During this state, individuals may feel more unidentifiable and unaccountable. For example, studies have shown that the presence of peers lowers one’s expectations about the risks associated with crime and makes individuals more tolerant of such risks.&lt;/li&gt;
+&lt;li&gt;Individuals may have stronger feelings (both anticipated or experienced) of excitement or thrill when in the presence of peers as compared with when being alone.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In terms of active influence, peers can “fill the gaps” in the missing information of the decision-making process of an individual and therefore influence the anticipated risks and benefits (e.g., “It will be a thrill” or “Relax, my friend John has done that and it went good”). This can be done in the form of a discussion of the potential crime but also in the form of the instigation. Co-offending can also reduce the time needed for a crime or make the crime execution easier. But at the same time, it may increase the risks since of the possibility of betrayal, the problem with incompetency group members, or unfair profit shares.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;To summarize, it was a brief overview of research literature that assesses offenders’ decision-making. Even though criminals can be thought of as impulsive and reckless, the literature suggests they can be rational (even in a bounded way) and perform a cost-benefit analysis. Some external or internal factors however may affect the rational action selection, such as intoxication, mental health history, or the influence of peers. Note that none of those mentioned above papers leads to the causal relationship. For example, it is not clear what happened first, whether acts of crime are a result of individuals’ risky behavior or whether the history of offending has changed individuals’ risk perception.&lt;/p&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;Jones, K. A., Hewson, T., Sales, C. P., &amp;amp; Khalifa, N. (2019). A Systematic Review and Meta-Analysis of Decision-Making in Offender Populations with Mental Disorder. &lt;em&gt;Neuropsychology Review, 29&lt;/em&gt;(2), 244–258. 
+&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref1:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Radke, S., Brazil, I. A., Scheper, I., Bulten, B. H., &amp;amp; de Bruijn, E. R. A. (2013). Unfair offers, unfair offenders? Fairness considerations in incarcerated individuals with and without psychopathy. &lt;em&gt;Frontiers in Human Neuroscience, 7&lt;/em&gt;. 
+&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;Koenigs, M., Kruepke, M., &amp;amp; Newman, J. P. (2010). Economic decision-making in psychopathy: A comparison with ventromedial prefrontal lesion patients. &lt;em&gt;Neuropsychologia, 48&lt;/em&gt;(7), 2198–2204. 
+&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;Nishinaka, H., Nakane, J., Nagata, T., Imai, A., Kuroki, N., Sakikawa, N., Omori, M., Kuroda, O., Hirabayashi, N., Igarashi, Y., &amp;amp; Hashimoto, K. (2016). Neuropsychological Impairment and Its Association with Violence Risk in Japanese Forensic Psychiatric Patients: A Case-Control Study. &lt;em&gt;PLOS ONE, 11&lt;/em&gt;(1), e0148354. 
+&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;Kirkpatrick, T., Joyce, E., Milton, J., Duggan, C., Tyrer, P., &amp;amp; Rogers, R. D. (2007). Altered Emotional Decision-Making in Prisoners with Borderline Personality Disorder. &lt;em&gt;Journal of Personality Disorders, 21&lt;/em&gt;(3), 243–261. 
+&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
+&lt;p&gt;de Brito, S. A., Viding, E., Kumari, V., Blackwood, N., &amp;amp; Hodgins, S. (2013). Cool and Hot Executive Function Impairments in Violent Offenders with Antisocial Personality Disorder with and without Psychopathy. &lt;em&gt;PLoS ONE, 8&lt;/em&gt;(6), e65566. 
+&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
+&lt;p&gt;Ly, V., von Borries, A. K. L., Brazil, I. A., Bulten, B. H., Cools, R., &amp;amp; Roelofs, K. (2016). Reduced transfer of affective value to instrumental behavior in violent offenders. &lt;em&gt;Journal of Abnormal Psychology&lt;/em&gt;, 125(5), 657–663. 
+&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
+&lt;p&gt;Schweitzer, M. E., &amp;amp; Gibson, D. E. (2007). Fairness, Feelings, and Ethical Decision- Making: Consequences of Violating Community Standards of Fairness. &lt;em&gt;Journal of Business Ethics, 77&lt;/em&gt;(3), 287–301. 
+&amp;#160;&lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:9&#34;&gt;
+&lt;p&gt;Scholz, J. T., &amp;amp; Pinney, N. (1995). Duty, Fear, and Tax Compliance: The Heuristic Basis of Citizenship Behavior. &lt;em&gt;American Journal of Political Science, 39&lt;/em&gt;(2), 490. 
+&amp;#160;&lt;a href=&#34;#fnref:9&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:10&#34;&gt;
+&lt;p&gt;Pedneault, A., Beauregard, E., Harris, D. A., &amp;amp; Knight, R. A. (2017). Myopic decision making: An examination of crime decisions and their outcomes in sexual crimes. &lt;em&gt;Journal of Criminal Justice&lt;/em&gt;, 50, 1–11. 
+&amp;#160;&lt;a href=&#34;#fnref:10&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:11&#34;&gt;
+&lt;p&gt;Pogarsky, G., &amp;amp; Piquero, A. R. (2003). Can Punishment Encourage Offending? Investigating The “resetting” Effect. &lt;em&gt;Journal of Research in Crime and Delinquency, 40&lt;/em&gt;(1), 95–120. 
+&amp;#160;&lt;a href=&#34;#fnref:11&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:12&#34;&gt;
+&lt;p&gt;Tversky, A., &amp;amp; Kahneman, D. (1981). The Framing of Decisions and the Psychology of Choice. Science, 211(4481), 453–458. 
+&amp;#160;&lt;a href=&#34;#fnref:12&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:13&#34;&gt;
+&lt;p&gt;Loughran, T. A., Paternoster, R., &amp;amp; Weiss, D. (2012). Hyperbolic Time Discounting, Offender Time Preferences and Deterrence. &lt;em&gt;Journal of Quantitative Criminology, 28&lt;/em&gt;(4), 607–628. 
+&amp;#160;&lt;a href=&#34;#fnref:13&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:14&#34;&gt;
+&lt;p&gt;Whichard, C., &amp;amp; Felson, R. B. (2016). Are Suspects Who Resist Arrest Defiant, Desperate, or Disoriented? &lt;em&gt;Journal of Research in Crime and Delinquency, 53&lt;/em&gt;(4), 564–591. 
+&amp;#160;&lt;a href=&#34;#fnref:14&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:15&#34;&gt;
+&lt;p&gt;Ariely, D., &amp;amp; Loewenstein, G. (2006). The heat of the moment: the effect of sexual arousal on sexual decision making. &lt;em&gt;Journal of Behavioral Decision Making, 19&lt;/em&gt;(2), 87–98. 
+&amp;#160;&lt;a href=&#34;#fnref:15&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:16&#34;&gt;
+&lt;p&gt;Hoeben, E. M., &amp;amp; Thomas, K. J. (2019). Peers and offender decision‐making. &lt;em&gt;Criminology &amp;amp; Public Policy, 18&lt;/em&gt;(4), 759–784. 
+&amp;#160;&lt;a href=&#34;#fnref:16&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:17&#34;&gt;
+&lt;p&gt;McGloin, J. M., &amp;amp; Thomas, K. J. (2016). Incentives for collective deviance: Group size and changes in perceived risk, cost, and reward*. &lt;em&gt;Criminology, 54&lt;/em&gt;(3), 459–486. 
+&amp;#160;&lt;a href=&#34;#fnref:17&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
