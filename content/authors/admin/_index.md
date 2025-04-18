@@ -180,7 +180,7 @@ education:
 
 ## About Me
 
-I am a PhD researcher in (Computational) Criminology at Ghent University. My research is focused on the social aspect of co-offending behavior and the underlying mechanisms of criminal network formation. In my work, I mainly use computational tools like Social Network Analysis and Agent-Based Modeling.
+I am a PhD researcher in (Computational) Criminology at Ghent University. My research is focused on the social aspect of co-offending behavior and the underlying mechanisms of criminal network formation. In my work, I mainly use computational tools like Social Network Analysis and Agent-Based Modeling..
 
 This website is the place where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment.
 
