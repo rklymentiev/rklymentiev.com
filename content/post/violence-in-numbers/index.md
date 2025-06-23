@@ -49,7 +49,7 @@ Although these findings paint a rather grim picture of group dynamics, it is imp
 
 4.  Rowan, Z. R., Kan, E., Frick, P. J., & Cauffman, E. (2021). Not (Entirely) guilty: The role of co-offenders in diffusing responsibility for crime. *Journal of Research in Crime and Delinquency, 59*(4), 415--448. <https://doi.org/10.1177/00224278211046256>
 
-5.  Ruslan Klymentiev, Dayle Harvey, Luis E C Rocha, Christophe Vandeviver (2025). A systematic review and Bayesian meta-analysis of co-offending characteristics. *Nature Human Behaviour*. <https://doi.org/10.1038/s41562-025-02244-z>
+5.  Klymentiev, R., Harvey, D., Rocha, L.E.C. & Vandeviver C. (2025). A systematic review and Bayesian meta-analysis of co-offending characteristics. *Nature Human Behaviour*. <https://doi.org/10.1038/s41562-025-02244-z>
 
 6.  Paloutzian, R. F. (1975). Effects of deindividuation, removal of responsibility, and coaction on impulsive and cyclical aggression. *The Journal of Psychology, 90*(2), 163--169. <https://doi.org/10.1080/00223980.1975.9915771>
 
