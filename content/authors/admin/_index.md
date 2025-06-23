@@ -39,8 +39,6 @@ profiles:
     url: https://scholar.google.com/citations?user=prQO0zEAAAAJ
   # - icon: academicons/orcid
   #   url: https://orcid.org/0000-0002-0907-0908
-  # - icon: brands/instagram
-  #   url: https://www.instagram.com/rklymentiev/
 
 interests:
   - Sociology of Crime
