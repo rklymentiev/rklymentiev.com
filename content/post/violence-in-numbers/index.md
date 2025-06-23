@@ -4,7 +4,7 @@ date: "2025-06-23"
 summary: Unveiling the negative consequences of group dynamics, from diminished accountability to increased aggression.
 image:
   caption: "Credit: iStock / Split Second Stock"
-draft: true
+draft: false
 toc: false
 
 
