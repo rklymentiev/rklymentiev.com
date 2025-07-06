@@ -18,7 +18,7 @@ publishDate: "2025-07-06"
 publication_types: ["article-journal"]
 
 # Publication name and optional abbreviated publication name.
-publication: "*Crime Science, 14*(9)"
+publication: "*Crime Science, 14*(1)"
 publication_short: ""
 
 abstract: "**Purpose**: Offenders often select partners based on shared characteristics such as age, sex, or ethnicity, a phenomenon known as homophily. At the same time, co-offenders also face a challenge of choosing between trustworthy partners to maintain stable collaborations and useful partners who provide access to new skills and information. This study investigates how homophily shapes the structure of criminal networks and, consequently, the diffusion of information within these networks.
