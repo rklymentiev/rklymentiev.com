@@ -3,7 +3,7 @@ title: "A systematic review and Bayesian meta-analysis of co-offending character
 authors:
 - admin
 - Dayle Harvey
-- Luis E C Rocha
+- Luis E. C. Rocha
 - Christophe Vandeviver
 
 date: "2025-06-23"
@@ -35,10 +35,10 @@ featured: true
 # - name: "Pre-registration"
 #   url: https://www.frontiersin.org/journals/cellular-neuroscience/articles/10.3389/fncel.2024.1369047/pdf
 url_pdf: ''
-url_code: ''
-url_dataset: ''
+url_code: 'https://osf.io/ruf9k/'
+url_dataset: 'https://osf.io/ruf9k/'
 url_poster: ''
-url_project: 'https://osf.io/ruf9k/'
+url_project: ''
 url_slides: ''
 url_source: ''
 url_video: ''
