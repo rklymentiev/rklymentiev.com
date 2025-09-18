@@ -1739,7 +1739,7 @@ However, there are several limitations of this review. First of all, data was ar
 
 Secondly, it is worth mentioning, that the initial data was generated with the research question in mind (<s>cheating</s>) to make it more exciting, that's why the results came up significantly different. Although it doesn't change the modeling and analysis steps. 
 
-[**►Computational Models of Behavior, part 2: Bayesian Inference**](https://rklymentiev.com/post/computational-models-of-behavior-pt2/)
+[**►Computational Models of Behavior, part 2: Bayesian Inference**](https://rklymentiev.com/tutorial/computational-models-of-behavior-pt2/)
 
 
 ## References

@@ -667,11 +667,11 @@ This was a brief overview of how we can perform hypothesis testing when we deal 
 
 ## References
 
-[^1]: [Null Hypothesis Significance Testing, part 1 | RK](https://rklymentiev.com/post/null-hypothesis-significance-testing-part-1/)
+[^1]: [Null Hypothesis Significance Testing, part 1 | RK](https://rklymentiev.com/tutorial/null-hypothesis-significance-testing-part-1/)
 [^2]: [Student Alcohol Consumption | Kaggle](https://www.kaggle.com/uciml/student-alcohol-consumption)
 [^3]: Cortez, Paulo & Silva, Alice. (2008). Using data mining to predict secondary school student performance. *EUROSIS*. 
 [^4]: [Binomial distribution - Wikipedia](https://en.wikipedia.org/wiki/Binomial_distribution)
-[^5]: [Null Hypothesis Significance Testing, part 1 | RK](https://rklymentiev.com/post/null-hypothesis-significance-testing-part-1/#intuitive-example)
+[^5]: [Null Hypothesis Significance Testing, part 1 | RK](https://rklymentiev.com/tutorial/null-hypothesis-significance-testing-part-1/#intuitive-example)
 [^6]: [Binomial test - Wikipedia](https://en.wikipedia.org/wiki/Binomial_test)
 [^7]: [Normal Approximation to Binomial Distribution](https://ruslankl.shinyapps.io/norm-binom/)
 [^8]: [Chi-square distribution - Wikipedia](https://en.wikipedia.org/wiki/Chi-squared_distribution)

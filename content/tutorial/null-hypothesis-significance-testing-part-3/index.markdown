@@ -534,8 +534,8 @@ Kristoffer Magnusson has built some amazing visualizations that can help with bu
 
 ## References
 
-[^1]: [Null Hypothesis Significance Testing, part 1 | RK](https://rklymentiev.com/post/null-hypothesis-significance-testing-part-1/)
-[^2]: [Null Hypothesis Significance Testing, part 2 | RK](https://rklymentiev.com/post/null-hypothesis-significance-testing-part-2/)
+[^1]: [Null Hypothesis Significance Testing, part 1 | RK](https://rklymentiev.com/tutorial/null-hypothesis-significance-testing-part-1/)
+[^2]: [Null Hypothesis Significance Testing, part 2 | RK](https://rklymentiev.com/tutorial/null-hypothesis-significance-testing-part-2/)
 [^3]: Sullivan, G. M., & Feinn, R. (2012). Using Effect Size-or Why the P Value Is Not Enough. *Journal of graduate medical education*, 4(3), 279–282. `https://doi.org/10.4300/JGME-D-12-00156.1`
 [^4]: [Interpreting Cohen's d | R Psychologist](https://rpsychologist.com/d3/cohend/)
 [^5]: [Understanding Statistical Power and Significance Testing — an Interactive Visualization](https://rpsychologist.com/d3/nhst/)
