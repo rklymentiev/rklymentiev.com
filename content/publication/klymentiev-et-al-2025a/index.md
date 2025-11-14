@@ -37,7 +37,7 @@ featured: true
 url_pdf: ''
 url_code: 'https://osf.io/ruf9k/'
 url_dataset: 'https://osf.io/ruf9k/'
-url_poster: ''
+url_poster: '/publication/klymentiev-et-al-2025a/poster.pdf'
 url_project: ''
 url_slides: ''
 url_source: ''
