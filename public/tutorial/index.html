@@ -1,9 +1,9 @@
 <!doctype html>
 <!-- This site was created with Hugo Blox. https://hugoblox.com -->
-<!-- Last Published: November 11, 2024 --><html lang="en-us" dir="ltr"
+<!-- Last Published: November 19, 2025 --><html lang="en-us" dir="ltr"
       data-wc-theme-default="system">
   
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -44,7 +44,7 @@
   <meta name="description" content=" " />
 
   
-  <link rel="alternate" hreflang="en-us" href="http://localhost:4321/tutorial/" />
+  <link rel="alternate" hreflang="en-us" href="https://rklymentiev.com/tutorial/" />
 
   
   
@@ -133,6 +133,45 @@
 
 
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YK97CM73FX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-YK97CM73FX', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+
 
 
 
@@ -166,7 +205,7 @@
   <link rel="icon" type="image/png" href="/media/icon_hu18111939623654241174.png" />
   <link rel="apple-touch-icon" type="image/png" href="/media/icon_hu8230923372197676942.png" />
 
-  <link rel="canonical" href="http://localhost:4321/tutorial/" />
+  <link rel="canonical" href="https://rklymentiev.com/tutorial/" />
 
   
   
@@ -189,13 +228,13 @@
   <meta property="twitter:card" content="summary" />
   
   <meta property="og:site_name" content="RK" />
-  <meta property="og:url" content="http://localhost:4321/tutorial/" />
+  <meta property="og:url" content="https://rklymentiev.com/tutorial/" />
   <meta property="og:title" content="Teaching | RK" />
-  <meta property="og:description" content=" " /><meta property="og:image" content="http://localhost:4321/media/icon_hu5497558039692805424.png" />
-    <meta property="twitter:image" content="http://localhost:4321/media/icon_hu5497558039692805424.png" /><meta property="og:locale" content="en-us" />
+  <meta property="og:description" content=" " /><meta property="og:image" content="https://rklymentiev.com/media/icon_hu5497558039692805424.png" />
+    <meta property="twitter:image" content="https://rklymentiev.com/media/icon_hu5497558039692805424.png" /><meta property="og:locale" content="en-us" />
   
     
-      <meta property="og:updated_time" content="2022-06-01T00:00:00&#43;00:00" />
+      <meta property="og:updated_time" content="2025-10-14T00:00:00&#43;00:00" />
     
   
 
@@ -239,35 +278,6 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-    
-      
-      
-        
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-        
-        
-      
-    
-  
-  
     
       
       
@@ -297,6 +307,27 @@
   
   
   
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
   
     
       
@@ -317,60 +348,21 @@
         
       
     
-      
-      
-        
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-        
-        
-      
-    
-      
-      
-        
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-        
-        
-      
-    
-      
-      
-        
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-        
-        
-      
-    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
     
       
@@ -427,12 +419,24 @@
         
       
     
-  
-  
-  
-  
-  
-  
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
   
     
       
@@ -453,6 +457,64 @@
         
       
     
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+  
   
   
   
@@ -707,8 +769,8 @@
   
   <script
     defer
-    src="/js/hugo-blox-en.min.js"
-    integrity=""
+    src="/js/hugo-blox-en.min.e5fa931947cac2d947732ea37a770aae2b5bd4a50b6048060cd129b46159a06d.js"
+    integrity="sha256-5fqTGUfKwtlHcy6jencKritb1KULYEgGDNEptGFZoG0="
   ></script>
 
   
@@ -844,6 +906,20 @@
           
           href="/event/"
         >Talks</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/tags/"
+        >Topics</a
         >
       </li>
       
@@ -1072,6 +1148,71 @@
 <div class="container px-8 mx-auto xl:px-5 py-5 lg:py-8 max-w-screen-lg ">
   <div class="grid gap-10 md:grid-cols-3 lg:gap-10">
 
+
+  
+    
+
+
+
+
+
+
+
+
+
+<div class="group cursor-pointer">
+
+  
+  
+  
+    
+  
+  
+  <div class="overflow-hidden rounded-md bg-gray-100 transition-all hover:scale-105 dark:bg-gray-800">
+
+    <a
+      class="relative block aspect-video"
+      href="/tutorial/spatial-crime-analysis-in-python/" >
+
+      <img alt="Spatial Crime Analysis in Python"
+           class="object-fill transition-all"
+           data-nimg="fill"
+           decoding="async"
+           fetchpriority="high" height="540" loading="lazy" src="/tutorial/spatial-crime-analysis-in-python/featured_hu10246441813203831531.webp"
+           style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
+           width="960"></a>
+  </div>
+  
+  <div class="">
+    <div class="">
+      <div class="flex gap-3">
+        
+        <a href="/tags/python/"><span
+          class="inline-block text-xs font-medium tracking-wider uppercase mt-5 text-primary-700 dark:text-primary-300">Python</span></a>
+        
+      </div>
+      
+      <h2 class="text-lg font-semibold leading-snug tracking-tight mt-2 dark:text-white"><a
+        href="/tutorial/spatial-crime-analysis-in-python/" ><span
+        class="bg-gradient-to-r from-primary-200 to-primary-100 bg-[length:0px_10px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 hover:bg-[length:100%_3px] group-hover:bg-[length:100%_10px] dark:from-primary-800 dark:to-primary-900">Spatial Crime Analysis in Python
+          </span></a>
+      </h2>
+      
+      <div class="grow"><p class="mt-2 line-clamp-3 text-sm text-gray-500 dark:text-gray-400"><a
+        href="/tutorial/spatial-crime-analysis-in-python/" >
+        This tutorial shows how to analyze and visualize spatial crime patterns using publicly available homicide data from Toronto.</a></p>
+      </div>
+      <div class="flex-none">
+        <div class="mt-3 flex items-center space-x-3 text-gray-500 dark:text-gray-400 cursor-default">
+          
+          
+          <time class="truncate text-sm" datetime="2025-10-14">Oct 14, 2025</time>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
   
     
@@ -2134,7 +2275,7 @@
 
   
   <p class="powered-by text-center">
-    © 2024. This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+    © 2025. This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
   </p>
   
 
