@@ -1,0 +1,3 @@
+/spatial-crime-analysis-in-python/*
+  X-Frame-Options: ALLOWALL
+  Content-Security-Policy: frame-ancestors *;
