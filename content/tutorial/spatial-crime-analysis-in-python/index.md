@@ -263,9 +263,7 @@ Note that crime locations in this dataset are offset to the nearest intersection
 homicides_df.explore()
 ```
 
-<iframe src="/spatial-crime-analysis-in-python/homicides_df.html" width="100%" height="450" frameborder="0">
-
-</iframe>
+<iframe src="https://rklymentiev.com/spatial-crime-analysis-in-python/homicides_df.html" width="100%" height="450" frameborder="0"></iframe>
 
 The first example computes two fundamental centrographic measures commonly used in spatial crime analysis: the mean center and the standard deviational ellipse. The mean center shows the geographic "average" location of all homicide events, essentially the spatial gravity point of the dataset. The standard deviational ellipse summarizes the shape, orientation, and dispersion of the crime pattern by indicating the primary directional trend (e.g., northeast--southwest) and spread of incidents. Plotting these measures on top of incident points and a basemap makes it easy to understand where homicides concentrate overall and whether their pattern stretches along a particular corridor or axis. This is helpful for detecting city-wide directional trends, comparing different time periods, and supporting strategic policing or resource deployment.
 

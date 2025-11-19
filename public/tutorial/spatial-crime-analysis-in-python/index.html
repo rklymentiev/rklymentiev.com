@@ -1,0 +1,2612 @@
+<!doctype html>
+<!-- This site was created with Hugo Blox. https://hugoblox.com -->
+<!-- Last Published: November 19, 2025 --><html lang="en-us" dir="ltr"
+      data-wc-theme-default="system">
+  
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="generator" content="Hugo Blox Builder 0.2.0" />
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Ruslan Klymentiev" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Text" />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://rklymentiev.com/tutorial/spatial-crime-analysis-in-python/" />
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="/css/themes/emerald.min.css" />
+  
+
+  
+  
+    
+    <link href="/dist/wc.min.css" rel="stylesheet" />
+  
+
+  
+  
+  
+
+  
+    
+    <link href="/css/custom.min.15f6624443884362110ae1c63cfb1412c6924eea6b2373b4f708c498d4bf0f66.css" rel="stylesheet" />
+  
+
+  <script>
+     
+    window.hbb = {
+       defaultTheme: document.documentElement.dataset.wcThemeDefault,
+       setDarkTheme: () => {
+        document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = "dark";
+      },
+       setLightTheme: () => {
+        document.documentElement.classList.remove("dark");
+        document.documentElement.style.colorScheme = "light";
+      }
+    }
+
+    console.debug(`Default Hugo Blox Builder theme is ${window.hbb.defaultTheme}`);
+
+    if ("wc-color-theme" in localStorage) {
+      localStorage.getItem("wc-color-theme") === "dark" ? window.hbb.setDarkTheme() : window.hbb.setLightTheme();
+    } else {
+      window.hbb.defaultTheme === "dark" ? window.hbb.setDarkTheme() : window.hbb.setLightTheme();
+      if (window.hbb.defaultTheme === "system") {
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? window.hbb.setDarkTheme() : window.hbb.setLightTheme();
+      }
+    }
+  </script>
+
+  <script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      
+      let checkboxes = document.querySelectorAll('li input[type=\'checkbox\'][disabled]');
+      checkboxes.forEach(e => {
+        e.parentElement.parentElement.classList.add('task-list');
+      });
+
+      
+      const liNodes = document.querySelectorAll('.task-list li');
+      liNodes.forEach(nodes => {
+        let textNodes = Array.from(nodes.childNodes).filter(node => node.nodeType === 3 && node.textContent.trim().length > 1);
+        if (textNodes.length > 0) {
+          const span = document.createElement('label');
+          textNodes[0].after(span);  
+          span.appendChild(nodes.querySelector('input[type=\'checkbox\']'));
+          span.appendChild(textNodes[0]);
+        }
+      });
+    });
+  </script>
+
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YK97CM73FX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-YK97CM73FX', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  <link rel="icon" type="image/png" href="/media/icon_hu18111939623654241174.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hu8230923372197676942.png" />
+
+  <link rel="canonical" href="https://rklymentiev.com/tutorial/spatial-crime-analysis-in-python/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary_large_image" />
+  
+  <meta property="og:site_name" content="RK" />
+  <meta property="og:url" content="https://rklymentiev.com/tutorial/spatial-crime-analysis-in-python/" />
+  <meta property="og:title" content="Spatial Crime Analysis in Python | RK" />
+  <meta property="og:description" content="Text" /><meta property="og:image" content="https://rklymentiev.com/tutorial/spatial-crime-analysis-in-python/featured.jpg" />
+    <meta property="twitter:image" content="https://rklymentiev.com/tutorial/spatial-crime-analysis-in-python/featured.jpg" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2025-10-14T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2025-10-14T00:00:00&#43;00:00">
+  
+
+  
+
+
+
+  
+
+
+  <title>Spatial Crime Analysis in Python | RK</title>
+
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <style>
+    @font-face {
+      font-family: 'Inter var';
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url(/dist/font/Inter.var.woff2) format(woff2);
+    }
+  </style>
+
+  
+
+  
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+      
+      
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        
+        
+      
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="/dist/pagefind/pagefind-ui.be766eb419317a14ec769d216e9779bfe8f3737c80e780f4ba0dafb57a41a482.css" integrity="sha256-vnZutBkxehTsdp0hbpd5v&#43;jzc3yA54D0ug2vtXpBpII=" />
+
+
+<script src="/dist/pagefind/pagefind-ui.87693d7c6f2b3b347ce359d0ede762c033419f0a32b22ce508c335a81d841f1b.js" integrity="sha256-h2k9fG8rOzR841nQ7ediwDNBnwoysizlCMM1qB2EHxs="></script>
+
+
+<script>window.hbb.pagefind = {"baseUrl":"/"};</script>
+
+<style>
+  html.dark {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+  }
+</style>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    new PagefindUI({
+      element: "#search",
+      showSubResults: true,
+      baseUrl: window.hbb.pagefind.baseUrl,
+      bundlePath: window.hbb.pagefind.baseUrl + "pagefind/",
+    });
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    let element = document.getElementById('search');
+    let trigger = document.getElementById('search_toggle');
+
+    if (trigger) {
+      trigger.addEventListener('click', () => {
+        element.classList.toggle('hidden');
+        element.querySelector("input").value = ""
+        element.querySelector("input").focus()
+
+        if (!element.classList.contains('hidden')) {
+          let clear_trigger = document.querySelector('.pagefind-ui__search-clear');
+
+          if (clear_trigger && !clear_trigger.hasAttribute('listenerOnClick')) {
+            clear_trigger.setAttribute('listenerOnClick', 'true');
+
+            clear_trigger.addEventListener('click', () => {
+              element.classList.toggle('hidden');
+            });
+          }
+        }
+
+      });
+    }
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link type="text/css" rel="stylesheet" href="/dist/lib/katex/katex.min.505d5f829022bb7b4f24dfee0aa1141cd7bba67afe411d1240335f820960b5c3.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr&#43;QR0SQDNfgglgtcM=" />
+  
+  
+  <script defer src="/dist/lib/katex/katex.min.dc84b296ec3e884de093158f760fd9d45b6c7abe58b5381557f4e138f46a58ae.js" integrity="sha256-3ISyluw&#43;iE3gkxWPdg/Z1Ftser5YtTgVV/ThOPRqWK4="></script>
+  
+  
+  
+  
+  <script defer src="/js/katex-renderer.6579ec9683211cfb952064aedf3a3baea5eeb17a061775b32b70917474637c80.js" integrity="sha256-ZXnsloMhHPuVIGSu3zo7rqXusXoGF3WzK3CRdHRjfIA="></script>
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  <script
+    defer
+    src="/js/hugo-blox-en.min.e5fa931947cac2d947732ea37a770aae2b5bd4a50b6048060cd129b46159a06d.js"
+    integrity="sha256-5fqTGUfKwtlHcy6jencKritb1KULYEgGDNEptGFZoG0="
+  ></script>
+
+  
+  
+
+
+
+
+
+
+
+
+  
+    
+      
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+      
+    
+  
+
+
+
+
+</head>
+
+  <body class="dark:bg-hb-dark dark:text-white page-wrapper" id="top">
+    <div id="page-bg"></div>
+    <div class="page-header sticky top-0 z-30">
+      
+      
+      
+        
+        
+        
+          <header id="site-header" class="header">
+  <nav class="navbar px-3 flex justify-left">
+    <div class="order-0 h-100">
+      
+      <a class="navbar-brand" href="/" title="RK">
+        RK
+      </a>
+    </div>
+    
+    <input id="nav-toggle" type="checkbox" class="hidden" />
+    <label
+      for="nav-toggle"
+      class="order-3 cursor-pointer flex items-center lg:hidden text-dark dark:text-white lg:order-1">
+      <svg id="show-button" class="h-6 fill-current block" viewBox="0 0 20 20">
+        <title>Open Menu</title>
+        <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+      </svg>
+      <svg id="hide-button" class="h-6 fill-current hidden" viewBox="0 0 20 20">
+        <title>Close Menu</title>
+        <polygon
+          points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+          transform="rotate(45 10 10)"></polygon>
+      </svg>
+    </label>
+    
+
+    
+    
+    <ul
+      id="nav-menu"
+      class="navbar-nav order-3 hidden lg:flex w-full pb-6 lg:order-1 lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8 justify-left
+      ">
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/"
+        >Home</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/publication/"
+        >Publications</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/tutorial/"
+        >Tutorials</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/post/"
+        >Blog</a
+        >
+      </li>
+      
+      
+      
+      
+      
+      
+      <li class="nav-item">
+        <a
+          class="nav-link "
+          
+          href="/event/"
+        >Talks</a
+        >
+      </li>
+      
+      
+      
+    </ul>
+
+    <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+
+      
+      
+      
+      <button
+        aria-label="search"
+        class="text-black hover:text-primary  inline-block px-3 text-xl dark:text-white"
+        id="search_toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512" fill="currentColor"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
+      </button>
+      
+
+      
+      
+      <div class="px-3 text-black hover:text-primary-700 dark:text-white dark:hover:text-primary-300
+            [&.active]:font-bold [&.active]:text-black/90 dark:[&.active]:text-white">
+        <button class="theme-toggle mt-1" accesskey="t" title="appearance">
+          <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" class="dark:hidden">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" class=" dark:block [&:not(dark)]:hidden">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+      
+
+      
+      
+
+      
+      
+    </div>
+  </nav>
+</header>
+
+
+<div id="search" class="hidden p-3"></div>
+
+
+        
+      
+    </div>
+    <div class="page-body  my-10">
+      
+
+
+
+
+
+<div class="mx-auto flex max-w-screen-xl">
+  
+
+
+
+<aside class="hb-sidebar-container max-lg:[transform:translate3d(0,-100%,0)] lg:hidden xl:block">
+  
+  <div class="px-4 pt-4 lg:hidden">
+    
+    
+  </div>
+  <div class="hb-scrollbar lg:h-[calc(100vh-var(--navbar-height))]">
+    <ul class="flex flex-col gap-1 lg:hidden">
+      
+      
+        <li class="open"><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/"
+    
+  >Teaching
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col open"><a
+    class="hb-sidebar-custom-link
+      sidebar-active-item bg-primary-100 font-semibold text-primary-800 dark:bg-primary-300 dark:text-primary-900"
+    href="/tutorial/spatial-crime-analysis-in-python/"
+    
+  >Spatial Crime Analysis in Python
+    </a>
+  
+    <ul class="hb-sidebar-mobile-toc"><li>
+              <a
+                href="#density-plot"
+                class="hb-docs-link"
+              >Density Plot</a>
+            </li>
+          <li>
+              <a
+                href="#occurence-by-neighborhood"
+                class="hb-docs-link"
+              >Occurence by Neighborhood</a>
+            </li>
+          <li>
+              <a
+                href="#spatial-statistics"
+                class="hb-docs-link"
+              >Spatial Statistics</a>
+            </li>
+          <li>
+              <a
+                href="#useful-links"
+                class="hb-docs-link"
+              >Useful Links</a>
+            </li>
+          </ul>
+  
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/python_for_ds/"
+    
+  >Python for Data Science (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/computational-models-of-behavior-pt2/"
+    
+  >Computational Models of Behavior, part 2
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/computational-models-of-behavior-pt1/"
+    
+  >Computational Models of Behavior, part 1
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/pyforneuro/"
+    
+  >Python for Neuroscience
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/bandit_cats/"
+    
+  >Bandit Cats and Exploration-Exploitation Trade-Off
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/eeg-preprocessing-erp/"
+    
+  >Intro to EEG Data Analysis
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/frequentist-vs-bayesian/"
+    
+  >Who would you rather date, Bayes Factor or p-value?
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/null-hypothesis-significance-testing-part-3/"
+    
+  >Null Hypothesis Significance Testing, part 3
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/null-hypothesis-significance-testing-part-2/"
+    
+  >Null Hypothesis Significance Testing, part 2
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/roc-curve/"
+    
+  >ROC Curve Simulation
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/null-hypothesis-significance-testing-part-1/"
+    
+  >Null Hypothesis Significance Testing, part 1
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/norm-binom/"
+    
+  >Normal Approximation to Binomial Distribution
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/how-do-cart-models-work/"
+    
+  >How do CART models work
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/bayes_disease/"
+    
+  >Bayes Rule and Disease Testing
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/tutorial/mab-problem/"
+    
+  >How to Deal with Multi-Armed Bandit Problem
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/"
+    
+  >Recent Talks
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/presentation_esc2025/"
+    
+  >Foraging for crime: a simulation study on co-offender specialization
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/presentation_ssc2025/"
+    
+  >Social foraging for crime: a simulation study on offenders specialization and co-offending
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/2024_guest_lecture_abm/"
+    
+  >Simulations as a bridge between theory and empirical testing in criminology research
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/presentation_cben2024/"
+    
+  >The Effect of Homophily on Co-Offending Outcomes
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/presentation_ssc2024/"
+    
+  >The Effect of Homophily on Co-Offending Outcomes
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/introduction-to-python/"
+    
+  >Introduction to Python
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/frequentist-vs-bayesian/"
+    
+  >Who would you rather date, Bayes Factor or p-value? (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/how-to-start-career-in-data/"
+    
+  >How to start career in Data (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/null-hypothesis-significance-testing/"
+    
+  >Statistical Hypothesis Testing (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/data-visualization/"
+    
+  >Packages for Data Visualization (in Russian)
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/event/numpy-pandas-sympy/"
+    
+  >Intro to NumPy, pandas &amp; SymPy (in Russian)
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/publication/"
+    
+  >Publications
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/publication/klymentiev-et-al-2025b/"
+    
+  >Homophily promotes stable connections in co-offending networks but limits information diffusion: insights from a simulation study
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/publication/klymentiev-et-al-2025a/"
+    
+  >A systematic review and Bayesian meta-analysis of co-offending characteristics
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/publication/dean-et-al-2024/"
+    
+  >Inhibiting presynaptic calcium channel motility in the auditory cortex suppresses synchronized input processing
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/"
+    
+  >Blog
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/violence-in-numbers/"
+    
+  >Violence in Numbers
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/how-i-met-my-partner-in-crime/"
+    
+  >How I Met My Partner In Crime
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/how-do-criminals-make-decisions/"
+    
+  >How Do Criminals Make Decisions?
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/post/psychopathy/"
+    
+  >Psychopaths: the Good, the Bad, and the Crazy
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/"
+    
+  >Projects
+        <span data-hb-sidebar-toggle>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg>
+        </span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class="hb-sidebar-list"><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/pandas/"
+    
+  >Pandas
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/pytorch/"
+    
+  >PyTorch
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/project/scikit/"
+    
+  >scikit-learn
+    </a>
+              
+            </li></ul>
+      </div></li>
+        <li class=""><a
+    class="hb-sidebar-custom-link
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-primary-800 dark:hover:text-gray-50"
+    href="/experience/"
+    
+  >Experience
+    </a></li>
+    </ul>
+
+    <div class="max-xl:hidden h-0 w-64 shrink-0"></div></div>
+
+</aside>
+  
+
+<nav class="hb-toc order-last hidden w-64 shrink-0 xl:block print:hidden px-4" aria-label="table of contents">
+  
+
+
+
+
+
+
+
+
+
+
+
+  <div class="hb-scrollbar text-sm [hyphens:auto] sticky top-16 overflow-y-auto pr-4 pt-6 max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] -mr-4 rtl:-ml-4"><p class="mb-4 font-semibold tracking-tight">On this page</p><ul>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#density-plot">Density Plot</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#occurence-by-neighborhood">Occurence by Neighborhood</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#spatial-statistics">Spatial Statistics</a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 w-full break-words" href="#useful-links">Useful Links</a>
+      </li></ul>
+
+  
+  
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+  </nav>
+
+
+  <article class="w-full break-words flex min-h-[calc(100vh-var(--navbar-height))] min-w-0 justify-center pb-8 pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+    <main class="w-full min-w-0 max-w-6xl px-6 pt-4 md:px-12">
+
+      
+
+      <h1 class="mt-2 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Spatial Crime Analysis in Python</h1>
+
+      <div class="mt-4 mb-16">
+      <div class="text-gray-500 dark:text-gray-300 text-sm flex items-center flex-wrap gap-y-2"><span class="mr-1">Oct 14, 2025</span><span class="mx-1">·</span>
+        
+          
+          
+          <div class="group inline-flex items-center text-current gap-x-1.5 mx-1">
+            
+            
+            <img src="/author/ruslan-klymentiev/avatar_hu16379050607528300314.webp" alt="Ruslan Klymentiev" class="inline-block h-4 w-4 rounded-full border border-current" loading="lazy" />
+            
+            <div >Ruslan Klymentiev</div>
+          </div>
+          
+        
+
+        
+        <span class="mx-1">·</span>
+        <span class="mx-1">
+          14 min read
+        </span>
+        
+        </div>
+
+        <div class="mt-3">
+          
+
+
+
+
+
+        </div>
+      </div>
+
+
+
+      
+      
+      
+      
+      
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <div class="article-header article-container featured-image-wrapper mt-4 mb-16" style="max-width: 720px; max-height: 491px;">
+        <div style="position: relative">
+          <img src="/tutorial/spatial-crime-analysis-in-python/featured_hu4441849189310216920.webp" width="720" height="491" alt="" class="featured-image">
+          <span class="article-header-caption">Photo by Stefancu Iulian on Unsplash</span>
+        </div>
+      </div>
+      
+
+      
+      
+
+      <div class="prose prose-slate lg:prose-xl dark:prose-invert">
+        <p>Understanding where crime happens is just as important as understanding why it happens. Spatial crime analysis allows us to explore the geography of criminal activity, particularly uncovering spatial patterns, identifying hotspots, and informing data-driven strategies for prevention and policing.</p>
+<p>This tutorial provides a practical introduction to spatial crime analysis using Python, guiding you through several essential techniques for understanding how crime patterns vary across space. You will learn how to:</p>
+<ul>
+<li>load data directly from an online database using API requests</li>
+<li>create density maps to identify spatial hot spots of crime incidents</li>
+<li>generate summary statistics for neighborhood-level comparisons</li>
+<li>apply global and local spatial autocorrelation methods (Moran&rsquo;s I and Local Moran&rsquo;s I) to detect clustering structures</li>
+</ul>
+<p>Python is a powerful alternative to traditional GIS tools like QGIS because it allows you to fully automate workflows, integrate statistical analysis with spatial data, and reproduce results programmatically. This makes it ideal not only for exploration but also for scalable, repeatable crime analysis pipelines. Note that basic programming/Python knowledge is required for this tutorial.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">pandas</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">pd</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">geopandas</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">gpd</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">seaborn</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">sns</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">numpy</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">np</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">contextily</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">cx</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">requests</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">ipywidgets</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">widgets</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span><span style="color:#81c8be">import</span> <span style="color:#ef9f76">matplotlib.pyplot</span> <span style="color:#ca9ee6">as</span> <span style="color:#ef9f76">plt</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span><span style="color:#81c8be">from</span> <span style="color:#ef9f76">matplotlib.patches</span> <span style="color:#81c8be">import</span> Ellipse
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span><span style="color:#81c8be">from</span> <span style="color:#ef9f76">pointpats</span> <span style="color:#81c8be">import</span> centrography
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span><span style="color:#81c8be">from</span> <span style="color:#ef9f76">IPython.core.pylabtools</span> <span style="color:#81c8be">import</span> figsize
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span><span style="color:#81c8be">from</span> <span style="color:#ef9f76">libpysal.weights</span> <span style="color:#81c8be">import</span> Queen
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span><span style="color:#81c8be">from</span> <span style="color:#ef9f76">esda.moran</span> <span style="color:#81c8be">import</span> Moran, Moran_Local
+</span></span></code></pre></div><p>We will use <a href="https://data.torontopolice.on.ca/pages/open-data" target="_blank" rel="noopener">publicly available data</a> on homicides from the Toronto Police Service (TPS). According to the dataset <a href="https://data.torontopolice.on.ca/datasets/TorontoPS::homicides-open-data-asr-rc-tbl-002/about" target="_blank" rel="noopener">documentation</a>, it includes records of all homicide occurrences in Toronto since 2004. The TPS Open Data Portal provides several download options, including CSV, GeoJSON, and Excel formats, making it easy to work with in different environments. It also offers an API endpoint, which is especially useful when you want to automate data retrieval or integrate live updates directly into your analysis scripts. In this tutorial, we&rsquo;ll take advantage of the API to demonstrate how to import data programmatically in Python. This approach not only saves time but also makes your workflow more reproducible and scalable.</p>
+<p>To work with spatial data in Python, we&rsquo;ll use <a href="https://geopandas.org/en/stable/index.html" target="_blank" rel="noopener">GeoPandas</a>, a powerful open-source library that extends the functionality of pandas to handle geographic data. It allows you to work with vector data (like points, lines, and polygons) in the same way you&rsquo;d work with tabular data in pandas, while adding built-in support for geometry operations, map plotting, and coordinate transformations.</p>
+<p>The core data structure in GeoPandas is the GeoDataFrame, which works just like a regular pandas DataFrame but includes a special geometry column that stores spatial features, for example, the geographic coordinates of each homicide location. This makes it easy to visualize data on a map, perform spatial joins, or calculate geometric properties such as distances and areas.</p>
+<p>In this tutorial, we&rsquo;ll store our homicide records in a GeoDataFrame so that we can visualize and analyze their spatial distribution across Toronto directly within Python.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># make an API request to get the data</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span><span style="color:#737994;font-style:italic"># define query parameters for the API request</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>fields_to_retrieve <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#39;*&#39;</span>  <span style="color:#737994;font-style:italic"># retrieve all available fields</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>file_format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#39;geojson&#39;</span>  <span style="color:#737994;font-style:italic"># request data in GeoJSON format (easy to load into GeoPandas)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span><span style="color:#737994;font-style:italic"># construct the API endpoint URL</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>url <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#e78284">f</span><span style="color:#a6d189">&#34;https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Homicides_Open_Data_ASR_RC_TBL_002/FeatureServer/0/query?outFields=</span><span style="color:#a6d189">{</span>fields_to_retrieve<span style="color:#a6d189">}</span><span style="color:#a6d189">&amp;where=1%3D1&amp;f=</span><span style="color:#a6d189">{</span>file_format<span style="color:#a6d189">}</span><span style="color:#a6d189">&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span><span style="color:#737994;font-style:italic"># send the API request</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>response <span style="color:#99d1db;font-weight:bold">=</span> requests<span style="color:#99d1db;font-weight:bold">.</span>get(url)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span><span style="color:#737994;font-style:italic"># parse the response as JSON</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>data <span style="color:#99d1db;font-weight:bold">=</span> response<span style="color:#99d1db;font-weight:bold">.</span>json()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span><span style="color:#737994;font-style:italic"># convert the obtained data into a GeoDataFrame</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span>homicides_df <span style="color:#99d1db;font-weight:bold">=</span> gpd<span style="color:#99d1db;font-weight:bold">.</span>GeoDataFrame<span style="color:#99d1db;font-weight:bold">.</span>from_features(data[<span style="color:#a6d189">&#39;features&#39;</span>])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span><span style="color:#737994;font-style:italic"># preview the first few records</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span>homicides_df<span style="color:#99d1db;font-weight:bold">.</span>head()
+</span></span></code></pre></div><div style="overflow-y: scroll;">
+  <table>
+<thead>
+<tr>
+<th></th>
+<th>geometry</th>
+<th>OBJECTID</th>
+<th>EVENT_UNIQUE_ID</th>
+<th>OCC_DATE</th>
+<th>OCC_YEAR</th>
+<th>OCC_MONTH</th>
+<th>OCC_DAY</th>
+<th>OCC_DOW</th>
+<th>OCC_DOY</th>
+<th>DIVISION</th>
+<th>HOMICIDE_TYPE</th>
+<th>HOOD_158</th>
+<th>NEIGHBOURHOOD_158</th>
+<th>HOOD_140</th>
+<th>NEIGHBOURHOOD_140</th>
+<th>LONG_WGS84</th>
+<th>LAT_WGS84</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>POINT (-79.393 43.685)</td>
+<td>1</td>
+<td>GO-2004111878</td>
+<td>1073106000000</td>
+<td>2004</td>
+<td>January</td>
+<td>3</td>
+<td>Saturday</td>
+<td>3</td>
+<td>D53</td>
+<td>Other</td>
+<td>098</td>
+<td>Rosedale-Moore Park (98)</td>
+<td>098</td>
+<td>Rosedale-Moore Park (98)</td>
+<td>-79.392828</td>
+<td>43.685026</td>
+</tr>
+<tr>
+<td>1</td>
+<td>POINT (-79.234 43.782)</td>
+<td>2</td>
+<td>GO-2004125755</td>
+<td>1073538000000</td>
+<td>2004</td>
+<td>January</td>
+<td>8</td>
+<td>Thursday</td>
+<td>8</td>
+<td>D42</td>
+<td>Shooting</td>
+<td>142</td>
+<td>Woburn North (142)</td>
+<td>137</td>
+<td>Woburn (137)</td>
+<td>-79.233852</td>
+<td>43.781782</td>
+</tr>
+<tr>
+<td>2</td>
+<td>POINT (-79.206 43.811)</td>
+<td>3</td>
+<td>GO-2004136086</td>
+<td>1073538000000</td>
+<td>2004</td>
+<td>January</td>
+<td>8</td>
+<td>Thursday</td>
+<td>8</td>
+<td>D42</td>
+<td>Shooting</td>
+<td>146</td>
+<td>Malvern East (146)</td>
+<td>132</td>
+<td>Malvern (132)</td>
+<td>-79.205574</td>
+<td>43.810544</td>
+</tr>
+<tr>
+<td>3</td>
+<td>POINT (-79.434 43.67)</td>
+<td>4</td>
+<td>GO-2004148623</td>
+<td>1075006800000</td>
+<td>2004</td>
+<td>January</td>
+<td>25</td>
+<td>Sunday</td>
+<td>25</td>
+<td>D13</td>
+<td>Shooting</td>
+<td>171</td>
+<td>Junction-Wallace Emerson (171)</td>
+<td>093</td>
+<td>Dovercourt-Wallace Emerson-Junction (93)</td>
+<td>-79.434387</td>
+<td>43.670467</td>
+</tr>
+<tr>
+<td>4</td>
+<td>POINT (-79.205 43.823)</td>
+<td>5</td>
+<td>GO-2004148619</td>
+<td>1075006800000</td>
+<td>2004</td>
+<td>January</td>
+<td>25</td>
+<td>Sunday</td>
+<td>25</td>
+<td>D42</td>
+<td>Shooting</td>
+<td>144</td>
+<td>Morningside Heights (144)</td>
+<td>131</td>
+<td>Rouge (131)</td>
+<td>-79.204958</td>
+<td>43.822997</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>As the columns <code>LONG_WGS84</code> and <code>LAT_WGS84</code> suggest, the location coordinates are based on the WGS 84 geographic coordinate system (EPSG:4326). We will convert those geographic coordinates into the Web Mercator projection (EPSG:3857). This projected coordinate system represents the Earth on a flat, two-dimensional plane using meters as units, the same system used by most online mapping services (like OpenStreetMap, Google Maps, or CartoDB).</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>homicides_df <span style="color:#99d1db;font-weight:bold">=</span> homicides_df \
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>set_crs(epsg<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">4326</span>) \
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>to_crs(epsg<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">3857</span>)
+</span></span></code></pre></div><p>Before moving on to more advanced analysis, it&rsquo;s a good idea to visually inspect the data to ensure everything looks as expected. That&rsquo;s where the <code>.explore()</code> function from GeoPandas comes in. It allows you to create interactive web maps directly from a GeoDataFrame with just a single line of code &mdash; making it easy to pan, zoom, and click on individual features to explore their attributes.</p>
+<p>Note that crime locations in this dataset are offset to the nearest intersection to protect privacy. Coordinates are approximate and should not be interpreted as exact addresses.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>homicides_df<span style="color:#99d1db;font-weight:bold">.</span>explore()
+</span></span></code></pre></div><iframe src="/spatial-crime-analysis-in-python/homicides_df.html" width="100%" height="450" frameborder="0">
+</iframe>
+<p>Even though this is spatial data, you can still perform all the usual data analysis operations you would with a regular pandas DataFrame, such as filtering, aggregation, and plotting. For example, we can aggregate homicides by quarter and visualize trends over time to see how the number of occurrences changes across the years.</p>
+<p>The <code>OCC_DATE</code> column in the dataset is stored as a timestamp in milliseconds. Here, we convert it to pandas datetime objects so that we can perform date-based operations and groupings easily.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># convert date column from timestamp to datetime format</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>homicides_df[<span style="color:#a6d189">&#39;OCC_DATE_conv&#39;</span>] <span style="color:#99d1db;font-weight:bold">=</span> homicides_df[<span style="color:#a6d189">&#39;OCC_DATE&#39;</span>]<span style="color:#99d1db;font-weight:bold">.</span>apply(<span style="color:#ca9ee6">lambda</span> x: pd<span style="color:#99d1db;font-weight:bold">.</span>Timestamp(x, unit<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;ms&#39;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span><span style="color:#737994;font-style:italic"># calculate the number of events by the quarter of occurrence (converted from the datetime column)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span><span style="color:#737994;font-style:italic"># and the type of homicide</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>temp_df <span style="color:#99d1db;font-weight:bold">=</span> homicides_df\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>groupby([homicides_df[<span style="color:#a6d189">&#39;OCC_DATE_conv&#39;</span>]<span style="color:#99d1db;font-weight:bold">.</span>dt<span style="color:#99d1db;font-weight:bold">.</span>to_period(<span style="color:#a6d189">&#34;Q&#34;</span>), <span style="color:#a6d189">&#39;HOMICIDE_TYPE&#39;</span>])\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>agg({<span style="color:#a6d189">&#34;EVENT_UNIQUE_ID&#34;</span>: <span style="color:#a6d189">&#34;count&#34;</span>})\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>reset_index(drop<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">False</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>rename(columns<span style="color:#99d1db;font-weight:bold">=</span>{<span style="color:#a6d189">&#34;EVENT_UNIQUE_ID&#34;</span>: <span style="color:#a6d189">&#34;count&#34;</span>})
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span><span style="color:#737994;font-style:italic"># convert date column back to timestamp for plotting</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>temp_df[<span style="color:#a6d189">&#39;OCC_DATE_conv&#39;</span>] <span style="color:#99d1db;font-weight:bold">=</span> temp_df[<span style="color:#a6d189">&#39;OCC_DATE_conv&#39;</span>]<span style="color:#99d1db;font-weight:bold">.</span>dt<span style="color:#99d1db;font-weight:bold">.</span>to_timestamp()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span><span style="color:#737994;font-style:italic"># make a plot</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span>sns<span style="color:#99d1db;font-weight:bold">.</span>set_theme(style<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;whitegrid&#34;</span>, palette<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;muted&#34;</span>, font_scale<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">1.2</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>figure(figsize<span style="color:#99d1db;font-weight:bold">=</span>(<span style="color:#ef9f76">10</span>, <span style="color:#ef9f76">5</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">19</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">20</span><span>sns<span style="color:#99d1db;font-weight:bold">.</span>lineplot(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">21</span><span>    data<span style="color:#99d1db;font-weight:bold">=</span>temp_df,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">22</span><span>    x<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;OCC_DATE_conv&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">23</span><span>    y<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;count&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">24</span><span>    hue<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;HOMICIDE_TYPE&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">25</span><span>    marker<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;o&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">26</span><span>    linewidth<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">27</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">28</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">29</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>title(<span style="color:#a6d189">&#34;Quarterly Homicides in Toronto&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">30</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>xlabel(<span style="color:#a6d189">&#34;Date&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">31</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>ylabel(<span style="color:#a6d189">&#34;Number of Homicides&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">32</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>legend(title<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;Homicide Type&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">33</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>show()
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="flex justify-center	">
+    <div class="w-100" ><img alt="png" srcset="
+               /tutorial/spatial-crime-analysis-in-python/output_11_0_hu8620332969433257286.webp 400w,
+               /tutorial/spatial-crime-analysis-in-python/output_11_0_hu12673562006666138068.webp 760w,
+               /tutorial/spatial-crime-analysis-in-python/output_11_0_hu17169102376578077098.webp 1200w"
+               src="/tutorial/spatial-crime-analysis-in-python/output_11_0_hu8620332969433257286.webp"
+               width="760"
+               height="430"
+               loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>The next example computes two fundamental centrographic measures commonly used in spatial crime analysis: the mean center and the standard deviational ellipse. The mean center shows the geographic &ldquo;average&rdquo; location of all homicide events&mdash;essentially the spatial gravity point of the dataset. The standard deviational ellipse summarizes the shape, orientation, and dispersion of the crime pattern by indicating the primary directional trend (e.g., northeast&ndash;southwest) and spread of incidents. Plotting these measures on top of incident points and a basemap makes it easy to understand where homicides concentrate overall and whether their pattern stretches along a particular corridor or axis. This is helpful for detecting city-wide directional trends, comparing different time periods, and supporting strategic policing or resource deployment.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># extract x and y coordinates from geometry</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>homicides_df[<span style="color:#a6d189">&#39;x&#39;</span>] <span style="color:#99d1db;font-weight:bold">=</span> homicides_df[<span style="color:#a6d189">&#39;geometry&#39;</span>]<span style="color:#99d1db;font-weight:bold">.</span>apply(<span style="color:#ca9ee6">lambda</span> x: x<span style="color:#99d1db;font-weight:bold">.</span>xy[<span style="color:#ef9f76">0</span>][<span style="color:#ef9f76">0</span>])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>homicides_df[<span style="color:#a6d189">&#39;y&#39;</span>] <span style="color:#99d1db;font-weight:bold">=</span> homicides_df[<span style="color:#a6d189">&#39;geometry&#39;</span>]<span style="color:#99d1db;font-weight:bold">.</span>apply(<span style="color:#ca9ee6">lambda</span> x: x<span style="color:#99d1db;font-weight:bold">.</span>xy[<span style="color:#ef9f76">1</span>][<span style="color:#ef9f76">0</span>])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span><span style="color:#737994;font-style:italic"># compute the mean center of all homicide locations</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span><span style="color:#737994;font-style:italic"># (i.e., the geographic &#34;average&#34; of all x/y coordinates)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>mean_center <span style="color:#99d1db;font-weight:bold">=</span> centrography<span style="color:#99d1db;font-weight:bold">.</span>mean_center(homicides_df[[<span style="color:#a6d189">&#34;x&#34;</span>, <span style="color:#a6d189">&#34;y&#34;</span>]])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span><span style="color:#737994;font-style:italic"># compute the parameters of the Standard Deviational Ellipse</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>major, minor, rotation <span style="color:#99d1db;font-weight:bold">=</span> centrography<span style="color:#99d1db;font-weight:bold">.</span>ellipse(homicides_df[[<span style="color:#a6d189">&#34;x&#34;</span>, <span style="color:#a6d189">&#34;y&#34;</span>]])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span><span style="color:#737994;font-style:italic"># create a joint plot (scatter plot + marginal distributions of x/y coordinates)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>ax <span style="color:#99d1db;font-weight:bold">=</span> sns<span style="color:#99d1db;font-weight:bold">.</span>jointplot(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>    x<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;x&#34;</span>, y<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;y&#34;</span>, data<span style="color:#99d1db;font-weight:bold">=</span>homicides_df, height<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">8</span>, s<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">4</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span><span style="color:#737994;font-style:italic"># add a web basemap to the jointplot&#39;s main axis</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span>cx<span style="color:#99d1db;font-weight:bold">.</span>add_basemap(ax<span style="color:#99d1db;font-weight:bold">.</span>ax_joint, source<span style="color:#99d1db;font-weight:bold">=</span>cx<span style="color:#99d1db;font-weight:bold">.</span>providers<span style="color:#99d1db;font-weight:bold">.</span>CartoDB<span style="color:#99d1db;font-weight:bold">.</span>Positron)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">19</span><span><span style="color:#737994;font-style:italic"># add marginal rug plots to show density along each axis</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">20</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>plot_marginals(sns<span style="color:#99d1db;font-weight:bold">.</span>rugplot, color<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;black&#34;</span>, height<span style="color:#99d1db;font-weight:bold">=-</span><span style="color:#ef9f76">.1</span>, clip_on<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">False</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">21</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">22</span><span><span style="color:#737994;font-style:italic"># plot the mean center on the map</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">23</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>ax_joint<span style="color:#99d1db;font-weight:bold">.</span>scatter(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">24</span><span>    <span style="color:#99d1db;font-weight:bold">*</span>mean_center, color<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;red&#34;</span>, marker<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;x&#34;</span>, s<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">50</span>, label<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;Mean Center&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">25</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">26</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">27</span><span><span style="color:#737994;font-style:italic"># add vertical and horizontal lines showing the mean center in the marginal distributions</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">28</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>ax_marg_x<span style="color:#99d1db;font-weight:bold">.</span>axvline(mean_center[<span style="color:#ef9f76">0</span>], color<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;red&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">29</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>ax_marg_y<span style="color:#99d1db;font-weight:bold">.</span>axhline(mean_center[<span style="color:#ef9f76">1</span>], color<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;red&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">30</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">31</span><span><span style="color:#737994;font-style:italic"># create the standard deviational ellipse patch</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">32</span><span>ellipse <span style="color:#99d1db;font-weight:bold">=</span> Ellipse(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">33</span><span>    xy<span style="color:#99d1db;font-weight:bold">=</span>mean_center,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">34</span><span>    width<span style="color:#99d1db;font-weight:bold">=</span>major <span style="color:#99d1db;font-weight:bold">*</span> <span style="color:#ef9f76">2</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">35</span><span>    height<span style="color:#99d1db;font-weight:bold">=</span>minor <span style="color:#99d1db;font-weight:bold">*</span> <span style="color:#ef9f76">2</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">36</span><span>    angle<span style="color:#99d1db;font-weight:bold">=</span>np<span style="color:#99d1db;font-weight:bold">.</span>rad2deg(rotation),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">37</span><span>    facecolor<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;none&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">38</span><span>    edgecolor<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;red&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">39</span><span>    linestyle<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;--&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">40</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">41</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">42</span><span><span style="color:#737994;font-style:italic"># add the ellipse to the main jointplot axis</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">43</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>ax_joint<span style="color:#99d1db;font-weight:bold">.</span>add_patch(ellipse)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">44</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">45</span><span><span style="color:#737994;font-style:italic"># remove axis labels for a cleaner appearance</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">46</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>ax_joint<span style="color:#99d1db;font-weight:bold">.</span>set_axis_off()
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="flex justify-center	">
+    <div class="w-100" ><img alt="png" srcset="
+               /tutorial/spatial-crime-analysis-in-python/output_13_0_hu4658748750111686577.webp 400w,
+               /tutorial/spatial-crime-analysis-in-python/output_13_0_hu9949091593986601993.webp 760w,
+               /tutorial/spatial-crime-analysis-in-python/output_13_0_hu17809540973316056798.webp 1200w"
+               src="/tutorial/spatial-crime-analysis-in-python/output_13_0_hu4658748750111686577.webp"
+               width="709"
+               height="721"
+               loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h2 id="density-plot">Density Plot</h2>
+<p>The first example is to build a hotspot map of homicides. To do this, we first need to extract the numeric coordinates from each point&rsquo;s geometry, because the KDE (Kernel Density Estimation) function in Seaborn requires regular x&ndash;y values rather than geometric objects. Once the coordinates are available, we can plot the incident points on a basemap and overlay a smooth KDE surface to highlight areas where homicides are more concentrated. This results in a clear visual representation of spatial crime intensity across the city.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># plot all homicide points as the base layer</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>ax <span style="color:#99d1db;font-weight:bold">=</span> homicides_df\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>plot(figsize<span style="color:#99d1db;font-weight:bold">=</span>(<span style="color:#ef9f76">10</span>, <span style="color:#ef9f76">10</span>), alpha<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">0.1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span><span style="color:#737994;font-style:italic"># add a web basemap underneath (CartoDB Positron)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>cx<span style="color:#99d1db;font-weight:bold">.</span>add_basemap(ax, source<span style="color:#99d1db;font-weight:bold">=</span>cx<span style="color:#99d1db;font-weight:bold">.</span>providers<span style="color:#99d1db;font-weight:bold">.</span>CartoDB<span style="color:#99d1db;font-weight:bold">.</span>Positron)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span><span style="color:#737994;font-style:italic"># add Kernel Density Estimation (KDE) heatmap to show homicide hotspots</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>sns<span style="color:#99d1db;font-weight:bold">.</span>kdeplot(homicides_df, x<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;x&#39;</span>, y<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;y&#39;</span>, fill<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>, ax<span style="color:#99d1db;font-weight:bold">=</span>ax, cmap<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;Reds&#39;</span>, alpha<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">0.5</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>title(<span style="color:#a6d189">&#34;Homicides Hot Spots (All Years)&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>axis(<span style="color:#a6d189">&#39;off&#39;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>show()
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="flex justify-center	">
+    <div class="w-100" ><img alt="png" srcset="
+               /tutorial/spatial-crime-analysis-in-python/output_16_0_hu5513342830741349478.webp 400w,
+               /tutorial/spatial-crime-analysis-in-python/output_16_0_hu5556890830894157420.webp 760w,
+               /tutorial/spatial-crime-analysis-in-python/output_16_0_hu18075875955189599860.webp 1200w"
+               src="/tutorial/spatial-crime-analysis-in-python/output_16_0_hu5513342830741349478.webp"
+               width="760"
+               height="584"
+               loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>The plot above shows the density plot of homicides aggregated for all available years. Sometimes it might be useful to aggregate the data for each year separately. If you are using Jupyter Notebooks, there is a way to create an interactive plot using <a href="https://ipywidgets.readthedocs.io/en/stable/" target="_blank" rel="noopener">Jupyter Widgets</a>. Unfortunately, the result of the code below cannot be demonstrated in a post environment, but the short video demonstration is included.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#ca9ee6">def</span> <span style="color:#8caaee">plot_homicides</span>(year):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>    <span style="color:#737994;font-style:italic"># Filter data</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>    year <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#99d1db">str</span>(year)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>    df_year <span style="color:#99d1db;font-weight:bold">=</span> homicides_df<span style="color:#99d1db;font-weight:bold">.</span>query(<span style="color:#e78284">f</span><span style="color:#a6d189">&#34;OCC_YEAR == &#39;</span><span style="color:#a6d189">{</span>year<span style="color:#a6d189">}</span><span style="color:#a6d189">&#39;&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>    <span style="color:#737994;font-style:italic"># Plot</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>    fig, ax <span style="color:#99d1db;font-weight:bold">=</span> plt<span style="color:#99d1db;font-weight:bold">.</span>subplots(figsize<span style="color:#99d1db;font-weight:bold">=</span>(<span style="color:#ef9f76">10</span>, <span style="color:#ef9f76">10</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>    df_year<span style="color:#99d1db;font-weight:bold">.</span>plot(ax<span style="color:#99d1db;font-weight:bold">=</span>ax, alpha<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">0.5</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>    cx<span style="color:#99d1db;font-weight:bold">.</span>add_basemap(ax, source<span style="color:#99d1db;font-weight:bold">=</span>cx<span style="color:#99d1db;font-weight:bold">.</span>providers<span style="color:#99d1db;font-weight:bold">.</span>CartoDB<span style="color:#99d1db;font-weight:bold">.</span>Positron)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>    sns<span style="color:#99d1db;font-weight:bold">.</span>kdeplot(df_year, x<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;x&#39;</span>, y<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;y&#39;</span>, fill<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>, ax<span style="color:#99d1db;font-weight:bold">=</span>ax, cmap<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;Reds&#39;</span>, alpha<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">0.5</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>    plt<span style="color:#99d1db;font-weight:bold">.</span>title(<span style="color:#e78284">f</span><span style="color:#a6d189">&#34;Homicides Hot Spots (</span><span style="color:#a6d189">{</span>year<span style="color:#a6d189">}</span><span style="color:#a6d189">)&#34;</span>, fontsize<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">14</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>    plt<span style="color:#99d1db;font-weight:bold">.</span>axis(<span style="color:#a6d189">&#39;off&#39;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>    plt<span style="color:#99d1db;font-weight:bold">.</span>show()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span><span style="color:#737994;font-style:italic"># # create an interactive slider</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span><span style="color:#737994;font-style:italic"># years = sorted(homicides_df[&#34;OCC_YEAR&#34;].dropna().unique())</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">19</span><span><span style="color:#737994;font-style:italic"># widgets.interact(plot_homicides, year=widgets.SelectionSlider(</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">20</span><span><span style="color:#737994;font-style:italic">#     options=years,</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">21</span><span><span style="color:#737994;font-style:italic">#     description=&#39;Year:&#39;,</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">22</span><span><span style="color:#737994;font-style:italic">#     continuous_update=False,</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">23</span><span><span style="color:#737994;font-style:italic">#     layout=widgets.Layout(width=&#39;600px&#39;)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">24</span><span><span style="color:#737994;font-style:italic"># ));</span>
+</span></span></code></pre></div><h2 id="occurence-by-neighborhood">Occurence by Neighborhood</h2>
+<p>The next example is to visualize which neighborhoods have the most homicides. Of course, you could do this numerically by aggregating the data, for example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>homicides_df\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>groupby(<span style="color:#a6d189">&#39;NEIGHBOURHOOD_158&#39;</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>agg({<span style="color:#a6d189">&#34;EVENT_UNIQUE_ID&#34;</span>: <span style="color:#a6d189">&#34;count&#34;</span>})\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>sort_values(by<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;EVENT_UNIQUE_ID&#34;</span>, ascending<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">False</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>reset_index(drop<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">False</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>rename(columns<span style="color:#99d1db;font-weight:bold">=</span>{<span style="color:#a6d189">&#34;EVENT_UNIQUE_ID&#34;</span>: <span style="color:#a6d189">&#34;count&#34;</span>})\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">7</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>head(<span style="color:#ef9f76">5</span>)
+</span></span></code></pre></div><div style="overflow-y: scroll;">
+<table>
+<thead>
+<tr>
+<th><p></p></th>
+<th><p>NEIGHBOURHOOD_158</p></th>
+<th><p>count</p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>0</p></td>
+<td><p>Mount Olive-Silverstone-Jamestown (2)</p></td>
+<td><p>43</p></td>
+</tr>
+<tr>
+<td><p>1</p></td>
+<td><p>Moss Park (73)</p></td>
+<td><p>42</p></td>
+</tr>
+<tr>
+<td><p>2</p></td>
+<td><p>Glenfield-Jane Heights (25)</p></td>
+<td><p>39</p></td>
+</tr>
+<tr>
+<td><p>3</p></td>
+<td><p>Black Creek (24)</p></td>
+<td><p>28</p></td>
+</tr>
+<tr>
+<td><p>4</p></td>
+<td><p>Weston (113)</p></td>
+<td><p>27</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This gives a quick look at the neighborhoods with the highest number of homicides.</p>
+<p>However, for this tutorial, we want to use the data for spatial demonstrations. One challenge is that our homicide dataset only contains the names of neighborhoods and not their geometries. To solve this, we&rsquo;ll load another dataset that includes the polygon boundaries of each neighborhood, allowing us to map and analyze homicide counts spatially. By looking through available datasets on TPS Data Portal, one can see that <a href="https://hub.arcgis.com/datasets/TorontoPS::neighbourhood-crime-rates-open-data/about" target="_blank" rel="noopener">Neighbourhood Crime Rates Open Data</a> has the relevant information.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># we request only the relevant columns: the neighborhood name, ID, and geometric properties</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>fields_to_retrieve <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#39;AREA_NAME,HOOD_ID,POPULATION_2024,Shape__Area,Shape__Length&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span><span style="color:#737994;font-style:italic"># set the output format to GeoJSON</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>file_format <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#39;geojson&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span><span style="color:#737994;font-style:italic"># construct the API request URL</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>url <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#e78284">f</span><span style="color:#a6d189">&#34;https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/Neighbourhood_Crime_Rates_Open_Data/FeatureServer/0/query?where=1%3D1&amp;outFields=</span><span style="color:#a6d189">{</span>fields_to_retrieve<span style="color:#a6d189">}</span><span style="color:#a6d189">&amp;f=</span><span style="color:#a6d189">{</span>file_format<span style="color:#a6d189">}</span><span style="color:#a6d189">&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span><span style="color:#737994;font-style:italic"># make the request and convert to GeoDataFrame</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>response <span style="color:#99d1db;font-weight:bold">=</span> requests<span style="color:#99d1db;font-weight:bold">.</span>get(url)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>data <span style="color:#99d1db;font-weight:bold">=</span> response<span style="color:#99d1db;font-weight:bold">.</span>json()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>neighborhoods_df <span style="color:#99d1db;font-weight:bold">=</span> gpd<span style="color:#99d1db;font-weight:bold">.</span>GeoDataFrame<span style="color:#99d1db;font-weight:bold">.</span>from_features(data[<span style="color:#a6d189">&#39;features&#39;</span>])
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span>neighborhoods_df<span style="color:#99d1db;font-weight:bold">.</span>sample(<span style="color:#ef9f76">5</span>)
+</span></span></code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>AREA_NAME</th>
+      <th>HOOD_ID</th>
+      <th>POPULATION_2024</th>
+      <th>Shape__Area</th>
+      <th>Shape__Length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>34</th>
+      <td>POLYGON ((-79.269 43.715, -79.271 43.714, -79....</td>
+      <td>Kennedy Park</td>
+      <td>124</td>
+      <td>19131</td>
+      <td>3.580843e+06</td>
+      <td>7606.721632</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>POLYGON ((-79.474 43.633, -79.474 43.633, -79....</td>
+      <td>Humber Bay Shores</td>
+      <td>161</td>
+      <td>25072</td>
+      <td>1.578119e+06</td>
+      <td>16145.793086</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>POLYGON ((-79.276 43.725, -79.275 43.724, -79....</td>
+      <td>Clairlea-Birchmount</td>
+      <td>120</td>
+      <td>30413</td>
+      <td>7.397932e+06</td>
+      <td>16486.065445</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>POLYGON ((-79.264 43.752, -79.265 43.752, -79....</td>
+      <td>Bendale-Glen Andrew</td>
+      <td>156</td>
+      <td>21422</td>
+      <td>4.913225e+06</td>
+      <td>9230.799898</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>POLYGON ((-79.219 43.772, -79.219 43.77, -79.2...</td>
+      <td>Golfdale-Cedarbrae-Woburn</td>
+      <td>141</td>
+      <td>30798</td>
+      <td>6.035002e+06</td>
+      <td>13482.556528</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Once we load the neighbourhood boundary data, we can merge it with the homicide dataset to attach the corresponding polygon geometry to each homicide event. Note that neighbourhood IDs (<code>HOOD_ID</code>) in the boundary dataset are stored as integers (e.g., 1, 2, 3), while in the homicide dataset they are stored as zero-padded text strings (e.g., &ldquo;001&rdquo;, &ldquo;002&rdquo;, &ldquo;003&rdquo;). To ensure a successful merge, we first need to convert the integer IDs into 3-digit string codes.</p>
+<p>Then we will aggregate the data to calculate the count of homicides within each neighborhood.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># convert integer to a zero-padded 3-digit string (e.g., 1 -&gt; &#34;001&#34;)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>neighborhoods_df[<span style="color:#a6d189">&#39;HOOD_ID&#39;</span>] <span style="color:#99d1db;font-weight:bold">=</span> neighborhoods_df[<span style="color:#a6d189">&#39;HOOD_ID&#39;</span>]\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>apply(<span style="color:#ca9ee6">lambda</span> x: <span style="color:#99d1db">str</span>(x)<span style="color:#99d1db;font-weight:bold">.</span>rjust(<span style="color:#ef9f76">3</span>, <span style="color:#a6d189">&#39;0&#39;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span><span style="color:#737994;font-style:italic"># merge neighbourhood polygons with homicide data</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span><span style="color:#737994;font-style:italic"># left-join homicide records to neighbourhoods using matching HOOD_ID fields</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span><span style="color:#737994;font-style:italic"># count how many homicide events fall into each neighbourhood</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span><span style="color:#737994;font-style:italic"># reset index and rename the count column</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span><span style="color:#737994;font-style:italic"># merge counts back into the neighbourhoods_df to retain geometry</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>combined_df <span style="color:#99d1db;font-weight:bold">=</span> neighborhoods_df\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>merge(homicides_df, left_on<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;HOOD_ID&#39;</span>, right_on<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;HOOD_158&#39;</span>, how<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;left&#39;</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>groupby([<span style="color:#a6d189">&#39;HOOD_ID&#39;</span>])\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>agg({<span style="color:#a6d189">&#39;EVENT_UNIQUE_ID&#39;</span>: <span style="color:#a6d189">&#39;count&#39;</span>})\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>reset_index()\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>rename(columns<span style="color:#99d1db;font-weight:bold">=</span>{<span style="color:#a6d189">&#39;EVENT_UNIQUE_ID&#39;</span>: <span style="color:#a6d189">&#39;HOM_TOTAL_COUNT&#39;</span>})\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>merge(neighborhoods_df)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span><span style="color:#737994;font-style:italic"># convert the merged DataFrame into a GeoDataFrame and assign the original</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">19</span><span><span style="color:#737994;font-style:italic"># geographic coordinate system (WGS84, EPSG:4326).</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">20</span><span><span style="color:#737994;font-style:italic"># This ensures that the geometry column is recognized as spatial data</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">21</span><span><span style="color:#737994;font-style:italic"># before transforming it to a projected CRS (e.g., Web Mercator EPSG:3857).</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">22</span><span>combined_df <span style="color:#99d1db;font-weight:bold">=</span> gpd<span style="color:#99d1db;font-weight:bold">.</span>GeoDataFrame(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">23</span><span>    combined_df,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">24</span><span>    geometry<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;geometry&#39;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">25</span><span>    crs<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;EPSG:4326&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">26</span><span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># reproject data to Web Mercator (EPSG:3857) for compatibility with web basemaps,</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span><span style="color:#737994;font-style:italic"># then plot neighborhood polygons colored by total homicide count.</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>ax <span style="color:#99d1db;font-weight:bold">=</span> combined_df\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>to_crs(epsg<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">3857</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>plot(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>        figsize<span style="color:#99d1db;font-weight:bold">=</span>(<span style="color:#ef9f76">10</span>, <span style="color:#ef9f76">10</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>        column<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;HOM_TOTAL_COUNT&#34;</span>,  <span style="color:#737994;font-style:italic"># variable used to determine color of each polygon</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>        scheme<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;FisherJenks&#34;</span>,  <span style="color:#737994;font-style:italic"># statistical classification method (natural breaks)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>        cmap<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;Reds_r&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>        alpha<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">0.5</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>        legend<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>,  <span style="color:#737994;font-style:italic"># Show legend</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>        legend_kwds<span style="color:#99d1db;font-weight:bold">=</span>{<span style="color:#a6d189">&#39;loc&#39;</span>: <span style="color:#a6d189">&#39;lower right&#39;</span>, <span style="color:#a6d189">&#39;title&#39;</span>: <span style="color:#a6d189">&#39;Total Homicide Count (2004-2025)&#39;</span>},
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>        edgecolor<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;black&#39;</span>  <span style="color:#737994;font-style:italic"># Edge color for better visibility</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>    )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span><span style="color:#737994;font-style:italic"># add a web basemap (CartoDB Positron) under the polygons</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span>cx<span style="color:#99d1db;font-weight:bold">.</span>add_basemap(ax, source<span style="color:#99d1db;font-weight:bold">=</span>cx<span style="color:#99d1db;font-weight:bold">.</span>providers<span style="color:#99d1db;font-weight:bold">.</span>CartoDB<span style="color:#99d1db;font-weight:bold">.</span>Positron)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span><span style="color:#737994;font-style:italic"># remove axes for a cleaner map visualization</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">19</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>set_axis_off()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">20</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>show()
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="flex justify-center	">
+    <div class="w-100" ><img alt="png" srcset="
+               /tutorial/spatial-crime-analysis-in-python/output_26_0_hu18086145718557070191.webp 400w,
+               /tutorial/spatial-crime-analysis-in-python/output_26_0_hu13954441238580065715.webp 760w,
+               /tutorial/spatial-crime-analysis-in-python/output_26_0_hu155127901170293527.webp 1200w"
+               src="/tutorial/spatial-crime-analysis-in-python/output_26_0_hu18086145718557070191.webp"
+               width="760"
+               height="556"
+               loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Similarly, there is a method to create an interactive map.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>combined_df<span style="color:#99d1db;font-weight:bold">.</span>explore(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>    column<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;HOM_TOTAL_COUNT&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>    cmap<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;Reds&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>    style_kwds<span style="color:#99d1db;font-weight:bold">=</span>{<span style="color:#a6d189">&#39;color&#39;</span>: <span style="color:#a6d189">&#39;grey&#39;</span>},
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span>)
+</span></span></code></pre></div><iframe src="/spatial-crime-analysis-in-python/toronto_homicides_map.html" width="100%" height="450" frameborder="0">
+</iframe>
+<h2 id="spatial-statistics">Spatial Statistics</h2>
+<p>In the next part of this tutorial, we&rsquo;ll move from visualization to spatial statistics, focusing on two key measures: Moran&rsquo;s I and Local Moran coefficients (LISA). These statistics help us understand whether homicide counts are spatially clustered, dispersed, or randomly distributed across Toronto&rsquo;s neighborhoods.</p>
+<p>Moran&rsquo;s I is a global measure of spatial autocorrelation. A positive value indicates that similar values (e.g., high homicide counts) tend to occur near each other, while a negative value suggests a checkerboard-like pattern where high values are surrounded by low values. Values near zero imply no meaningful spatial pattern.</p>
+<p>Local Moran statistics take this a step further by identifying specific neighborhoods that contribute most to the overall pattern. They highlight &ldquo;hot spots&rdquo; (high values surrounded by high values), &ldquo;cold spots,&rdquo; and potential spatial outliers.</p>
+<p>These tools allow us to quantify and map spatial patterns rather than relying on visual intuition alone.</p>
+<p>To compute Moran&rsquo;s I and Local Moran statistics, we need a way to formally describe which neighborhoods are considered neighbors. This is where a contiguity-based spatial weights matrix comes in. By defining areas as neighbors when they share a border or corner (Queen contiguity), we capture real-world spatial relationships&mdash;areas that touch are more likely to influence each other. These weights tell the statistical model how observations are connected in space, allowing Moran&rsquo;s I to evaluate whether similar homicide values cluster among adjacent neighborhoods. Without a spatial weights matrix, the analysis would treat neighborhoods as independent, ignoring the geographic structure that is central to spatial autocorrelation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#737994;font-style:italic"># create a Queen contiguity spatial weights matrix</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span><span style="color:#737994;font-style:italic"># neighborhoods are considered neighbors if they share a border OR a corner.</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>w <span style="color:#99d1db;font-weight:bold">=</span> Queen<span style="color:#99d1db;font-weight:bold">.</span>from_dataframe(combined_df, geom_col<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;geometry&#39;</span>, ids<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;AREA_NAME&#39;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span><span style="color:#737994;font-style:italic"># row-standardize the weights so each row sums to 1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span>w<span style="color:#99d1db;font-weight:bold">.</span>transform <span style="color:#99d1db;font-weight:bold">=</span> <span style="color:#a6d189">&#39;R&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span><span style="color:#737994;font-style:italic"># select the variable for which we want to measure spatial autocorrelation</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span><span style="color:#737994;font-style:italic"># in our case it is total homicide counts per neighborhood.</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">3</span><span>y <span style="color:#99d1db;font-weight:bold">=</span> combined_df[<span style="color:#a6d189">&#34;HOM_TOTAL_COUNT&#34;</span>]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">5</span><span><span style="color:#737994;font-style:italic"># compute Moran&#39;s I statistic using the chosen variable and weights matrix</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">6</span><span>mi <span style="color:#99d1db;font-weight:bold">=</span> Moran(y, w)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">8</span><span><span style="color:#99d1db">print</span>(<span style="color:#e78284">f</span><span style="color:#a6d189">&#34;Moran&#39;s I: </span><span style="color:#a6d189">{</span>mi<span style="color:#99d1db;font-weight:bold">.</span>I<span style="color:#a6d189">:</span><span style="color:#a6d189">.3f</span><span style="color:#a6d189">}</span><span style="color:#a6d189">&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">9</span><span><span style="color:#99d1db">print</span>(<span style="color:#e78284">f</span><span style="color:#a6d189">&#34;p-value: </span><span style="color:#a6d189">{</span>mi<span style="color:#99d1db;font-weight:bold">.</span>p_sim<span style="color:#a6d189">:</span><span style="color:#a6d189">.4f</span><span style="color:#a6d189">}</span><span style="color:#a6d189">&#34;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">1</span><span>Moran&#39;s I: 0.295
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">2</span><span>p-value: 0.0010
+</span></span></code></pre></div><p>For our dataset, the global Moran&rsquo;s I value is 0.295 with a p-value of 0.0010. This indicates a statistically significant positive spatial autocorrelation in homicide counts across Toronto&rsquo;s neighborhoods. In practical terms, neighborhoods with high homicide counts tend to be located near other high-count neighborhoods, and the same is true for low-count areas. The low p-value confirms that this pattern is unlikely to be due to random chance and reflects a meaningful spatial structure in the data.</p>
+<p>After computing the global Moran&rsquo;s I, the next step is to explore local spatial autocorrelation using the Local Moran statistic (LISA). This helps identify where clusters occur rather than whether clustering exists overall.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span><span style="color:#737994;font-style:italic"># compute Local Moran&#39;s I for each neighborhood</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>li <span style="color:#99d1db;font-weight:bold">=</span> Moran_Local(y, w)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span><span style="color:#737994;font-style:italic"># store results in the dataframe</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>combined_df[<span style="color:#a6d189">&#34;local_I&#34;</span>] <span style="color:#99d1db;font-weight:bold">=</span> li<span style="color:#99d1db;font-weight:bold">.</span>Is  <span style="color:#737994;font-style:italic"># local Moran statistic for each polygon</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>combined_df[<span style="color:#a6d189">&#34;p_val&#34;</span>] <span style="color:#99d1db;font-weight:bold">=</span> li<span style="color:#99d1db;font-weight:bold">.</span>p_sim  <span style="color:#737994;font-style:italic"># local p-values</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span><span style="color:#737994;font-style:italic"># extract cluster quadrant codes:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span><span style="color:#737994;font-style:italic"># 1 = High-High, 2 = Low-High, 3 = Low-Low, 4 = High-Low</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>combined_df[<span style="color:#a6d189">&#34;quadrant&#34;</span>] <span style="color:#99d1db;font-weight:bold">=</span> li<span style="color:#99d1db;font-weight:bold">.</span>q
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>cluster_types <span style="color:#99d1db;font-weight:bold">=</span> {<span style="color:#ef9f76">1</span>: <span style="color:#a6d189">&#39;HH&#39;</span>, <span style="color:#ef9f76">2</span>: <span style="color:#a6d189">&#39;LH&#39;</span>, <span style="color:#ef9f76">3</span>: <span style="color:#a6d189">&#39;LL&#39;</span>, <span style="color:#ef9f76">4</span>: <span style="color:#a6d189">&#39;HL&#39;</span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>combined_df[<span style="color:#a6d189">&#34;quadrant_label&#34;</span>] <span style="color:#99d1db;font-weight:bold">=</span>  combined_df[<span style="color:#a6d189">&#34;quadrant&#34;</span>]<span style="color:#99d1db;font-weight:bold">.</span>apply(<span style="color:#ca9ee6">lambda</span> x: cluster_types[x])
+</span></span></code></pre></div><p>The code below visualizes only the statistically significant Local Moran clusters (p &lt; 0.05). First, the dataset is filtered to include only neighborhoods where the Local Moran p-value indicates a meaningful spatial pattern.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 1</span><span>ax <span style="color:#99d1db;font-weight:bold">=</span> combined_df\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 2</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>query(<span style="color:#a6d189">&#34;p_val &lt; .05&#34;</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 3</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>to_crs(epsg<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">3857</span>)\
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 4</span><span>    <span style="color:#99d1db;font-weight:bold">.</span>plot(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 5</span><span>        figsize<span style="color:#99d1db;font-weight:bold">=</span>(<span style="color:#ef9f76">10</span>, <span style="color:#ef9f76">10</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 6</span><span>        column<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;quadrant_label&#34;</span>,  <span style="color:#737994;font-style:italic"># variable used to determine color of each polygon</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 7</span><span>        categorical<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 8</span><span>        cmap<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#34;Set1&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7"> 9</span><span>        alpha<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">0.5</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">10</span><span>        legend<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#ef9f76">True</span>,  <span style="color:#737994;font-style:italic"># Show legend</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">11</span><span>        legend_kwds<span style="color:#99d1db;font-weight:bold">=</span>{<span style="color:#a6d189">&#39;loc&#39;</span>: <span style="color:#a6d189">&#39;lower right&#39;</span>},
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">12</span><span>        edgecolor<span style="color:#99d1db;font-weight:bold">=</span><span style="color:#a6d189">&#39;black&#39;</span>  <span style="color:#737994;font-style:italic"># Edge color for better visibility</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">13</span><span>    )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">14</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">15</span><span><span style="color:#737994;font-style:italic"># add a web basemap (CartoDB Positron) under the polygons</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">16</span><span>cx<span style="color:#99d1db;font-weight:bold">.</span>add_basemap(ax, source<span style="color:#99d1db;font-weight:bold">=</span>cx<span style="color:#99d1db;font-weight:bold">.</span>providers<span style="color:#99d1db;font-weight:bold">.</span>CartoDB<span style="color:#99d1db;font-weight:bold">.</span>Positron)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">17</span><span><span style="color:#737994;font-style:italic"># remove axes for a cleaner map visualization</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">18</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>set_title(<span style="color:#a6d189">&#34;Local Moran Cluster Map (LISA)&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">19</span><span>ax<span style="color:#99d1db;font-weight:bold">.</span>set_axis_off()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#838ba7">20</span><span>plt<span style="color:#99d1db;font-weight:bold">.</span>show()
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="flex justify-center	">
+    <div class="w-100" ><img alt="png" srcset="
+               /tutorial/spatial-crime-analysis-in-python/output_38_0_hu2737645263803992530.webp 400w,
+               /tutorial/spatial-crime-analysis-in-python/output_38_0_hu14358344830896194089.webp 760w,
+               /tutorial/spatial-crime-analysis-in-python/output_38_0_hu14302716462477821085.webp 1200w"
+               src="/tutorial/spatial-crime-analysis-in-python/output_38_0_hu2737645263803992530.webp"
+               width="760"
+               height="494"
+               loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h2 id="useful-links">Useful Links</h2>
+<p>Text</p>
+
+      </div>
+
+      
+  <time class="mt-12 mb-8 block text-xs text-gray-500 ltr:text-right rtl:text-left dark:text-gray-400" datetime="2025-10-14T00:00:00.000Z">
+    <span>Last updated on</span>
+    Oct 14, 2025</time>
+
+      <div class="container mx-auto prose prose-slate lg:prose-xl dark:prose-invert mt-5">
+        
+        <div class="max-w-prose print:hidden">
+  
+  
+
+  
+
+<div class="flex justify-center">
+  
+  <a class="no-underline bg-primary-100 hover:bg-primary-300 text-primary-800 text-xs font-medium mr-2 px-2.5 py-0.5 lg:px-5 lg:py-2 rounded dark:bg-primary-900 dark:hover:bg-primary-700 dark:text-primary-300" href="/tags/python/">Python</a>
+  
+  <a class="no-underline bg-primary-100 hover:bg-primary-300 text-primary-800 text-xs font-medium mr-2 px-2.5 py-0.5 lg:px-5 lg:py-2 rounded dark:bg-primary-900 dark:hover:bg-primary-700 dark:text-primary-300" href="/tags/crime-analysis/">Crime Analysis</a>
+  
+  <a class="no-underline bg-primary-100 hover:bg-primary-300 text-primary-800 text-xs font-medium mr-2 px-2.5 py-0.5 lg:px-5 lg:py-2 rounded dark:bg-primary-900 dark:hover:bg-primary-700 dark:text-primary-300" href="/tags/spatial-analysis/">Spatial Analysis</a>
+  
+</div>
+
+
+  
+<section class="flex flex-row flex-wrap justify-center pt-4 text-xl">
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="https://twitter.com/intent/tweet?url=https%3A%2F%2Frklymentiev.com%2Ftutorial%2Fspatial-crime-analysis-in-python%2F&amp;text=Spatial&#43;Crime&#43;Analysis&#43;in&#43;Python"
+    title="X"
+    aria-label="X"
+    id="share-link-x"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Frklymentiev.com%2Ftutorial%2Fspatial-crime-analysis-in-python%2F&amp;t=Spatial&#43;Crime&#43;Analysis&#43;in&#43;Python"
+    title="Facebook"
+    aria-label="Facebook"
+    id="share-link-facebook"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+    
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="mailto:?subject=Spatial%20Crime%20Analysis%20in%20Python&amp;body=https%3A%2F%2Frklymentiev.com%2Ftutorial%2Fspatial-crime-analysis-in-python%2F"
+    title="Email"
+    aria-label="Email"
+    id="share-link-email"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M16.5 12a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Frklymentiev.com%2Ftutorial%2Fspatial-crime-analysis-in-python%2F&amp;title=Spatial&#43;Crime&#43;Analysis&#43;in&#43;Python"
+    title="LinkedIn"
+    aria-label="LinkedIn"
+    id="share-link-linkedin"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+  </a>
+  
+
+  
+  
+  
+  
+  
+  
+  <a
+    target="_blank" rel="noopener"
+    class="m-1 rounded-md bg-neutral-300 p-1.5 text-neutral-700 hover:bg-primary-500 hover:text-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-400 dark:hover:text-neutral-800"
+    href="whatsapp://send?text=Spatial&#43;Crime&#43;Analysis&#43;in&#43;Python%20https%3A%2F%2Frklymentiev.com%2Ftutorial%2Fspatial-crime-analysis-in-python%2F"
+    title="WhatsApp"
+    aria-label="WhatsApp"
+    id="share-link-whatsapp"
+  >
+    <svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="m187.58 144.84-32-16a8 8 0 0 0-8 .5l-14.69 9.8a40.55 40.55 0 0 1-16-16l9.8-14.69a8 8 0 0 0 .5-8l-16-32A8 8 0 0 0 104 64a40 40 0 0 0-40 40 88.1 88.1 0 0 0 88 88 40 40 0 0 0 40-40 8 8 0 0 0-4.42-7.16ZM152 176a72.08 72.08 0 0 1-72-72 24 24 0 0 1 19.29-23.54l11.48 23L101 118a8 8 0 0 0-.73 7.51 56.47 56.47 0 0 0 30.15 30.15A8 8 0 0 0 138 155l14.61-9.74 23 11.48A24 24 0 0 1 152 176ZM128 24a104 104 0 0 0-91.82 152.88l-11.35 34.05a16 16 0 0 0 20.24 20.24l34.05-11.35A104 104 0 1 0 128 24Zm0 192a87.87 87.87 0 0 1-44.06-11.81 8 8 0 0 0-6.54-.67L40 216l12.47-37.4a8 8 0 0 0-.66-6.54A88 88 0 1 1 128 216Z"/></svg>
+  </a>
+  
+</section>
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+
+
+
+  
+  
+  
+    
+  
+  
+  
+
+<div class="flex pt-12 pb-4">
+  
+  
+  <img
+    class="mr-4 h-24 w-24 rounded-full"
+    width="96"
+    height="96"
+    alt="Ruslan Klymentiev"
+  src="/author/ruslan-klymentiev/avatar_hu14015720463236890778.png"
+  loading="lazy"
+  />
+  
+  <div class="place-self-center">
+    <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+      Authors
+    </div>
+    <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+      <a href="https://rklymentiev.com/" class="no-underline">
+      Ruslan Klymentiev
+      </a>
+    </div>
+
+    
+    <div class="text-sm font-bold text-neutral-700 dark:text-neutral-300">
+    Data-something-scientist
+    </div>
+    
+
+
+    
+
+    <div class="text-2xl sm:text-lg pt-1">
+
+      
+<div class="flex flex-wrap text-neutral-500 dark:text-neutral-300">
+  
+    
+    
+    
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="mailto:rklymentiev@gmail.com"
+      
+      aria-label="At-Symbol"
+    ><svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M16.5 12a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25"/></svg></a>
+  
+    
+    
+    
+    
+      
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="https://github.com/rklymentiev"
+      target="_blank" rel="noopener" rel="me noopener noreferrer"
+      aria-label="Brands/Github"
+    ><svg style="height: 1em;" fill="currentColor" viewBox="3 3 18 18"><path d="M12 3C7.0275 3 3 7.12937 3 12.2276C3 16.3109 5.57625 19.7597 9.15374 20.9824C9.60374 21.0631 9.77249 20.7863 9.77249 20.5441C9.77249 20.3249 9.76125 19.5982 9.76125 18.8254C7.5 19.2522 6.915 18.2602 6.735 17.7412C6.63375 17.4759 6.19499 16.6569 5.8125 16.4378C5.4975 16.2647 5.0475 15.838 5.80124 15.8264C6.51 15.8149 7.01625 16.4954 7.18499 16.7723C7.99499 18.1679 9.28875 17.7758 9.80625 17.5335C9.885 16.9337 10.1212 16.53 10.38 16.2993C8.3775 16.0687 6.285 15.2728 6.285 11.7432C6.285 10.7397 6.63375 9.9092 7.20749 9.26326C7.1175 9.03257 6.8025 8.08674 7.2975 6.81794C7.2975 6.81794 8.05125 6.57571 9.77249 7.76377C10.4925 7.55615 11.2575 7.45234 12.0225 7.45234C12.7875 7.45234 13.5525 7.55615 14.2725 7.76377C15.9937 6.56418 16.7475 6.81794 16.7475 6.81794C17.2424 8.08674 16.9275 9.03257 16.8375 9.26326C17.4113 9.9092 17.76 10.7281 17.76 11.7432C17.76 15.2843 15.6563 16.0687 13.6537 16.2993C13.98 16.5877 14.2613 17.1414 14.2613 18.0065C14.2613 19.2407 14.25 20.2326 14.25 20.5441C14.25 20.7863 14.4188 21.0746 14.8688 20.9824C16.6554 20.364 18.2079 19.1866 19.3078 17.6162C20.4077 16.0457 20.9995 14.1611 21 12.2276C21 7.12937 16.9725 3 12 3Z"></path></svg></a>
+  
+    
+    
+    
+    
+      
+    
+    <a
+      class="pr-2 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+      style="will-change:transform;"
+      href="https://scholar.google.com/citations?user=prQO0zEAAAAJ"
+      target="_blank" rel="noopener" rel="me noopener noreferrer"
+      aria-label="Academicons/Google-Scholar"
+    ><svg style="height: 1em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M343.759 106.662V79.43L363.524 64h-213.89L20.476 176.274h85.656a82.339 82.339 0 0 0-.219 6.225c0 20.845 7.22 38.087 21.672 51.861c14.453 13.797 32.252 20.648 53.327 20.648c4.923 0 9.75-.368 14.438-1.024c-2.907 6.5-4.374 12.523-4.374 18.142c0 9.875 4.499 20.43 13.467 31.642c-39.234 2.67-68.061 9.732-86.437 21.163c-10.531 6.5-19 14.704-25.39 24.531c-6.391 9.9-9.578 20.515-9.578 31.962c0 9.648 2.062 18.336 6.219 26.062c4.156 7.726 9.578 14.07 16.312 18.984c6.718 4.968 14.469 9.101 23.219 12.469c8.734 3.344 17.406 5.718 26.061 7.062A167.052 167.052 0 0 0 180.555 448c13.469 0 26.953-1.734 40.547-5.187c13.562-3.485 26.28-8.642 38.171-15.493c11.86-6.805 21.515-16.086 28.922-27.718c7.39-11.68 11.094-24.805 11.094-39.336c0-11.016-2.25-21.039-6.75-30.14c-4.468-9.073-9.938-16.542-16.452-22.345c-6.501-5.813-13-11.155-19.516-15.968c-6.5-4.845-12-9.75-16.468-14.813c-4.485-5.046-6.735-10.054-6.735-14.984c0-4.921 1.734-9.672 5.216-14.265c3.455-4.61 7.674-9.048 12.61-13.306c4.937-4.25 9.875-8.968 14.796-14.133c4.922-5.147 9.141-11.827 12.61-20.008c3.485-8.18 5.203-17.445 5.203-27.757c0-13.453-2.547-24.46-7.547-33.314c-.594-1.022-1.218-1.803-1.875-3.022l56.907-46.672v17.119c-7.393.93-6.624 5.345-6.624 10.635V245.96c0 5.958 4.875 10.834 10.834 10.834h3.989c5.958 0 10.833-4.875 10.833-10.834V117.293c0-5.277.778-9.688-6.561-10.63zm-107.36 222.48c1.14.75 3.704 2.78 7.718 6.038c4.05 3.243 6.797 5.695 8.266 7.414a443.553 443.553 0 0 1 6.376 7.547c2.813 3.375 4.718 6.304 5.718 8.734c1 2.477 2.016 5.461 3.047 8.946a38.27 38.27 0 0 1 1.485 10.562c0 17.048-6.564 29.68-19.656 37.859c-13.125 8.18-28.767 12.274-46.938 12.274c-9.187 0-18.203-1.093-27.063-3.196c-8.843-2.116-17.311-5.336-25.39-9.601c-8.078-4.258-14.577-10.204-19.5-17.797c-4.938-7.64-7.407-16.415-7.407-26.25c0-10.32 2.797-19.29 8.422-26.906c5.594-7.625 12.938-13.391 22.032-17.315c9.063-3.946 18.25-6.742 27.562-8.398a157.865 157.865 0 0 1 28.438-2.555c4.47 0 7.936.25 10.405.696c.455.219 3.032 2.07 7.735 5.563c4.704 3.462 7.625 5.595 8.75 6.384zm-3.359-100.579c-7.406 8.86-17.734 13.288-30.953 13.288c-11.86 0-22.298-4.764-31.266-14.312c-9-9.523-15.422-20.328-19.344-32.43c-3.937-12.109-5.906-23.984-5.906-35.648c0-13.694 3.596-25.352 10.781-34.976c7.187-9.65 17.5-14.485 30.938-14.485c11.875 0 22.374 5.038 31.437 15.157c9.094 10.085 15.61 21.413 19.517 33.968c3.922 12.54 5.873 24.53 5.873 35.984c0 13.446-3.702 24.61-11.076 33.454z"/></svg></a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+
+
+
+  
+  
+    
+    
+    
+      
+      
+    
+<div class="pt-1 no-prose w-full">
+  <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+  <div class="flex flex-col md:flex-row flex-nowrap justify-between gap-5 pt-2">
+    <div class="">
+      
+    </div>
+    <div class="">
+      
+        <a class="group flex text-right no-underline" href="/tutorial/python_for_ds/">
+          <span class="flex flex-col">
+            <span
+              class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+            >Python for Data Science (in Russian)</span
+            >
+            <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+              
+                Jun 1, 2022
+              
+            </span>
+          </span>
+          <span
+            class="mt-[-0.3rem] ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+          ><span class="ltr:inline">&rarr;</span></span>
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+
+  
+
+
+
+</div>
+
+      </div>
+
+    </main>
+  </article>
+</div>
+
+    </div>
+    <div class="page-footer">
+      <footer class="container mx-auto flex flex-col justify-items-center text-sm leading-6 mt-24 mb-4 text-slate-700 dark:text-slate-200">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by text-center">
+    © 2025. This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+
+  <p class="powered-by text-center">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://hugoblox.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Hugo Blox Builder</a> — the free, <a href="https://github.com/HugoBlox/hugo-blox-builder" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+
+</footer>
+
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
