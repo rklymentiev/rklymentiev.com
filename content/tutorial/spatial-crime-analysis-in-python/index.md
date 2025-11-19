@@ -263,7 +263,9 @@ Note that crime locations in this dataset are offset to the nearest intersection
 homicides_df.explore()
 ```
 
-<iframe src="https://rklymentiev.com/spatial-crime-analysis-in-python/homicides_df.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/spatial-crime-analysis-in-python/homicides_df.html" width="100%" height="450" frameborder="0">
+
+</iframe>
 
 The first example computes two fundamental centrographic measures commonly used in spatial crime analysis: the mean center and the standard deviational ellipse. The mean center shows the geographic "average" location of all homicide events, essentially the spatial gravity point of the dataset. The standard deviational ellipse summarizes the shape, orientation, and dispersion of the crime pattern by indicating the primary directional trend (e.g., northeast--southwest) and spread of incidents. Plotting these measures on top of incident points and a basemap makes it easy to understand where homicides concentrate overall and whether their pattern stretches along a particular corridor or axis. This is helpful for detecting city-wide directional trends, comparing different time periods, and supporting strategic policing or resource deployment.
 
@@ -457,58 +459,58 @@ neighborhoods_df.sample(5)
 
 <div style="overflow-y: scroll;">
   <table>
-    <thead>
-        <tr>
-            <th></th>
-            <th>geometry</th>
-            <th>AREA_NAME</th>
-            <th>HOOD_ID</th>
-            <th>Shape__Area</th>
-            <th>Shape__Length</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>137</th>
-            <td>POLYGON ((-79.526 43.601, -79.526 43.601, -79....</td>
-            <td>Long Branch</td>
-            <td>19</td>
-            <td>2.261914e+06</td>
-            <td>7808.451620</td>
-        </tr>
-        <tr>
-            <th>112</th>
-            <td>POLYGON ((-79.358 43.765, -79.357 43.765, -79....</td>
-            <td>St.Andrew-Windfields</td>
-            <td>40</td>
-            <td>7.345556e+06</td>
-            <td>12863.420551</td>
-        </tr>
-        <tr>
-            <th>90</th>
-            <td>POLYGON ((-79.317 43.667, -79.317 43.666, -79....</td>
-            <td>Greenwood-Coxwell</td>
-            <td>65</td>
-            <td>1.675166e+06</td>
-            <td>6843.006889</td>
-        </tr>
-        <tr>
-            <th>87</th>
-            <td>POLYGON ((-79.356 43.665, -79.356 43.665, -79....</td>
-            <td>North Riverdale</td>
-            <td>68</td>
-            <td>1.786063e+06</td>
-            <td>5475.708476</td>
-        </tr>
-        <tr>
-            <th>60</th>
-            <td>POLYGON ((-79.397 43.696, -79.397 43.696, -79....</td>
-            <td>Yonge-St.Clair</td>
-            <td>97</td>
-            <td>1.161371e+06</td>
-            <td>5873.159373</td>
-        </tr>
-    </tbody>
+  <thead>
+      <tr>
+          <th></th>
+          <th>geometry</th>
+          <th>AREA_NAME</th>
+          <th>HOOD_ID</th>
+          <th>Shape__Area</th>
+          <th>Shape__Length</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <th>137</th>
+          <td>POLYGON ((-79.526 43.601, -79.526 43.601, -79....</td>
+          <td>Long Branch</td>
+          <td>19</td>
+          <td>2.261914e+06</td>
+          <td>7808.451620</td>
+      </tr>
+      <tr>
+          <th>112</th>
+          <td>POLYGON ((-79.358 43.765, -79.357 43.765, -79....</td>
+          <td>St.Andrew-Windfields</td>
+          <td>40</td>
+          <td>7.345556e+06</td>
+          <td>12863.420551</td>
+      </tr>
+      <tr>
+          <th>90</th>
+          <td>POLYGON ((-79.317 43.667, -79.317 43.666, -79....</td>
+          <td>Greenwood-Coxwell</td>
+          <td>65</td>
+          <td>1.675166e+06</td>
+          <td>6843.006889</td>
+      </tr>
+      <tr>
+          <th>87</th>
+          <td>POLYGON ((-79.356 43.665, -79.356 43.665, -79....</td>
+          <td>North Riverdale</td>
+          <td>68</td>
+          <td>1.786063e+06</td>
+          <td>5475.708476</td>
+      </tr>
+      <tr>
+          <th>60</th>
+          <td>POLYGON ((-79.397 43.696, -79.397 43.696, -79....</td>
+          <td>Yonge-St.Clair</td>
+          <td>97</td>
+          <td>1.161371e+06</td>
+          <td>5873.159373</td>
+      </tr>
+  </tbody>
 </table>
 </div>
 
