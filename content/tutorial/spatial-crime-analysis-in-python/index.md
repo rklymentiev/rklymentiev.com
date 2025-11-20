@@ -324,7 +324,7 @@ ax.ax_joint.set_axis_off()
 
 ## Density Plot (Kernel Density Estimation)
 
-While the mean center and standard deviational ellipse provide a useful summary of the overall spatial distribution of homicides, they don't show where crimes are most concentrated within the city. To reveal these high-intensity areas, a more informative approach is Kernel Density Estimation (KDE). KDE creates a continuous surface that highlights hot spots, locations where incidents cluster more tightly. To create a density plot, we first need to extract the numeric coordinates from each point's geometry, because the KDE (Kernel Density Estimation) function in Seaborn requires regular x--y values rather than geometric objects. Once the coordinates are available, we can plot the incident points on a basemap and overlay a smooth KDE surface to highlight areas where homicides are more concentrated. This results in a clear visual representation of spatial crime intensity across the city.
+While the mean center and standard deviational ellipse provide a useful summary of the overall spatial distribution of homicides, they don't show where crimes are most concentrated within the city. To reveal these high-intensity areas, a more informative approach is Kernel Density Estimation (KDE). KDE creates a continuous surface that highlights hot spots, locations where incidents cluster more tightly. To create a density plot, we first need to extract the numeric coordinates from each point's geometry, because the \`kde\` function in Seaborn requires regular x--y values rather than geometric objects. Once the coordinates are available, we can plot the incident points on a basemap and overlay a smooth KDE surface to highlight areas where homicides are more concentrated. This results in a clear visual representation of spatial crime intensity across the city.
 
 ``` python
 # plot all homicide points as the base layer
@@ -459,58 +459,58 @@ neighborhoods_df.sample(5)
 
 <div style="overflow-y: scroll;">
   <table>
-  <thead>
-      <tr>
-          <th></th>
-          <th>geometry</th>
-          <th>AREA_NAME</th>
-          <th>HOOD_ID</th>
-          <th>Shape__Area</th>
-          <th>Shape__Length</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <th>137</th>
-          <td>POLYGON ((-79.526 43.601, -79.526 43.601, -79....</td>
-          <td>Long Branch</td>
-          <td>19</td>
-          <td>2.261914e+06</td>
-          <td>7808.451620</td>
-      </tr>
-      <tr>
-          <th>112</th>
-          <td>POLYGON ((-79.358 43.765, -79.357 43.765, -79....</td>
-          <td>St.Andrew-Windfields</td>
-          <td>40</td>
-          <td>7.345556e+06</td>
-          <td>12863.420551</td>
-      </tr>
-      <tr>
-          <th>90</th>
-          <td>POLYGON ((-79.317 43.667, -79.317 43.666, -79....</td>
-          <td>Greenwood-Coxwell</td>
-          <td>65</td>
-          <td>1.675166e+06</td>
-          <td>6843.006889</td>
-      </tr>
-      <tr>
-          <th>87</th>
-          <td>POLYGON ((-79.356 43.665, -79.356 43.665, -79....</td>
-          <td>North Riverdale</td>
-          <td>68</td>
-          <td>1.786063e+06</td>
-          <td>5475.708476</td>
-      </tr>
-      <tr>
-          <th>60</th>
-          <td>POLYGON ((-79.397 43.696, -79.397 43.696, -79....</td>
-          <td>Yonge-St.Clair</td>
-          <td>97</td>
-          <td>1.161371e+06</td>
-          <td>5873.159373</td>
-      </tr>
-  </tbody>
+<thead>
+    <tr>
+        <th></th>
+        <th>geometry</th>
+        <th>AREA_NAME</th>
+        <th>HOOD_ID</th>
+        <th>Shape__Area</th>
+        <th>Shape__Length</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <th>137</th>
+        <td>POLYGON ((-79.526 43.601, -79.526 43.601, -79....</td>
+        <td>Long Branch</td>
+        <td>19</td>
+        <td>2.261914e+06</td>
+        <td>7808.451620</td>
+    </tr>
+    <tr>
+        <th>112</th>
+        <td>POLYGON ((-79.358 43.765, -79.357 43.765, -79....</td>
+        <td>St.Andrew-Windfields</td>
+        <td>40</td>
+        <td>7.345556e+06</td>
+        <td>12863.420551</td>
+    </tr>
+    <tr>
+        <th>90</th>
+        <td>POLYGON ((-79.317 43.667, -79.317 43.666, -79....</td>
+        <td>Greenwood-Coxwell</td>
+        <td>65</td>
+        <td>1.675166e+06</td>
+        <td>6843.006889</td>
+    </tr>
+    <tr>
+        <th>87</th>
+        <td>POLYGON ((-79.356 43.665, -79.356 43.665, -79....</td>
+        <td>North Riverdale</td>
+        <td>68</td>
+        <td>1.786063e+06</td>
+        <td>5475.708476</td>
+    </tr>
+    <tr>
+        <th>60</th>
+        <td>POLYGON ((-79.397 43.696, -79.397 43.696, -79....</td>
+        <td>Yonge-St.Clair</td>
+        <td>97</td>
+        <td>1.161371e+06</td>
+        <td>5873.159373</td>
+    </tr>
+</tbody>
 </table>
 </div>
 
@@ -590,7 +590,7 @@ combined_df.explore(
 
 ## Spatial Statistics: Moran's I and LISA
 
-In the next part of this tutorial, we'll move from visualization to spatial statistics, focusing on two key measures: Moran's I and Local Moran coefficients (LISA). These statistics help us understand whether homicide counts are spatially clustered, dispersed, or randomly distributed across Toronto's neighborhoods.
+In the next part of this tutorial, we'll move from visualization to spatial statistics, focusing on two key measures: Moran's I and Local Moran coefficients (LISA). These statistics help us understand whether homicide counts are spatially clustered, dispersed, or randomly distributed across Toronto's neighborhoods. For that, we will use the package [ESDA: Exploratory Spatial Data Analysis](https://pysal.org/esda/index.html).
 
 Moran's I is a global measure of spatial autocorrelation. A positive value indicates that similar values (e.g., high homicide counts) tend to occur near each other, while a negative value suggests a checkerboard-like pattern where high values are surrounded by low values. Values near zero imply no meaningful spatial pattern. Local Moran statistics take this a step further by identifying specific neighborhoods that contribute most to the overall pattern. They highlight "hot spots" (high values surrounded by high values), "cold spots," and potential spatial outliers. These tools allow us to quantify and map spatial patterns rather than relying on visual intuition alone.
 
@@ -692,3 +692,5 @@ These analyses illustrate the power of Python for integrating GIS, statistics, a
 -   Online course "Mapping and Spatial Analysis of Crime- Open Software Edition" at Udemy: <https://www.udemy.com/course/mapping-and-spatial-analysis-of-crime-free-software-edition/>
 
 -   GeoPandas Documentation with lots of examples: <https://geopandas.org/en/stable/docs.html>
+
+-   ESDA tutorial page with examples of spatial data analysis [https://pysal.org/esda/tutorial.html](https://pysal.org/esda/tutorial.html#)
