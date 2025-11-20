@@ -23,5 +23,5 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "ALLOWALL"
+    X-Frame-Options = "SAMEORIGIN"
     Content-Security-Policy = "frame-ancestors https://rklymentiev.com https://www.rklymentiev.com;"
