@@ -1,6 +1,6 @@
 ---
 title: "Intro to EEG Data Analysis"
-type: docs
+type: post
 date: "2021-02-19"
 summary: Preprocessing & Event-related potential (ERP) of EEG data taken from Cavanagh et al. (2019) experiment.
 image:

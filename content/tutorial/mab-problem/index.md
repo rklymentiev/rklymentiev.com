@@ -210,7 +210,7 @@ fig.show()
 ```
 
 
-<iframe src="plotly-output/1.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/1.html" width="700" height="450" frameborder="0"></iframe>
 
 
 Both Ads were shown equal amount of times and the more trials, the closer the CTR values are to their known values. However, the Regret is continually increasing since the algorithm doesn't learn anything and doesn't do any updates according to gained information. This ever-increasing regret is exactly what we’re hoping to minimize with “smarter” methods.
@@ -324,8 +324,7 @@ fig = algorithm_performance(chosen_ads, total_reward, regret_list)
 fig.show()
 ```
 
-
-<iframe src="plotly-output/2.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/2.html" width="700" height="450" width="100%" frameborder="0"></iframe>
 
 
 That’s much better; Notice how the regret has decreased by an order of magnitude! The Epsilon-Greedy algorithm seems to perform much better than Random Selection. But can you see the problem here? The winning variant from exploration period will not necessarily be the optimal variant, and you can actually exploit the suboptimal variant. This increases regret and decreases reward. According to the **Law of Large Numbers** the more initial trials you do, the more likely you will choose the winning variant correctly. But in Marketing you don't usually want to rely on chance and hope that you have reached that 'large number of trials'.
@@ -523,7 +522,7 @@ fig.show()
 </details>
 
 
-<iframe src="plotly-output/3.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/3.html" width="700" height="450" frameborder="0"></iframe>
 
 
 Note the intersection area. There might be the cases that value of Beta distribution for Ad A will be higher, than for Ad B, so algorithm will choose Ad A(which performs worse).
@@ -535,7 +534,7 @@ fig.show()
 ```
 
 
-<iframe src="plotly-output/4.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/4.html" width="700" height="450" frameborder="0"></iframe>
 
 
 The regret is the lowest we've seen so far. Each uptick in regret happened when the Ad A was chosen. In the CTR Value plot, you can see that in the beginning, the green (Thompson sampled CTR value for Ad A) values were often greater than the tan (Thompson sampled CTR value for Ad B), resulting in Ad A being shown.
@@ -616,7 +615,7 @@ fig.show()
 ```
 
 
-<iframe src="plotly-output/5.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/5.html" width="700" height="450" frameborder="0"></iframe>
 
 
 You can see that regret went up when the algorithm tried to decrease uncertainty of CTR for Ad A by choosing it.
@@ -673,7 +672,7 @@ fig.show()
 </details>
 
 
-<iframe src="plotly-output/6.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/6.html" width="700" height="450" frameborder="0"></iframe>
 
 
 As you can see, three algorithms Epsilon Greedy, Thimpson Sampling and UCB1 showed Ad B most of the times (95%+).
@@ -721,7 +720,7 @@ fig.show()
 </details>
 
 
-<iframe src="plotly-output/7.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/7.html" width="700" height="450" frameborder="0"></iframe>
 
 
 Taking to account that Thompson Sampling and Epsilon-Greedy algorithms chose ad with the higher CTR (B) most of the time, it shouldn't come as surprise that their regret values are the lowest.
@@ -770,7 +769,7 @@ fig.show()
 </details>
 
 
-<iframe src="plotly-output/8.html" width="700" height="450" frameborder="0"></iframe>
+<iframe src="/mab-problem/8.html" width="700" height="450" frameborder="0"></iframe>
 
 
 It can be the case that total reward for the algorithm with the lowest regret value will not be the highest. It is caused by the fact that even if the algorithm chooses the right ad it doesn't guarantee that the user will click on it.
