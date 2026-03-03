@@ -178,8 +178,8 @@ education:
 
 ## About Me
 
-I am a PhD candidate in (Computational) Criminology at Ghent University. My research is focused on the social aspect of co-offending behavior and the underlying mechanisms of criminal network formation. In my work, I mainly use computational tools like Social Network Analysis and Agent-Based Modeling.
+I am a PhD candidate in (Computational) Criminology at Ghent University. My research is focused on the dynamics of co-offending and the underlying mechanisms of criminal network formation. In my work, I mainly use computational tools like agent-based modeling and social network analysis.
 
-This website is the place where I keep all my posts, demos, and lectures. The topics include Python/R Programming, Machine Learning, Neuroscience, Criminology, or whatever else I might be interested in at the moment.
+This website serves as a space where I share my posts, demos, and lectures. The topics include Python/R programming, machine learning, neuroscience, criminology, or whatever else I might be interested in at the moment.
 
-Apart from being excited by the work I do, I also feel passionate about mountains, bouldering, and post-rock. 
+Apart from being excited by the work I do, I also feel passionate about mountains, bouldering, and post-rock.
