@@ -40,7 +40,7 @@ url_dataset: 'https://osf.io/ruf9k/'
 url_poster: '/publication/klymentiev-et-al-2025a/poster.pdf'
 url_project: ''
 url_slides: ''
-url_source: ''
+url_source: 'https://rdcu.be/fgChj'
 url_video: ''
 
 # Featured image
