@@ -22,10 +22,10 @@ highlight_name: true
 # Role/position/tagline
 role: 
 
-# Organizations/Affiliations to display in Biography blox
-# organizations:
-#   - name: OpenAI
-#     url: https://openai.com/
+#Organizations/Affiliations to display in Biography blox
+organizations:
+   - name: Ghent University
+     url: https://research.ugent.be/web/result/organisation/b566d29e-1b9f-11f0-937e-e33ba6a1388c/details/en
 
 # Social network links
 # Need to use another icon? Simply download the SVG icon to your `assets/media/icons/` folder.
@@ -52,7 +52,7 @@ education:
   - area: PhD in Criminology
     institution: Ghent University
     date_start: 2023-01-09
-    date_end: 2025-12-31
+    date_end: 2026-06-28
     # summary: |
     #   Thesis on _Why LLMs are awesome_. Supervised by [Prof Joe Smith](https://example.com). Presented papers at 5 IEEE conferences with the contributions being published in 2 Springer journals.
     # button:
@@ -180,8 +180,6 @@ education:
 
 ## About Me
 
-I am a PhD candidate in (Computational) Criminology at Ghent University. My research is focused on the dynamics of co-offending and the underlying mechanisms of criminal network formation. In my work, I mainly use computational tools like agent-based modeling and social network analysis.
+I am a researcher in (Computational) Criminology at Ghent University. My research is focused on the dynamics of co-offending and the underlying mechanisms of criminal network formation. In my work, I mainly use computational tools like agent-based modeling and social network analysis.
 
 This website serves as a space where I share my posts, demos, and lectures. The topics include Python/R programming, machine learning, neuroscience, criminology, or whatever else I might be interested in at the moment.
-
-Apart from being excited by the work I do, I also feel passionate about mountains, bouldering, and post-rock.
