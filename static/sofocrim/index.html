@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOFOCRIM Model</title>
+<meta name="description" content="Standalone browser version of the SOFOCRIM agent-based model of co-offending (social foraging for crime).">
+<script>
+try { const t = localStorage.getItem("sofocrim-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style>
+:root{
+  --bg:#f6f5f2; --panel:#ffffff; --ink:#1d1c1a; --muted:#6b6862; --line:#e3e0d9;
+  --accent:#a52a2a; --accent-ink:#ffffff; --soft:#f0eee9; --figure:#fcfcfb; --grid:#e9e7e2;
+  --c-div:#e07b00; --c-prev:#8c4a2f; --c-dist:#1f6fb4; --warn-bg:#fff6e0; --warn-ink:#7a5200;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151513; --panel:#1e1d1b; --ink:#eceae5; --muted:#a19d95; --line:#33312d;
+    --accent:#d0644f; --accent-ink:#151513; --soft:#262522; --figure:#f4f3ef; --grid:#2e2c29;
+    --c-div:#f0a040; --c-prev:#d98a66; --c-dist:#62a6e6; --warn-bg:#3a2f14; --warn-ink:#f2d48a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151513; --panel:#1e1d1b; --ink:#eceae5; --muted:#a19d95; --line:#33312d;
+  --accent:#d0644f; --accent-ink:#151513; --soft:#262522; --figure:#f4f3ef; --grid:#2e2c29;
+  --c-div:#f0a040; --c-prev:#d98a66; --c-dist:#62a6e6; --warn-bg:#3a2f14; --warn-ink:#f2d48a;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+header{padding:18px 24px 12px}
+.hrow{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap}
+header h1{margin:0;font-size:22px;letter-spacing:.04em}
+header .sub{margin:0;color:var(--muted)}
+.authors{margin:8px 0 2px;font-size:14px;font-weight:550}
+.citeas{margin:0;font-size:12.5px;color:var(--muted);max-width:1100px}
+.citeas .lab{font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:11px;margin-right:4px}
+button.mini{font-size:11.5px;padding:2px 8px;border-radius:5px;margin-left:4px;vertical-align:1px}
+.themebtn{padding:6px 11px;font-size:13px;white-space:nowrap}
+.layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:18px;padding:8px 24px 32px;align-items:start}
+aside{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+.controls{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+button{font:inherit;border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:7px;padding:7px 12px;cursor:pointer}
+button:hover{border-color:var(--muted)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600;min-width:84px}
+button:disabled{opacity:.45;cursor:default}
+.dirty{display:none;background:var(--warn-bg);color:var(--warn-ink);border-radius:7px;padding:6px 10px;font-size:12.5px;margin-bottom:10px}
+.dirty.show{display:block}
+.field{margin:0 0 11px}
+.field label{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted);margin-bottom:3px}
+.field label b{color:var(--ink);font-weight:600}
+.field input[type=range]{width:100%;accent-color:var(--accent)}
+.field input[type=text],.field select{width:100%;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink)}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;margin:0 0 11px}
+.check input{accent-color:var(--accent)}
+details{border-top:1px solid var(--line);padding-top:8px;margin-top:6px}
+summary{cursor:pointer;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.hint{font-size:11.5px;color:var(--muted);margin:-6px 0 10px}
+.pgroup{font-size:11.5px;font-weight:650;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:16px 0 9px;padding-top:12px;border-top:1px solid var(--line)}
+.speed{margin-top:4px}
+main{display:grid;gap:18px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.card h2{margin:0 0 8px;font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.top{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr);gap:18px;align-items:start}
+#spaceWrap{position:relative;width:100%;aspect-ratio:1/1}
+#space{width:100%;height:100%;display:block;border-radius:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.legend i.grad{width:46px;border-radius:3px}
+.legend .x{color:#a52a2a;font-weight:700;font-style:normal;font-size:14px;line-height:1}
+.status{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.status .step{font-size:28px;font-weight:650}
+.pill{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--soft);color:var(--muted)}
+.pill.run{background:var(--accent);color:var(--accent-ink)}
+.pill.done{background:#2f7d4a;color:#fff}
+.kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:13.5px;margin:0}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;text-align:right;font-weight:600}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:12px}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:500}
+.dl{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.dl button{font-size:12.5px;padding:6px 10px}
+.charts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.chart canvas{width:100%;height:190px;display:block}
+.chart h2{display:flex;justify-content:space-between;gap:6px}
+.chart h2 span{text-transform:none;letter-spacing:0;font-weight:600;color:var(--ink)}
+.instr{font-size:13px;color:var(--muted)}
+.instr ol{margin:4px 0 0;padding-left:18px}
+.instr li{margin:2px 0}
+.ainote{margin-top:14px;padding:10px 12px;border:1px solid var(--line);border-left:3px solid var(--muted);border-radius:7px;background:var(--soft);font-size:12.5px;line-height:1.5;color:var(--muted)}
+.ainote b{color:var(--ink)}
+.tabs{display:flex;gap:4px;margin-left:auto;background:var(--soft);border:1px solid var(--line);border-radius:9px;padding:3px}
+.tabs button{border:0;background:transparent;padding:6px 14px;border-radius:7px;color:var(--muted)}
+.tabs button.active{background:var(--panel);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+[hidden]{display:none!important}
+.sym{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:15px;font-style:italic;color:var(--ink);margin-right:5px;white-space:nowrap}
+.sym sub{font-style:normal;font-size:10.5px;font-family:system-ui,sans-serif}
+.field label .lbl{display:flex;align-items:baseline;flex-wrap:wrap}
+.toggles{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12.5px}
+.toggles label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.toggles input{accent-color:var(--accent)}
+.sw{display:inline-block;width:18px;height:0;border-top:2px solid}
+.chart h2 .t{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.chart h2 .t .sym{text-transform:none;letter-spacing:0;font-size:15px}
+.flowwrap{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:18px;padding:8px 24px 32px;align-items:start}
+.flowmain{display:grid;grid-template-columns:auto minmax(240px,1fr);gap:18px;align-items:start}
+.flowfig{background:#fcfcfb;border-radius:8px;padding:8px}
+.flowfig svg{display:block;height:calc(100vh - 215px);min-height:460px;max-height:940px;width:auto;max-width:100%;aspect-ratio:820/915}
+.flowside{min-width:0}
+.flowside .flowctl{margin-top:0;flex-direction:column;align-items:stretch}
+.flowside .caption{margin-top:12px}
+#flowSvg .fnode:focus,#flowSvg .fnode:focus-visible{outline:none}
+.caption{font-size:13px;color:var(--muted);margin:12px 2px 0}
+.flowctl{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.flowctl .hint{font-size:12.5px;color:var(--muted);font-style:italic;margin:0}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{padding:6px 11px;font-size:13px}
+.seg button.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.flowcap{margin-top:12px;border:1px solid var(--line);border-left:4px solid #B33A2B;border-radius:8px;padding:12px 14px;min-height:118px;background:var(--soft);transition:opacity .2s}
+.flowcap.fade{opacity:.25}
+.fc-title{font-weight:650;font-size:15px;margin-bottom:4px}
+.fc-title .branch{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:99px;margin-left:6px;vertical-align:2px}
+.branch.yes{background:#d5e8d4;color:#2f5a2a}.branch.no{background:#f3d9d4;color:#8a2c20}
+.fc-model{font-size:13.5px;line-height:1.5}
+.fc-model i{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:14.5px}
+.fc-theory{font-size:13px;color:var(--muted);margin-top:6px}
+.fc-theory em{font-style:italic}
+#flowSvg .fnode{cursor:pointer}
+#flowSvg .fnode rect,#flowSvg .fnode polygon,#flowSvg .fref rect{transition:fill .25s,stroke .25s,stroke-width .25s}
+#flowSvg .fnode:hover rect,#flowSvg .fnode:hover polygon{stroke:#17242E}
+#flowSvg .fedge{fill:none;stroke:#9aa39d;stroke-width:1.6;transition:stroke .25s,stroke-width .25s}
+#flowSvg .fedge.loop{stroke-dasharray:5 4;stroke:#b9c0bb}
+#flowSvg .fedge.hot{stroke:#17242E;stroke-width:2.8;stroke-dasharray:none}
+#flowSvg .fconn{stroke:#9a9a9a;stroke-width:1.1;stroke-dasharray:4 3;fill:none;transition:stroke .25s}
+#flowSvg .fconn.hot{stroke:#17242E;stroke-width:1.6}
+#flowSvg .fref{cursor:pointer}
+#flowSvg .fref rect{fill:#f5f5f5;stroke:#777;stroke-width:1.1;stroke-dasharray:4 3}
+#flowSvg .fref.hot rect{fill:#fffdf6;stroke:#17242E;stroke-width:1.8;stroke-dasharray:none}
+#flowSvg .fref text{font-size:15px;fill:#333;text-anchor:middle}
+#flowSvg .fref.hot text{fill:#111}
+#flowSvg .fl1{font-size:17.5px;fill:#1d1c1a;text-anchor:middle;pointer-events:none}
+#flowSvg .fl2{font-size:13px;fill:#6b5a2a;text-anchor:middle;font-style:italic;pointer-events:none}
+#flowSvg .fl2.g{fill:#3d6b37}
+#flowSvg .fbr{font-size:14px;fill:#555}
+.refs{font-size:13px;line-height:1.5}
+.refs h3{font-size:13px;margin:14px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.refs h3:first-child{margin-top:0}
+.flowleft{display:grid;gap:18px;min-width:0}
+.refcols{columns:2 340px;column-gap:28px}
+.refcols p{break-inside:avoid}
+.refs p{margin:0 0 9px;padding-left:1.4em;text-indent:-1.4em}
+.refs a{color:var(--accent);word-break:break-all}
+.eq{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:14.5px;background:var(--soft);border-radius:6px;padding:6px 9px;margin:4px 0 10px;overflow-x:auto;white-space:nowrap}
+@media (max-width:1100px){.flowwrap{grid-template-columns:1fr}}
+@media (max-width:900px){.flowmain{grid-template-columns:1fr}.flowfig svg{height:auto;width:100%;min-height:0;max-height:none}}
+@media (max-width:760px){.flowwrap{padding:8px 16px 24px}.tabs{margin-left:0}}
+@media (max-width:1100px){.charts{grid-template-columns:1fr}.top{grid-template-columns:1fr}}
+@media (max-width:760px){
+  .layout{grid-template-columns:1fr;padding:8px 16px 24px}
+  header{padding:16px 16px 8px}
+  aside{position:static;max-height:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hrow">
+    <h1>SOFOCRIM</h1>
+    <p class="sub">Social foraging for crime — an agent-based model of co-offending</p>
+    <nav class="tabs" role="tablist">
+      <button data-tab="tabSim" class="active" role="tab">Simulation</button>
+      <button data-tab="tabFlow" role="tab">Model flowchart</button>
+    </nav>
+    <button id="themeBtn" class="themebtn" aria-label="Switch colour theme"></button>
+  </div>
+  <p class="authors">Ruslan Klymentiev, P. Jeffrey Brantingham, Rafael Prieto-Curiel, Luis Enrique Correa Rocha, Christophe Vandeviver</p>
+  <p class="citeas"><span class="lab">Cite as</span> <span id="citeText">Klymentiev, R., Brantingham, P. J., Prieto-Curiel, R., Rocha, L. E. C., &amp; Vandeviver, C. (2026). <i>Environmental structure and partner selection co-govern criminal collaboration, offending diversity, and opportunity exploitation</i>. Manuscript submitted for publication.</span> <button id="copyCite" class="mini">Copy</button></p>
+</header>
+
+<div class="layout" id="tabSim">
+  <aside>
+    <div class="controls">
+      <button id="btnPlay" class="primary">▶ Run</button>
+      <button id="btnStep">Step</button>
+      <button id="btnReset">Reset</button>
+    </div>
+    <div class="field speed">
+      <label>Speed <b id="speedLbl"></b></label>
+      <input type="range" id="speed" min="0" max="7" step="1" value="1">
+    </div>
+    <div id="dirty" class="dirty">Parameters changed — press <b>Reset</b> to apply.</div>
+    <div id="params"></div>
+  </aside>
+
+  <main>
+    <div class="top">
+      <section class="card">
+        <h2>Environment</h2>
+        <div id="spaceWrap"><canvas id="space"></canvas></div>
+        <div class="legend" id="legend"></div>
+        <div class="toggles">
+          <label><input type="checkbox" id="tgRp" checked> <span class="sw" style="border-color:#a52a2a;border-top-style:dashed"></span> partner search radius <span class="sym" style="font-size:13px">r<sub>partner</sub></span></label>
+          <label><input type="checkbox" id="tgRco"> <span class="sw" style="border-color:#2a788e;border-top-style:dotted"></span> opportunity search radius <span class="sym" style="font-size:13px">r<sub>co</sub></span></label>
+          <label><input type="checkbox" id="tgTies" checked> <span class="sw" style="border-color:var(--muted)"></span> co-offending ties (cumulative <span class="sym" style="font-size:13px">ω<sub>i,j</sub></span>)</label>
+        </div>
+      </section>
+      <section class="card">
+        <div class="status">
+          <div><div style="font-size:12px;color:var(--muted)">Step</div><div class="step num" id="stepNo">0</div></div>
+          <span class="pill" id="statePill">ready</span>
+        </div>
+        <dl class="kv num" id="kv"></dl>
+        <table class="num" id="gammaTbl"></table>
+        <div class="dl">
+          <button id="dlModel">Download model series (CSV)</button>
+          <button id="dlAgents">Download offenders (CSV)</button>
+        </div>
+        <div class="instr" style="margin-top:16px">
+          <b style="color:var(--ink)">Instructions</b>
+          <ol>
+            <li>Set parameters in the left panel.</li>
+            <li>Press <b>Reset</b> after changing the setup.</li>
+            <li>Press <b>Step</b> to advance one step, or <b>Run</b> to run continuously (press again to pause).</li>
+            <li>Watch the spatial panel and plots update.</li>
+          </ol>
+        </div>
+        <div class="ainote" role="note">
+          <b>Note.</b> This dashboard was created with the help of generative AI. It is a JavaScript re-implementation intended to reproduce the behaviour of the original agent-based model, but it uses a different random number generator and is not the code used in the paper. To replicate the results reported in the paper, please use the original Python (Mesa) code.
+        </div>
+      </section>
+    </div>
+    <div class="charts">
+      <section class="card chart"><h2><span class="t"><span class="sym">d̄(t)</span>avg. diversity index</span><span class="num" id="vDiv">–</span></h2><canvas id="chDiv"></canvas></section>
+      <section class="card chart"><h2><span class="t"><span class="sym">p<sub>co-offenses</sub>(t)</span>prevalence</span><span class="num" id="vPrev">–</span></h2><canvas id="chPrev"></canvas></section>
+      <section class="card chart"><h2><span class="t"><span class="sym">l̄(t)</span>mean NN distance</span><span class="num" id="vDist">–</span></h2><canvas id="chDist"></canvas></section>
+    </div>
+  </main>
+</div>
+
+<div class="flowwrap" id="tabFlow" hidden>
+  <div class="flowleft">
+  <section class="card">
+    <h2>Decision sequence of an activated offender agent</h2>
+    <div class="flowmain">
+    <div class="flowfig">
+<svg id="flowSvg" viewBox="0 0 820 915" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flowchart of the SOFOCRIM decision sequence" font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"></svg>
+    </div>
+    <div class="flowside">
+    <div class="flowctl">
+      <span class="hint">Step through the sequence, or click any block.</span>
+      <div class="seg">
+        <button id="flowPrev">◀ Previous</button>
+        <button id="flowNext" class="primary">Next ▶</button>
+        <button id="flowAuto">Auto-play</button>
+        <button id="flowRestart">Restart</button>
+      </div>
+    </div>
+    <div class="flowcap" id="flowCap" aria-live="polite">
+      <div class="fc-title" id="fcTitle"></div>
+      <div class="fc-model" id="fcModel"></div>
+      <div class="fc-theory" id="fcTheory"></div>
+    </div>
+    <p class="caption">Simplified flowchart of the decision sequence executed by each activated offender agent at a single simulation time step. Yellow rectangles denote actions; green diamonds denote points at which the algorithm branches on a condition. The right-hand column lists the theoretical literature motivating each step. The sequence is repeated for every agent at every time step until the stopping condition is met (in the manuscript, until all criminal opportunities are exploited). In the step-through, branches are drawn at random for illustration; use ← / → keys to step.</p>
+    </div>
+    </div>
+  </section>
+  <section class="card refs reflist">
+    <h2>References</h2>
+    <div class="refcols">
+    <p>Bernasco, W. (2009). Foraging strategies of <i>Homo criminalis</i>: Lessons from behavioral ecology. <i>Crime Patterns and Analysis, 2</i>(1), 5–16.</p>
+    <p>Brantingham, P. J., &amp; Vandeviver, C. (2025). Moving to crime opportunity. <i>Journal of Quantitative Criminology</i>. <a href="https://doi.org/10.1007/s10940-025-09644-4" target="_blank" rel="noopener">https://doi.org/10.1007/s10940-025-09644-4</a></p>
+    <p>Felson, M. (2003). The process of co-offending. In M. Smith &amp; B. Cornish (Eds.), <i>Theory for practice in situational crime prevention</i> (pp. 149–167). Criminal Justice Press.</p>
+    <p>Johnson, S. D. (2014). How do offenders choose where to offend? Perspectives from animal foraging. <i>Legal and Criminological Psychology, 19</i>(2), 193–210. <a href="https://doi.org/10.1111/lcrp.12061" target="_blank" rel="noopener">https://doi.org/10.1111/lcrp.12061</a></p>
+    <p>McCarthy, B., &amp; Hagan, J. (2001). When crime pays: Capital, competence, and criminal success. <i>Social Forces, 79</i>(3), 1035–1060.</p>
+    <p>McCarthy, B., Hagan, J., &amp; Cohen, L. E. (1998). Uncertainty, cooperation, and crime: Understanding the decision to co-offend. <i>Social Forces, 77</i>(1), 155–184. <a href="https://doi.org/10.2307/3006013" target="_blank" rel="noopener">https://doi.org/10.2307/3006013</a></p>
+    <p>McGloin, J. M., &amp; Nguyen, H. (2012). It was my idea: Considering the instigation of co-offending. <i>Criminology, 50</i>(2), 463–494. <a href="https://doi.org/10.1111/j.1745-9125.2011.00266.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1745-9125.2011.00266.x</a></p>
+    <p>Morselli, C. (2009). <i>Inside criminal networks</i>. Springer. <a href="https://doi.org/10.1007/978-0-387-09526-4" target="_blank" rel="noopener">https://doi.org/10.1007/978-0-387-09526-4</a></p>
+    <p>Rowan, Z. R., Appleby, S., &amp; McGloin, J. M. (2022). Situating crime pattern theory into the explanation of co-offending: Considering area-level convergence spaces. <i>The British Journal of Criminology, 62</i>(3), 681–698. <a href="https://doi.org/10.1093/bjc/azab093" target="_blank" rel="noopener">https://doi.org/10.1093/bjc/azab093</a></p>
+    <p>Tremblay, P. (1993). Searching for suitable co-offenders. In R. V. Clarke &amp; M. Felson (Eds.), <i>Routine activity and rational choice</i> (pp. 17–36). Routledge. <a href="https://doi.org/10.4324/9781315128788-2" target="_blank" rel="noopener">https://doi.org/10.4324/9781315128788-2</a></p>
+    <p>Van Mastrigt, S. B., &amp; Farrington, D. P. (2011). Prevalence and characteristics of co-offending recruiters. <i>Justice Quarterly, 28</i>(2), 325–359. <a href="https://doi.org/10.1080/07418825.2010.482535" target="_blank" rel="noopener">https://doi.org/10.1080/07418825.2010.482535</a></p>
+    <p>Weerman, F. M. (2003). Co-offending as social exchange: Explaining characteristics of co-offending. <i>The British Journal of Criminology, 43</i>(2), 398–416.</p>
+    </div>
+  </section>
+  </div>
+
+  <aside class="card refs" style="position:static;max-height:none">
+    <h3>Key equations</h3>
+    <div>Partner utility (solo option uses <span class="sym">ω̃<sub>i,i</sub></span>=1)</div>
+    <div class="eq">U<sub>i,j</sub>(t) = β<sub>trust</sub> ω̃<sub>i,j</sub>(t) + β<sub>skill</sub> s̃<sub>j</sub><sup>ψ</sup>(t)</div>
+    <div>Choice probability (softmax)</div>
+    <div class="eq">p<sub>i,j</sub>(t) = exp U<sub>i,j</sub> / [exp U<sub>i,i</sub> + Σ<sub>k</sub> exp U<sub>i,k</sub>]</div>
+    <div>Success probability</div>
+    <div class="eq">p(success | γ) = max(0.1, ((s<sub>i</sub><sup>ψ</sup> + s<sub>j</sub><sup>ψ</sup>) / N<sub>co</sub>)<sup>γ</sup>)</div>
+    <div style="font-size:12px;color:var(--muted);margin:-4px 0 10px">N<sub>co</sub> = number of COs per crime type; s<sub>j</sub><sup>ψ</sup> = 0 for solo offences.</div>
+    <div>Step length (truncated power law)</div>
+    <div class="eq">P(δ) ∝ δ<sup>−ν</sup>, δ ∈ [δ<sub>min</sub>, δ<sub>max</sub>], 1 &lt; ν ≤ 3</div>
+
+  </aside>
+</div>
+
+<script>
+/* ===================== MODEL-START ===================== */
+/*
+  JavaScript port of the SOFOCRIM Mesa model (model.py, agents.py, helper_functions.py).
+  The logic mirrors the Python code line by line; only the random number generator differs,
+  so a given seed does not reproduce the exact Python trajectory.
+*/
+function mulberry32(a){
+  return function(){
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const VIRIDIS = ["#440154","#482475","#414487","#355f8d","#2a788e","#21918c","#22a884","#44bf70","#7ad151","#bddf26","#fde725"];
+function viridisAt(t){
+  const n = VIRIDIS.length - 1, f = Math.min(Math.max(t,0),1) * n, i = Math.min(Math.floor(f), n - 1), r = f - i;
+  const a = VIRIDIS[i], b = VIRIDIS[i+1];
+  const c = k => Math.round(parseInt(a.substr(k,2),16)*(1-r) + parseInt(b.substr(k,2),16)*r);
+  return "#" + [1,3,5].map(k => c(k).toString(16).padStart(2,"0")).join("");
+}
+// hf.generate_hex_colors(n): cmap(np.linspace(0, 1, n))
+function generateHexColors(n){
+  if (n === 1) return [viridisAt(0)];
+  return Array.from({length:n}, (_, i) => viridisAt(i / (n - 1)));
+}
+
+const MODEL_DEFAULTS = {
+  seed: "", L: 50, n_offenders: 50, n_crime_types: 10, n_opportunities: 500,
+  opp_search_radius: 1, partner_search_radius: 5, offenders_moveable: true,
+  nu: 2, opp_depletable: "Depletable", opp_clustered: "Clustered (by crime type)",
+  omega: 2, delta_min_ratio: 0.005, delta_max_ratio: 0.05, gammas: [0.05, 0.2, 0.6],
+  beta_trust: 1, beta_skill: 1, stopping_condition: 0
+};
+
+class ForagingModel {
+  constructor(params){
+    const p = Object.assign({}, MODEL_DEFAULTS, params);
+    if (!["Depletable","Nondepletable","Relocatable"].includes(p.opp_depletable))
+      throw new Error("opp_depletable should be Depletable, Nondepletable, or Relocatable");
+    if (!["Clustered (by crime type)","Clustered (at random)","Random"].includes(p.opp_clustered))
+      throw new Error("opp_clustered should be Clustered (by crime type), Clustered (at random), or Random");
+    if (p.nu <= 1 || p.nu > 3 || p.omega <= 1 || p.omega > 3) throw new Error("Exponent must be in the range (1, 3].");
+
+    // seed: integer if given, otherwise a random one (reported so the run can be repeated)
+    let s = parseInt(String(p.seed).trim(), 10);
+    if (!Number.isFinite(s)) s = Math.floor(Math.random() * 2147483647);
+    this.seedUsed = s;
+    this.rand = mulberry32(s);
+
+    Object.assign(this, {
+      L: p.L, n_offenders: p.n_offenders, n_crime_types: p.n_crime_types, n_opportunities: p.n_opportunities,
+      offenders_moveable: p.offenders_moveable, nu: p.nu, delta_min_ratio: p.delta_min_ratio,
+      delta_max_ratio: p.delta_max_ratio, opp_depletable: p.opp_depletable, opp_clustered: p.opp_clustered,
+      omega: p.omega, opp_search_radius: p.opp_search_radius, partner_search_radius: p.partner_search_radius,
+      stopping_condition: p.stopping_condition, beta_trust: p.beta_trust, beta_skill: p.beta_skill,
+      gammas: p.gammas.slice()
+    });
+
+    // counters
+    this.crimes_by_gamma = new Map(this.gammas.map(g => [g, {solo:0, co:0}]));
+    this.total_solo_offenses = 0;
+    this.total_cooffenses = 0;
+    this.steps = 0;
+    this.running = true;
+    this.crime_type_labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".slice(0, this.n_crime_types).split("");
+
+    const R = this.rand, L = this.L;
+
+    // offenders: uniform random positions
+    this.offenders = [];
+    for (let i = 0; i < this.n_offenders; i++){
+      this.offenders.push({
+        id: i + 1, x: R() * L, y: R() * L, is_free: true,
+        skills: new Array(this.n_crime_types).fill(0),
+        diversity_index: NaN, solo_offenses: 0, cooffenses: 0
+      });
+    }
+    // matrix of previous successful co-offenses (trust)
+    this.n_interactions = new Float64Array(this.n_offenders * this.n_offenders);
+
+    // crime opportunities
+    this.total_number_of_opportunities = this.n_opportunities * this.n_crime_types;
+    this.n_opportunities_left = this.total_number_of_opportunities;
+    const palette = generateHexColors(this.n_crime_types);
+    this.palette = palette;
+
+    let allPos = [];          // [x, y] (unwrapped, as in the Python code)
+    const types = [], typeGamma = [];
+    this.last_locations = {};
+    for (let i = 0; i < this.n_crime_types; i++){
+      if (this.opp_clustered.includes("Clustered")){
+        // initial point for this crime type, then cumulative Levy steps
+        let cx = R() * L, cy = R() * L;
+        allPos.push([cx, cy]);
+        for (let k = 0; k < this.n_opportunities - 1; k++){
+          const d = this.levyJitter(this.omega) * L;
+          const th = R() * 360;  // NB: as in the Python code, a value in [0, 360) passed to cos/sin (radians)
+          cx += d * Math.cos(th); cy += d * Math.sin(th);
+          allPos.push([cx, cy]);
+        }
+        this.last_locations[this.crime_type_labels[i]] = [cx, cy];
+      } else {
+        for (let k = 0; k < this.n_opportunities; k++) allPos.push([R() * L, R() * L]);
+      }
+      for (let k = 0; k < this.n_opportunities; k++) types.push(i);
+      typeGamma.push(this.gammas[Math.floor(R() * this.gammas.length)]); // np.random.choice(gammas)
+      if (this.opp_clustered === "Clustered (at random)") this.shuffle(allPos);
+    }
+    this.typeGamma = typeGamma;
+
+    // spatial hash for fast radius queries over opportunities
+    this.nc = Math.max(1, Math.floor(L / 2));
+    this.cs = L / this.nc;
+    this.cells = Array.from({length: this.nc * this.nc}, () => []);
+    this.opportunities = [];
+    for (let j = 0; j < allPos.length; j++){
+      const t = types[j];
+      const o = { idx: j, x: this.wrap(allPos[j][0]), y: this.wrap(allPos[j][1]), crime_type: t,
+                  gamma: typeGamma[t], is_free: true, solo_offenses: 0, cooffenses: 0, cell: -1 };
+      this.opportunities.push(o);
+      this.gridAdd(o);
+    }
+
+    this.history = [];
+    this.collect();
+  }
+
+  // ---------- helpers ----------
+  wrap(v){ const L = this.L; if (v >= 0 && v <= L) return v; return ((v % L) + L) % L; }
+  torusDist(ax, ay, bx, by){
+    const L = this.L; let dx = Math.abs(ax - bx), dy = Math.abs(ay - by);
+    dx = Math.min(dx, L - dx); dy = Math.min(dy, L - dy);
+    return Math.sqrt(dx*dx + dy*dy);
+  }
+  shuffle(arr){
+    for (let i = arr.length - 1; i > 0; i--){ const j = Math.floor(this.rand() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
+    return arr;
+  }
+  // hf.levy_jitter: truncated power law on [delta_min_ratio, delta_max_ratio]
+  levyJitter(exponent){
+    const m = 1 - exponent, u = this.rand();
+    const a = Math.pow(this.delta_max_ratio, m), b = Math.pow(this.delta_min_ratio, m);
+    return Math.pow(u * (a - b) + b, 1 / m);
+  }
+  cellIndex(x, y){
+    let cx = Math.floor(x / this.cs), cy = Math.floor(y / this.cs);
+    if (cx >= this.nc) cx = this.nc - 1; if (cy >= this.nc) cy = this.nc - 1;
+    if (cx < 0) cx = 0; if (cy < 0) cy = 0;
+    return cy * this.nc + cx;
+  }
+  gridAdd(o){ o.cell = this.cellIndex(o.x, o.y); this.cells[o.cell].push(o); }
+  gridRemove(o){
+    const c = this.cells[o.cell], k = c.indexOf(o);
+    if (k >= 0){ c[k] = c[c.length - 1]; c.pop(); }
+    o.cell = -1;
+  }
+  axisCells(c0, c1){
+    const nc = this.nc;
+    if (c1 - c0 + 1 >= nc) return Array.from({length: nc}, (_, i) => i);
+    const out = []; for (let c = c0; c <= c1; c++) out.push(((c % nc) + nc) % nc); return out;
+  }
+  // closest free opportunity within radius (torus distance, <= radius as in Mesa)
+  closestOpportunity(x, y, r){
+    const xs = this.axisCells(Math.floor((x - r) / this.cs), Math.floor((x + r) / this.cs));
+    const ys = this.axisCells(Math.floor((y - r) / this.cs), Math.floor((y + r) / this.cs));
+    let best = null, bestD = Infinity;
+    for (const cy of ys) for (const cx of xs){
+      const cell = this.cells[cy * this.nc + cx];
+      for (let k = 0; k < cell.length; k++){
+        const o = cell[k];
+        const d = this.torusDist(x, y, o.x, o.y);
+        if (d <= r && (d < bestD || (d === bestD && o.idx < best.idx))){ best = o; bestD = d; }
+      }
+    }
+    return best;
+  }
+
+  // ---------- Offender behaviour (agents.py) ----------
+  move(a){
+    const d = this.levyJitter(this.nu) * this.L;
+    const angle = this.rand() * 360; // as in agents.py: np.random.uniform(0, 360) fed to np.cos/np.sin
+    a.x = this.wrap(a.x + d * Math.cos(angle));
+    a.y = this.wrap(a.y + d * Math.sin(angle));
+  }
+
+  forage(a){
+    const opp = this.closestOpportunity(a.x, a.y, this.opp_search_radius);
+    if (!opp) return;
+    a.is_free = false;
+    const neighbors = [];
+    for (const n of this.offenders){
+      if (n !== a && n.is_free && this.torusDist(a.x, a.y, n.x, n.y) <= this.partner_search_radius) neighbors.push(n);
+    }
+    if (neighbors.length === 0){ this.attemptCrime(a, opp, null); return; }
+
+    const N = this.n_offenders, t = opp.crime_type;
+    // trust: previous successful co-offenses, normalised by the max over potential partners
+    const inter = neighbors.map(n => this.n_interactions[(a.id - 1) * N + (n.id - 1)]);
+    const maxI = Math.max(...inter);
+    const trust = [1].concat(inter.map(v => maxI > 0 ? v / maxI : 0));
+    // skill for this crime type, normalised by the max over self + potential partners
+    const skill = [a.skills[t]].concat(neighbors.map(n => n.skills[t]));
+    const maxS = Math.max(...skill);
+    const skillN = skill.map(v => maxS > 0 ? v / maxS : 0);
+    // softmax
+    const u = trust.map((v, i) => this.beta_trust * v + this.beta_skill * skillN[i]);
+    const mu = Math.max(...u);
+    const e = u.map(v => Math.exp(v - mu));
+    const Z = e.reduce((s, v) => s + v, 0);
+    let r = this.rand() * Z, k = 0;
+    for (; k < e.length - 1; k++){ r -= e[k]; if (r < 0) break; }
+    if (k === 0){
+      this.attemptCrime(a, opp, null);                 // solo offense
+    } else {
+      const partner = neighbors[k - 1];                // co-offense
+      if (this.offenders_moveable){ partner.x = a.x; partner.y = a.y; }
+      partner.is_free = false;
+      this.attemptCrime(a, opp, partner);
+    }
+  }
+
+  attemptCrime(a, opp, partner){
+    let skill = a.skills[opp.crime_type];
+    if (partner) skill += partner.skills[opp.crime_type];
+    let p = Math.pow(skill / this.n_opportunities, opp.gamma);
+    p = Math.max(0.1, p);
+    if (this.rand() < p){ this.updateAttributes(a, opp, partner); return true; }
+    return false;
+  }
+
+  updateAttributes(a, opp, partner){
+    const g = this.crimes_by_gamma.get(opp.gamma);
+    a.skills[opp.crime_type] += 1;
+    if (partner){
+      a.cooffenses += 1; this.total_cooffenses += 1; g.co += 1; opp.cooffenses += 1;
+      partner.skills[opp.crime_type] += 1; partner.cooffenses += 1;
+      const N = this.n_offenders, i = a.id - 1, j = partner.id - 1;
+      this.n_interactions[i * N + j] += 1; this.n_interactions[j * N + i] += 1;
+    } else {
+      a.solo_offenses += 1; this.total_solo_offenses += 1; g.solo += 1; opp.solo_offenses += 1;
+    }
+    if (this.opp_depletable === "Relocatable") this.relocate(opp);
+    else if (this.opp_depletable === "Depletable") this.deplete(opp);
+  }
+
+  diversity(a){ // Simpson diversity index
+    let s = 0; for (const v of a.skills) s += v;
+    if (s === 0) return NaN;
+    let q = 0; for (const v of a.skills) q += (v / s) * (v / s);
+    return 1 - q;
+  }
+
+  offenderStep(a){
+    if (a.is_free){
+      if (this.offenders_moveable) this.move(a);
+      this.forage(a);
+    }
+    a.diversity_index = this.diversity(a);
+  }
+
+  // ---------- CrimeOpportunity behaviour ----------
+  relocate(o){
+    const label = this.crime_type_labels[o.crime_type];
+    let last = this.last_locations[label];
+    let nx, ny;
+    if (!last){
+      // In the Python code, 'Relocatable' with 'Random' placement has no last location (KeyError).
+      // Here we fall back to a uniformly random new location.
+      nx = this.rand() * this.L; ny = this.rand() * this.L;
+    } else {
+      const d = this.levyJitter(this.omega) * this.L;
+      const th = this.rand() * 360;
+      nx = last[0] + d * Math.cos(th); ny = last[1] + d * Math.sin(th);
+      this.last_locations[label] = [nx, ny];
+    }
+    this.gridRemove(o);
+    o.x = this.wrap(nx); o.y = this.wrap(ny);
+    this.gridAdd(o);
+  }
+  deplete(o){
+    o.is_free = false;
+    this.gridRemove(o);
+    this.n_free_dirty = true;
+  }
+
+  // ---------- model-level reporters ----------
+  avgDiversity(){
+    let s = 0, n = 0;
+    for (const a of this.offenders) if (!Number.isNaN(a.diversity_index)){ s += a.diversity_index; n++; }
+    return n === 0 ? NaN : s / n;
+  }
+  cooffensePrevalence(){
+    const tot = this.total_solo_offenses + this.total_cooffenses;
+    return tot === 0 ? 0 : this.total_cooffenses / tot;
+  }
+  // sklearn NearestNeighbors on raw coordinates (plain Euclidean, as in model.py)
+  meanNNDistance(){
+    const A = this.offenders; let s = 0;
+    for (let i = 0; i < A.length; i++){
+      let best = Infinity;
+      for (let j = 0; j < A.length; j++){
+        if (i === j) continue;
+        const dx = A[i].x - A[j].x, dy = A[i].y - A[j].y, d = dx*dx + dy*dy;
+        if (d < best) best = d;
+      }
+      s += Math.sqrt(best);
+    }
+    return s / A.length;
+  }
+  collect(){
+    this.history.push({
+      step: this.steps,
+      avg_diversity_index: this.avgDiversity(),
+      cooffense_prevalence: this.cooffensePrevalence(),
+      mean_distance: this.meanNNDistance(),
+      n_opportunities_left: this.n_opportunities_left,
+      total_solo_offenses: this.total_solo_offenses,
+      total_cooffenses: this.total_cooffenses
+    });
+  }
+
+  step(){
+    if (!this.running) return;
+    for (const a of this.offenders) a.is_free = true;          // shuffle_do("set_free")
+    const order = this.shuffle(this.offenders.slice());         // shuffle_do("step")
+    for (const a of order) this.offenderStep(a);
+    this.steps += 1;
+    let left = 0; for (const o of this.opportunities) if (o.is_free) left++;
+    this.n_opportunities_left = left;
+    this.collect();
+    if (this.n_opportunities_left <= this.total_number_of_opportunities * this.stopping_condition) this.running = false;
+  }
+}
+if (typeof module !== "undefined") module.exports = { ForagingModel, MODEL_DEFAULTS };
+/* ===================== MODEL-END ===================== */
+</script>
+
+<script>
+(() => {
+  const PARAMS = [
+    { group:"Environment" },
+    { key:"L", type:"range", sym:"L", label:"environment size (L × L)", value:50, min:10, max:200, step:10 },
+    { key:"n_crime_types", type:"range", sym:"N<sub>crime types</sub>", label:"crime types", value:10, min:1, max:20, step:1 },
+    { key:"n_opportunities", type:"range", sym:"N<sub>co per crime type</sub>", label:"COs per type", value:500, min:100, max:1000, step:50 },
+    { key:"opp_clustered", type:"select", sym:"η", label:"CO spatial clustering", value:"Clustered (by crime type)",
+      values:["Clustered (by crime type)","Clustered (at random)","Random"], names:["By crime type","Random (clusters not tied to type)","No (uniform random)"] },
+    { key:"omega", type:"range", sym:"τ", label:"Lévy exponent, CO clustering", value:2, min:1.1, max:3, step:0.1, dec:1 },
+    { key:"gammas", type:"text", sym:"γ", label:"complexity levels (comma-separated)", value:"0.05, 0.2, 0.6" },
+    { key:"opp_depletable", type:"select", label:"CO dynamics", value:"Depletable", values:["Depletable","Nondepletable","Relocatable"] },
+    { group:"Offender agents" },
+    { key:"n_offenders", type:"range", sym:"N<sub>agents</sub>", label:"offender agents", value:50, min:2, max:100, step:2 },
+    { key:"offenders_moveable", type:"check", label:"Offender agents moveable", value:true },
+    { key:"nu", type:"range", sym:"ν", label:"Lévy exponent, offender movement", value:2, min:1.1, max:3, step:0.1, dec:1 },
+    { key:"delta_min_ratio", type:"range", sym:"δ<sub>min</sub>", label:"min. step length (× L)", value:0.005, min:0.001, max:0.05, step:0.001, dec:3 },
+    { key:"delta_max_ratio", type:"range", sym:"δ<sub>max</sub>", label:"max. step length (× L)", value:0.05, min:0.01, max:0.5, step:0.01, dec:2 },
+    { key:"opp_search_radius", type:"range", sym:"r<sub>co</sub>", label:"CO search radius", value:1, min:0, max:50, step:1 },
+    { group:"Partner selection" },
+    { key:"partner_search_radius", type:"range", sym:"r<sub>partner</sub>", label:"partner search radius", value:5, min:0, max:50, step:1 },
+    { key:"beta_trust", type:"range", sym:"β<sub>trust</sub>", label:"trust preference", value:1, min:0, max:10, step:1 },
+    { key:"beta_skill", type:"range", sym:"β<sub>skill</sub>", label:"skill preference", value:1, min:0, max:10, step:1 },
+    { group:"Run" },
+    { key:"seed", type:"text", label:"Random seed (integer; blank = random)", value:"" },
+    { key:"stopping_condition", type:"range", label:"Stop when share of COs left ≤", value:0, min:0, max:0.3, step:0.05, dec:2 },
+  ];
+  const SPEEDS = [
+    {lbl:"1 step / 400 ms", steps:1, delay:400}, {lbl:"1 step / 150 ms", steps:1, delay:150},
+    {lbl:"1 step / frame", steps:1, delay:0}, {lbl:"3 steps / frame", steps:3, delay:0},
+    {lbl:"10 steps / frame", steps:10, delay:0}, {lbl:"30 steps / frame", steps:30, delay:0},
+    {lbl:"100 steps / frame", steps:100, delay:0}, {lbl:"300 steps / frame", steps:300, delay:0},
+  ];
+
+  const $ = id => document.getElementById(id);
+  const fmt = (v, d) => (v === null || v === undefined || Number.isNaN(v)) ? "–" : Number(v).toFixed(d);
+
+  function buildField(spec, host){
+    const id = "p_" + spec.key;
+    let el;
+    if (spec.type === "check"){
+      el = document.createElement("label"); el.className = "check";
+      el.innerHTML = `<input type="checkbox" id="${id}" ${spec.value ? "checked":""}> ${spec.label}`;
+    } else {
+      el = document.createElement("div"); el.className = "field";
+      const show = spec.type === "range" ? `<b class="num" id="${id}_v"></b>` : "";
+      let input;
+      if (spec.type === "range") input = `<input type="range" id="${id}" min="${spec.min}" max="${spec.max}" step="${spec.step}" value="${spec.value}">`;
+      else if (spec.type === "select") input = `<select id="${id}">${spec.values.map((v, i) => `<option value="${v}"${v===spec.value?" selected":""}>${spec.names ? spec.names[i] : v}</option>`).join("")}</select>`;
+      else input = `<input type="text" id="${id}" value="${spec.value}" placeholder="${spec.key==='seed'?'random':''}" inputmode="${spec.key==='seed'?'numeric':'text'}">`;
+      const lbl = spec.sym ? `<span class="lbl"><span class="sym">${spec.sym}</span>${spec.label}</span>` : `<span class="lbl">${spec.label}</span>`;
+      el.innerHTML = `<label for="${id}">${lbl}${show}</label>${input}`;
+    }
+    host.appendChild(el);
+    const inp = el.querySelector("input,select");
+    const sync = () => { if (spec.type === "range") $(id + "_v").textContent = Number(inp.value).toFixed(spec.dec || 0); };
+    sync();
+    inp.addEventListener("input", () => { sync(); markDirty(); });
+    inp.addEventListener("change", () => { sync(); markDirty(); });
+  }
+  PARAMS.forEach(s => {
+    if (s.group){ const h = document.createElement("h3"); h.className = "pgroup"; h.textContent = s.group; $("params").appendChild(h); }
+    else buildField(s, $("params"));
+  });
+
+  function readParams(){
+    const out = {};
+    for (const s of PARAMS.filter(x => x.key)){
+      const el = $("p_" + s.key);
+      if (s.type === "check") out[s.key] = el.checked;
+      else if (s.type === "range") out[s.key] = Number(el.value);
+      else out[s.key] = el.value;
+    }
+    const g = String(out.gammas).split(",").map(v => parseFloat(v)).filter(v => Number.isFinite(v));
+    out.gammas = g.length ? g : [0.05, 0.2, 0.6];
+    if (out.delta_max_ratio <= out.delta_min_ratio) out.delta_max_ratio = out.delta_min_ratio * 2;
+    return out;
+  }
+
+  let model = null, playing = false, timer = null, lastTick = 0;
+  function markDirty(){ $("dirty").classList.add("show"); }
+
+  // ---------- drawing: environment ----------
+  const space = $("space"), sctx = space.getContext("2d");
+  function sizeCanvas(c){
+    const dpr = window.devicePixelRatio || 1, r = c.getBoundingClientRect();
+    const w = Math.max(10, Math.round(r.width * dpr)), h = Math.max(10, Math.round(r.height * dpr));
+    if (c.width !== w || c.height !== h){ c.width = w; c.height = h; }
+    return {w, h, dpr};
+  }
+  function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+  function drawSpace(){
+    const {w, h, dpr} = sizeCanvas(space);
+    const pad = 26 * dpr, side = Math.min(w, h) - pad - 8 * dpr;
+    if (side <= 0 || space.offsetParent === null) return;   // hidden (e.g. flowchart tab open)
+    const ox = pad, oy = 6 * dpr, L = model.L, sc = side / L;
+    sctx.fillStyle = css("--panel"); sctx.fillRect(0, 0, w, h);
+    sctx.fillStyle = css("--figure"); sctx.fillRect(ox, oy, side, side);
+    // ticks
+    sctx.fillStyle = css("--muted"); sctx.font = `${10*dpr}px system-ui, sans-serif`;
+    sctx.strokeStyle = "rgba(0,0,0,0.07)"; sctx.lineWidth = 1;
+    const stepT = L <= 60 ? 10 : (L <= 120 ? 20 : 50);
+    for (let t = 0; t <= L + 1e-9; t += stepT){
+      const px = ox + t * sc, py = oy + side - t * sc;
+      sctx.beginPath(); sctx.moveTo(px, oy); sctx.lineTo(px, oy + side); sctx.stroke();
+      sctx.beginPath(); sctx.moveTo(ox, py); sctx.lineTo(ox + side, py); sctx.stroke();
+      sctx.textAlign = "center"; sctx.textBaseline = "top"; sctx.fillText(String(t), px, oy + side + 4*dpr);
+      sctx.textAlign = "right"; sctx.textBaseline = "middle"; sctx.fillText(String(t), ox - 5*dpr, py);
+    }
+    // opportunities, batched by crime type
+    const r = Math.max(1.1 * dpr, side / 380);
+    const byType = model.palette.map(() => []);
+    for (const o of model.opportunities) if (o.is_free) byType[o.crime_type].push(o);
+    byType.forEach((list, t) => {
+      sctx.fillStyle = model.palette[t]; sctx.globalAlpha = 0.85; sctx.beginPath();
+      for (const o of list){ const x = ox + o.x * sc, y = oy + side - o.y * sc; sctx.moveTo(x + r, y); sctx.arc(x, y, r, 0, 6.2832); }
+      sctx.fill();
+    });
+    sctx.globalAlpha = 1;
+
+    // ---- overlays (clipped to the environment; torus-aware) ----
+    sctx.save();
+    sctx.beginPath(); sctx.rect(ox, oy, side, side); sctx.clip();
+    const P = (x, y) => [ox + x * sc, oy + side - y * sc];
+    const wrapCircles = (rad, stroke, fill, dash) => {
+      if (rad <= 0) return;
+      sctx.setLineDash(dash.map(v => v * dpr)); sctx.strokeStyle = stroke; sctx.fillStyle = fill; sctx.lineWidth = 1 * dpr;
+      sctx.beginPath();
+      for (const a of model.offenders){
+        for (const dx of [-L, 0, L]) for (const dy of [-L, 0, L]){
+          const cx = a.x + dx, cy = a.y + dy;
+          if (cx + rad < 0 || cx - rad > L || cy + rad < 0 || cy - rad > L) continue;
+          const [px, py] = P(cx, cy); sctx.moveTo(px + rad * sc, py); sctx.arc(px, py, rad * sc, 0, 6.2832);
+        }
+      }
+      if (fill) sctx.fill(); sctx.stroke(); sctx.setLineDash([]);
+    };
+    if ($("tgRco").checked) wrapCircles(model.opp_search_radius, "rgba(42,120,142,0.75)", null, [1.5, 2.5]);
+    if ($("tgRp").checked) wrapCircles(model.partner_search_radius, "rgba(165,42,42,0.45)", "rgba(165,42,42,0.035)", [4, 3]);
+    // shortest (torus) segment between two points, drawn from both ends so wrapped links show on both edges
+    const torusLine = (x1, y1, x2, y2) => {
+      let dx = x2 - x1, dy = y2 - y1;
+      if (dx > L / 2) dx -= L; else if (dx < -L / 2) dx += L;
+      if (dy > L / 2) dy -= L; else if (dy < -L / 2) dy += L;
+      let [a1, b1] = P(x1, y1), [a2, b2] = P(x1 + dx, y1 + dy);
+      sctx.moveTo(a1, b1); sctx.lineTo(a2, b2);
+      if (x1 + dx < 0 || x1 + dx > L || y1 + dy < 0 || y1 + dy > L){
+        [a1, b1] = P(x2, y2); [a2, b2] = P(x2 - dx, y2 - dy); sctx.moveTo(a1, b1); sctx.lineTo(a2, b2);
+      }
+    };
+    if ($("tgTies").checked){
+      const N = model.n_offenders, W = model.n_interactions, A = model.offenders;
+      let mx = 0; for (let k = 0; k < W.length; k++) if (W[k] > mx) mx = W[k];
+      if (mx > 0){
+        // bucket by strength so each bucket is one stroke
+        const buckets = 5, groups = Array.from({length: buckets}, () => []);
+        for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++){
+          const w = W[i * N + j]; if (w > 0) groups[Math.min(buckets - 1, Math.floor((w / mx) * buckets))].push([A[i], A[j]]);
+        }
+        groups.forEach((g, b) => {
+          if (!g.length) return;
+          sctx.strokeStyle = `rgba(60,40,30,${0.12 + 0.5 * (b + 1) / buckets})`;
+          sctx.lineWidth = (0.6 + 1.8 * (b + 1) / buckets) * dpr;
+          sctx.beginPath(); for (const [p, q] of g) torusLine(p.x, p.y, q.x, q.y); sctx.stroke();
+        });
+      }
+    }
+    sctx.restore();
+
+    // offenders: brown x
+    const s = Math.max(3 * dpr, side / 150);
+    sctx.strokeStyle = "#a52a2a"; sctx.lineWidth = Math.max(1.4 * dpr, side / 420); sctx.beginPath();
+    for (const a of model.offenders){
+      const x = ox + a.x * sc, y = oy + side - a.y * sc;
+      sctx.moveTo(x - s, y - s); sctx.lineTo(x + s, y + s); sctx.moveTo(x - s, y + s); sctx.lineTo(x + s, y - s);
+    }
+    sctx.stroke();
+    sctx.strokeStyle = css("--line"); sctx.lineWidth = 1; sctx.strokeRect(ox + .5, oy + .5, side - 1, side - 1);
+  }
+
+  // ---------- drawing: line charts ----------
+  function niceTicks(lo, hi, n){
+    if (!(hi > lo)){ const c = Number.isFinite(lo) ? lo : 0; lo = c - 0.5; hi = c + 0.5; }
+    const raw = (hi - lo) / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
+    const st = (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag;
+    const a = Math.floor(lo / st) * st, b = Math.ceil(hi / st) * st, ticks = [];
+    for (let v = a; v <= b + st * 1e-6; v += st) ticks.push(+v.toFixed(10));
+    return {lo:a, hi:b, ticks, st};
+  }
+  function drawChart(canvas, key, color){
+    const ctx = canvas.getContext("2d"), {w, h, dpr} = sizeCanvas(canvas);
+    ctx.fillStyle = css("--panel"); ctx.fillRect(0, 0, w, h);
+    const H = model.history, pts = [];
+    for (const r of H){ const v = r[key]; if (!Number.isNaN(v)) pts.push([r.step, v]); }
+    const left = 44 * dpr, right = 10 * dpr, top = 8 * dpr, bottom = 24 * dpr;
+    const pw = w - left - right, ph = h - top - bottom;
+    if (pw <= 0 || ph <= 0 || canvas.offsetParent === null) return;
+    let ymin = Infinity, ymax = -Infinity;
+    for (const p of pts){ if (p[1] < ymin) ymin = p[1]; if (p[1] > ymax) ymax = p[1]; }
+    if (!pts.length){ ymin = 0; ymax = 1; }
+    const yt = niceTicks(ymin, ymax, 4);
+    const xmax = Math.max(1, H.length ? H[H.length - 1].step : 1);
+    const xt = niceTicks(0, xmax, 5);
+    const X = s => left + (s / xt.hi) * pw, Y = v => top + ph - ((v - yt.lo) / (yt.hi - yt.lo)) * ph;
+    ctx.font = `${10*dpr}px system-ui, sans-serif`; ctx.fillStyle = css("--muted");
+    ctx.strokeStyle = css("--grid"); ctx.lineWidth = 1;
+    const ydec = Math.max(0, -Math.floor(Math.log10(yt.st)));
+    for (const v of yt.ticks){
+      const y = Math.round(Y(v)) + .5; ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(left + pw, y); ctx.stroke();
+      ctx.textAlign = "right"; ctx.textBaseline = "middle"; ctx.fillText(v.toFixed(ydec), left - 6*dpr, y);
+    }
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    for (const v of xt.ticks){ ctx.fillText(String(Math.round(v)), X(v), top + ph + 6*dpr); }
+    if (pts.length){
+      ctx.strokeStyle = color; ctx.lineWidth = 1.8 * dpr; ctx.lineJoin = "round"; ctx.beginPath();
+      const every = Math.max(1, Math.floor(pts.length / (pw / dpr)));
+      for (let i = 0; i < pts.length; i += every){ const p = pts[i]; i === 0 ? ctx.moveTo(X(p[0]), Y(p[1])) : ctx.lineTo(X(p[0]), Y(p[1])); }
+      const lp = pts[pts.length - 1]; ctx.lineTo(X(lp[0]), Y(lp[1]));
+      ctx.stroke();
+    }
+  }
+
+  // ---------- stats ----------
+  function tieStats(){
+    const N = model.n_offenders, W = model.n_interactions; let ties = 0;
+    for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) if (W[i * N + j] > 0) ties++;
+    return { ties, deg: 2 * ties / N };
+  }
+  function renderStats(){
+    $("stepNo").textContent = model.steps.toLocaleString();
+    const pill = $("statePill");
+    if (!model.running){ pill.textContent = "finished"; pill.className = "pill done"; }
+    else if (playing){ pill.textContent = "running"; pill.className = "pill run"; }
+    else { pill.textContent = model.steps ? "paused" : "ready"; pill.className = "pill"; }
+    const tot = model.total_number_of_opportunities, left = model.n_opportunities_left;
+    const last = model.history[model.history.length - 1];
+    $("kv").innerHTML = `
+      <dt>Opportunities left</dt><dd>${left.toLocaleString()} (${(left / tot * 100).toFixed(2)}%)</dd>
+      <dt>Solo offenses</dt><dd>${model.total_solo_offenses.toLocaleString()}</dd>
+      <dt>Co-offenses</dt><dd>${model.total_cooffenses.toLocaleString()}</dd>
+      <dt>Co-offending ties (pairs)</dt><dd>${tieStats().ties.toLocaleString()}</dd>
+      <dt>Mean degree</dt><dd>${tieStats().deg.toFixed(2)}</dd>
+      <dt>Seed used</dt><dd>${model.seedUsed}</dd>`;
+    let rows = `<tr><th>Complexity γ</th><th>Crime types</th><th>Solo</th><th>Co</th></tr>`;
+    for (const [g, c] of model.crimes_by_gamma){
+      const nt = model.typeGamma.filter(x => x === g).length;
+      rows += `<tr><td>${g}</td><td>${nt}</td><td>${c.solo.toLocaleString()}</td><td>${c.co.toLocaleString()}</td></tr>`;
+    }
+    $("gammaTbl").innerHTML = rows;
+    $("vDiv").textContent = fmt(last.avg_diversity_index, 3);
+    $("vPrev").textContent = fmt(last.cooffense_prevalence, 3);
+    $("vDist").textContent = fmt(last.mean_distance, 2);
+  }
+  function renderLegend(){
+    const grad = model.palette.length > 1 ? `linear-gradient(90deg, ${model.palette.join(",")})` : model.palette[0];
+    $("legend").innerHTML =
+      `<span><b class="x">×</b>offender</span>` +
+      `<span><i style="background:#6b6862"></i>criminal opportunity (CO)</span>` +
+      `<span><i class="grad" style="background:${grad}"></i>colour = crime type (${model.n_crime_types})</span>`;
+  }
+
+  function render(){
+    drawSpace();
+    drawChart($("chDiv"), "avg_diversity_index", css("--c-div"));
+    drawChart($("chPrev"), "cooffense_prevalence", css("--c-prev"));
+    drawChart($("chDist"), "mean_distance", css("--c-dist"));
+    renderStats();
+  }
+
+  // ---------- controls ----------
+  function reset(){
+    pause();
+    try { model = new ForagingModel(readParams()); }
+    catch (e){ alert(e.message); return; }
+    $("dirty").classList.remove("show");
+    renderLegend(); render(); updateButtons();
+  }
+  function updateButtons(){
+    $("btnPlay").textContent = playing ? "❚❚ Pause" : "▶ Run";
+    $("btnPlay").disabled = !model.running; $("btnStep").disabled = !model.running || playing;
+  }
+  function loop(ts){
+    if (!playing) return;
+    const sp = SPEEDS[+$("speed").value];
+    if (ts - lastTick >= sp.delay){
+      lastTick = ts;
+      for (let i = 0; i < sp.steps && model.running; i++) model.step();
+      render();
+      if (!model.running){ pause(); return; }
+    }
+    timer = requestAnimationFrame(loop);
+  }
+  function play(){ if (!model.running) return; playing = true; lastTick = 0; updateButtons(); renderStats(); timer = requestAnimationFrame(loop); }
+  function pause(){ playing = false; if (timer) cancelAnimationFrame(timer); timer = null; if (model){ updateButtons(); renderStats(); } }
+  $("btnPlay").onclick = () => playing ? pause() : play();
+  $("btnStep").onclick = () => { model.step(); render(); updateButtons(); };
+  $("btnReset").onclick = reset;
+  const syncSpeed = () => $("speedLbl").textContent = SPEEDS[+$("speed").value].lbl;
+  $("speed").addEventListener("input", syncSpeed); syncSpeed();
+
+  function download(name, text){
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], {type:"text/csv"}));
+    a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  const csvVal = v => (typeof v === "number" && Number.isNaN(v)) ? "" : (typeof v === "number" ? +v.toFixed(6) : v);
+  $("dlModel").onclick = () => {
+    const keys = Object.keys(model.history[0]);
+    const lines = [keys.join(",")].concat(model.history.map(r => keys.map(k => csvVal(r[k])).join(",")));
+    download(`sofocrim_model_seed${model.seedUsed}.csv`, lines.join("\n"));
+  };
+  $("dlAgents").onclick = () => {
+    const head = ["AgentID","Step","diversity_index","cooffenses","solo_offenses"].concat(model.crime_type_labels.map(l => "skill_" + l));
+    const lines = [head.join(",")].concat(model.offenders.map(a =>
+      [a.id, model.steps, csvVal(a.diversity_index), a.cooffenses, a.solo_offenses].concat(a.skills).join(",")));
+    download(`sofocrim_offenders_seed${model.seedUsed}_step${model.steps}.csv`, lines.join("\n"));
+  };
+
+  ["tgRp", "tgRco", "tgTies"].forEach(id => $(id).addEventListener("change", drawSpace));
+  document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("active", x === b));
+    ["tabSim", "tabFlow"].forEach(id => $(id).hidden = id !== b.dataset.tab);
+    if (b.dataset.tab === "tabSim") render();
+  }));
+
+  // ---- theme toggle ----
+  const mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  const isDark = () => (document.documentElement.dataset.theme || (mq && mq.matches ? "dark" : "light")) === "dark";
+  const syncThemeBtn = () => $("themeBtn").textContent = isDark() ? "☀ Light" : "☾ Dark";
+  $("themeBtn").onclick = () => {
+    const t = isDark() ? "light" : "dark";
+    document.documentElement.dataset.theme = t;
+    try { localStorage.setItem("sofocrim-theme", t); } catch (e) {}
+    syncThemeBtn(); render();
+  };
+  if (mq && mq.addEventListener) mq.addEventListener("change", syncThemeBtn);
+  syncThemeBtn();
+  // ---- copy citation ----
+  $("copyCite").onclick = async () => {
+    const txt = $("citeText").textContent.replace(/\s+/g, " ").trim();
+    try { await navigator.clipboard.writeText(txt); }
+    catch (e) { const r = document.createRange(); r.selectNodeContents($("citeText")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); document.execCommand("copy"); sel.removeAllRanges(); }
+    $("copyCite").textContent = "Copied"; setTimeout(() => $("copyCite").textContent = "Copy", 1400);
+  };
+
+  let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(render, 80); });
+  if (window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", render);
+  reset();
+})();
+</script>
+
+<script>
+/* ═════════ Interactive flowchart (manuscript Figure 1; interaction as in the SOFOCRIM talk) ═════════ */
+(() => {
+  const svg = document.getElementById("flowSvg");
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (t, a = {}, html) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (html !== undefined) e.innerHTML = html; return e; };
+  const SUB = s => `<tspan baseline-shift="sub" font-size="8.5">${s}</tspan>`;
+
+  // ---- nodes: geometry follows Figure 1; texts describe what the code does at each step ----
+  const N = {
+    pick: { k:"a", x:145, y:14,  w:190, h:42, l:["Pick the agent"], s:"random activation order",
+      model:"At the start of each time step every offender is set to available; agents are then activated one at a time in a random order. An agent already recruited as a partner earlier in the step skips its turn.",
+      th:"", ci:"" },
+    step: { k:"a", x:145, y:86,  w:190, h:42, l:["Take a step"], s:`Lévy flight · ν, δ ∈ [δ${SUB("min")}, δ${SUB("max")}]`, ref:"r1",
+      model:"The agent moves a distance <i>δ</i>·<i>L</i> in a uniformly random direction, with <i>δ</i> drawn from a truncated power law <i>P</i>(<i>δ</i>) ∝ <i>δ</i><sup>−ν</sup> on [<i>δ</i><sub>min</sub>, <i>δ</i><sub>max</sub>]. Lower <i>ν</i> means more long, exploratory jumps. The environment wraps around (torus).",
+      th:"Abstract movement in the environment", ci:"Brantingham & Vandeviver, 2025" },
+    co:   { k:"d", cx:240, cy:210, rx:110, ry:62, l:["Found a","nearby criminal","opportunity?"], s:`within r${SUB("co")}`, ref:"r2",
+      model:"The agent looks for available criminal opportunities within radius <i>r</i><sub>co</sub> and picks the closest one. If there is none, its turn ends.",
+      th:"Offenders as foragers for opportunities", ci:"Bernasco, 2009; Johnson, 2014" },
+    look: { k:"a", x:145, y:298, w:190, h:42, l:["Look for a partner"], s:`within r${SUB("partner")}`, ref:"r3",
+      model:"The agent lists other offenders within <i>r</i><sub>partner</sub> who are still available this step. With <i>r</i><sub>partner</sub> = 0, only solo offending is possible.",
+      th:"Partner access shapes co-offending", ci:"Felson, 2003; Morselli, 2009; Rowan et al., 2022" },
+    pd:   { k:"d", cx:240, cy:420, rx:110, ry:55, l:["Found a","potential partner?"], ref:"r4",
+      model:"No candidates → solo offence. Otherwise the agent chooses between acting alone and each candidate with softmax probabilities on <i>U</i><sub>i,j</sub> = <i>β</i><sub>trust</sub><i>ω̃</i><sub>i,j</sub> + <i>β</i><sub>skill</sub><i>s̃</i><sub>j</sub><sup>ψ</sup> (trust in oneself fixed at 1), so solo can still win.",
+      th:"Weighing trust and/or skill", ci:"McCarthy et al., 1998; Tremblay, 1993; Weerman, 2003" },
+    solo: { k:"a", x:40,  y:500, w:140, h:42, l:["Solo offence"],
+      model:"The agent attempts the opportunity alone; the partner skill term is zero.",
+      th:"", ci:"" },
+    cooff:{ k:"a", x:290, y:500, w:160, h:42, l:["Co-offence"], s:`softmax · β${SUB("trust")}, β${SUB("skill")}`, ref:"r5",
+      model:"The chosen partner is relocated to the initiator's position and becomes unavailable for the rest of the step, whatever the outcome.",
+      th:"Crime instigation process", ci:"McGloin & Nguyen, 2012; Van Mastrigt & Farrington, 2011" },
+    att:  { k:"a", x:145, y:578, w:190, h:42, l:["Attempt the crime"], s:`p = max(0.1, (s/N${SUB("co")})<tspan baseline-shift="super" font-size="9">γ</tspan>)`,
+      model:"Success probability <i>p</i> = max(0.1, ((<i>s</i><sub>i</sub><sup>ψ</sup> + <i>s</i><sub>j</sub><sup>ψ</sup>) / <i>N</i><sub>co</sub>)<sup><i>γ</i></sup>), where <i>γ</i> ∈ {0.05, 0.2, 0.6} is the complexity of the crime type and <i>N</i><sub>co</sub> the number of opportunities per type. The 0.1 floor lets novices succeed occasionally.",
+      th:"", ci:"" },
+    succ: { k:"d", cx:240, cy:700, rx:110, ry:55, l:["Was crime","successful?"], ref:"r6",
+      model:"A uniform random draw below <i>p</i> means success. On failure nothing is learned, but everyone involved stays unavailable until the next step.",
+      th:"Success depends on skill and crime difficulty", ci:"McCarthy & Hagan, 2001; Felson, 2003; Tremblay, 1993" },
+    learn:{ k:"a", x:145, y:775, w:190, h:52, l:["Increase skill level"], s:"(and trust, if co-offence)", ref:"r7",
+      model:"Each involved agent's skill for that crime type rises by 1; after a co-offence, trust <i>ω</i><sub>i,j</sub> between the pair rises by 1. The opportunity is removed (depletable COs).",
+      th:"Skill & trust accumulate through practice", ci:"McCarthy & Hagan, 2001; Weerman, 2003" },
+    end:  { k:"a", x:145, y:850, w:190, h:42, l:["Turn ends"],
+      model:"The next agent in the random order is activated. When all agents have acted the step ends; the run stops once the share of opportunities left falls to the stopping condition (all exploited in the manuscript).",
+      th:"", ci:"" },
+  };
+  const TITLE = { pick:"Pick the agent", step:"Take a step", co:"Found a nearby criminal opportunity?", look:"Look for a partner",
+    pd:"Found a potential partner?", solo:"Solo offence", cooff:"Co-offence", att:"Attempt the crime", succ:"Was the crime successful?",
+    learn:"Increase skill (and trust)", end:"Turn ends" };
+
+  // theory column (right), each tied to a node
+  const R = [
+    { id:"r1", node:"step",  y:76,  h:62, l:["Abstract movement in the environment","(Brantingham & Vandeviver, 2025)"] },
+    { id:"r2", node:"co",    y:178, h:64, l:["Offenders as foragers for opportunities","(Bernasco, 2009; Johnson, 2014)"] },
+    { id:"r3", node:"look",  y:283, h:72, l:["Partner access shapes co-offending","(Felson, 2003; Morselli, 2009;","Rowan et al., 2022)"] },
+    { id:"r4", node:"pd",    y:384, h:72, l:["Weighing trust and/or skill","(McCarthy et al., 1998; Tremblay, 1993;","Weerman, 2003)"] },
+    { id:"r5", node:"cooff", y:485, h:72, l:["Crime instigation process","(McGloin & Nguyen, 2012;","Van Mastrigt & Farrington, 2011)"] },
+    { id:"r6", node:"succ",  y:664, h:72, l:["Success depends on skill and crime","difficulty (McCarthy & Hagan, 2001;","Felson, 2003; Tremblay, 1993)"] },
+    { id:"r7", node:"learn", y:769, h:64, l:["Skill & trust accumulate through practice","(McCarthy & Hagan, 2001; Weerman, 2003)"] },
+  ];
+
+  const E = [
+    { id:"e1",  f:"pick",  t:"step",  p:[[240,56],[240,86]] },
+    { id:"e2",  f:"step",  t:"co",    p:[[240,128],[240,148]] },
+    { id:"e3",  f:"co",    t:"look",  p:[[240,272],[240,298]], lab:"Yes", lx:248, ly:290 },
+    { id:"e4",  f:"co",    t:"end",   p:[[130,210],[30,210],[30,871],[145,871]], lab:"No", lx:100, ly:202 },
+    { id:"e5",  f:"look",  t:"pd",    p:[[240,340],[240,365]] },
+    { id:"e6",  f:"pd",    t:"cooff", p:[[350,420],[370,420],[370,500]], lab:"Yes", lx:360, ly:411 },
+    { id:"e7",  f:"pd",    t:"solo",  p:[[130,420],[110,420],[110,500]], lab:"No", lx:96, ly:411 },
+    { id:"e8",  f:"solo",  t:"att",   p:[[110,542],[110,599],[145,599]] },
+    { id:"e9",  f:"cooff", t:"att",   p:[[370,542],[370,599],[335,599]] },
+    { id:"e10", f:"att",   t:"succ",  p:[[240,620],[240,645]] },
+    { id:"e11", f:"succ",  t:"learn", p:[[240,755],[240,775]], lab:"Yes", lx:248, ly:770 },
+    { id:"e12", f:"succ",  t:"end",   p:[[130,700],[30,700],[30,871],[145,871]], lab:"No", lx:100, ly:692 },
+    { id:"e13", f:"learn", t:"end",   p:[[240,827],[240,850]] },
+    { id:"e14", f:"end",   t:"pick",  p:[[240,892],[240,907],[10,907],[10,35],[145,35]], loop:true, lab:"next agent", lx:16, ly:902 },
+  ];
+  // illustrative branch frequencies (as in the talk)
+  const NEXT = { pick:["e1"], step:["e2"], co:["e3","e3","e3","e4"], look:["e5"], pd:["e6","e6","e7","e7","e7"],
+                 cooff:["e9"], solo:["e8"], att:["e10"], succ:["e11","e11","e11","e12"], learn:["e13"], end:["e14"] };
+
+  const FILL = { a:"#fff2cc", d:"#d5e8d4" }, STROKE = { a:"#d6b656", d:"#82b366" };
+  const HOT  = { a:"#f6e3a4", d:"#bfdcae" };
+  const shapes = {}, edges = {}, refs = {}, conns = {};
+
+  // ---- build ----
+  const defs = el("defs", {}, `<marker id="fah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker>
+    <marker id="fahHot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#17242E"/></marker>`);
+  svg.appendChild(defs);
+  const shared = new Set(["e4","e12"]); // share the trunk; arrowhead drawn once
+  E.forEach(e => {
+    const d = "M" + e.p.map(q => q.join(" ")).join(" L");
+    const path = el("path", { d, class: "fedge" + (e.loop ? " loop" : "") });
+    if (!(shared.has(e.id) && e.id === "e12")) path.setAttribute("marker-end", "url(#fah)");
+    svg.appendChild(path); edges[e.id] = path;
+    if (e.lab) svg.appendChild(el("text", { x:e.lx, y:e.ly, class:"fbr", "font-size": e.loop ? 11 : 12.5 }, e.lab));
+  });
+  const edgeEnd = el("g"); svg.appendChild(edgeEnd);   // hot edge is moved just before this so it sits on top of other edges
+  R.forEach(r => {
+    const n = N[r.node];
+    const x0 = n.k === "a" ? n.x + n.w : n.cx + n.rx, y0 = n.k === "a" ? n.y + n.h / 2 : n.cy;
+    const c = el("path", { d:`M${x0},${y0} H488`, class:"fconn" }); svg.appendChild(c); conns[r.id] = c;
+    const g = el("g", { class:"fref" });
+    g.appendChild(el("rect", { x:488, y:r.y, width:322, height:r.h }));
+    const lh = 19, y1 = r.y + r.h / 2 - (r.l.length - 1) * lh / 2 + 5;
+    r.l.forEach((t, i) => g.appendChild(el("text", { x:649, y:y1 + i * lh }, t.replace(/&/g, "&amp;"))));
+    g.addEventListener("click", () => jumpTo(r.node));
+    svg.appendChild(g); refs[r.id] = g;
+  });
+  for (const id in N){
+    const n = N[id], g = el("g", { class:"fnode", tabindex:0, role:"button", "aria-label":TITLE[id] });
+    let shape;
+    if (n.k === "a"){ shape = el("rect", { x:n.x, y:n.y, width:n.w, height:n.h, rx:8 }); n._cx = n.x + n.w / 2; n._cy = n.y + n.h / 2; }
+    else { shape = el("polygon", { points:`${n.cx},${n.cy-n.ry} ${n.cx+n.rx},${n.cy} ${n.cx},${n.cy+n.ry} ${n.cx-n.rx},${n.cy}` }); n._cx = n.cx; n._cy = n.cy; }
+    shape.setAttribute("fill", FILL[n.k]); shape.setAttribute("stroke", STROKE[n.k]); shape.setAttribute("stroke-width", 1.3);
+    g.appendChild(shape);
+    const lines = n.l.length + (n.s ? 1 : 0), lh = 18;
+    let y = n._cy - (lines - 1) * lh / 2 + 5;
+    if (n.s && n.k === "a") y = n._cy - 3;
+    n.l.forEach(t => { g.appendChild(el("text", { x:n._cx, y, class:"fl1" }, t)); y += lh; });
+    if (n.s) g.appendChild(el("text", { x:n._cx, y: n.k === "a" ? n._cy + (n.h > 45 ? 17 : 14) : y - 2, class:"fl2" + (n.k === "d" ? " g" : ""), ...(id === "learn" ? {"font-size":13} : {}) }, n.s));
+    g.addEventListener("click", () => jumpTo(id));
+    g.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); jumpTo(id); } });
+    svg.appendChild(g); shapes[id] = shape;
+  }
+  const token = el("circle", { r:8, fill:"#B33A2B", stroke:"#fff", "stroke-width":2, opacity:0, "pointer-events":"none" });
+  svg.appendChild(token);
+
+  // ---- geometry helpers ----
+  function segs(pts){ const out = []; let total = 0;
+    for (let i = 0; i < pts.length - 1; i++){ const L = Math.hypot(pts[i+1][0]-pts[i][0], pts[i+1][1]-pts[i][1]); out.push({a:pts[i], b:pts[i+1], L}); total += L; }
+    return {out, total}; }
+  function at(pts, f){ const {out, total} = segs(pts); let d = f * total;
+    for (const s of out){ if (d <= s.L || s === out[out.length-1]){ const t = s.L ? d / s.L : 0; return [s.a[0]+(s.b[0]-s.a[0])*t, s.a[1]+(s.b[1]-s.a[1])*t]; } d -= s.L; }
+    return pts[pts.length-1]; }
+
+  // ---- state ----
+  let cur = "pick", hist = [], anim = false, raf = null, hotEdge = null, auto = false, autoT = null;
+  const cap = document.getElementById("flowCap");
+  function highlight(id, on){
+    const n = N[id], sh = shapes[id];
+    sh.setAttribute("fill", on ? HOT[n.k] : FILL[n.k]);
+    sh.setAttribute("stroke", on ? "#17242E" : STROKE[n.k]);
+    sh.setAttribute("stroke-width", on ? 2.4 : 1.3);
+    if (n.ref){ refs[n.ref].classList.toggle("hot", on); conns[n.ref].classList.toggle("hot", on); }
+  }
+  function setCaption(id){
+    const n = N[id];
+    cap.classList.add("fade");
+    setTimeout(() => {
+      document.getElementById("fcTitle").textContent = TITLE[id];
+      document.getElementById("fcModel").innerHTML = n.model;
+      document.getElementById("fcTheory").innerHTML = n.th ? `Theory: ${n.th} <em>(${n.ci})</em>` : "";
+      cap.classList.remove("fade");
+    }, 120);
+  }
+  function setEdgeHot(id){
+    if (hotEdge){ edges[hotEdge].classList.remove("hot"); edges[hotEdge].setAttribute("marker-end", hotEdge === "e12" ? "" : "url(#fah)"); }
+    hotEdge = id;
+    if (id){ svg.insertBefore(edges[id], edgeEnd); edges[id].classList.add("hot"); edges[id].setAttribute("marker-end", "url(#fahHot)"); }
+  }
+  function updateBtns(){ document.getElementById("flowPrev").disabled = hist.length === 0; }
+  function land(id){ highlight(id, true); setCaption(id); cur = id; updateBtns(); if (auto){ clearTimeout(autoT); autoT = setTimeout(goNext, N[id].k === "d" ? 1700 : 1300); } }
+  // while the token moves away from a decision, show which branch was taken
+  function showBranch(edge, back){
+    if (back || !edge.lab || edge.loop) return;
+    const t = document.getElementById("fcTitle");
+    t.innerHTML = `${TITLE[edge.f]} <span class="branch ${edge.lab === "Yes" ? "yes" : "no"}">${edge.lab} → ${TITLE[edge.t]}</span>`;
+  }
+  function travel(edge, back){
+    if (anim) return;
+    const pts = back ? [...edge.p].reverse() : edge.p, target = back ? edge.f : edge.t;
+    highlight(cur, false); setEdgeHot(edge.id);
+    const dur = Math.min(950, Math.max(320, segs(pts).total * 1.6)), t0 = performance.now();
+    showBranch(edge, back);
+    token.setAttribute("opacity", 1); anim = true;
+    (function frame(){
+      const f = Math.min(1, (performance.now() - t0) / dur), e = f < .5 ? 2*f*f : 1 - Math.pow(-2*f + 2, 2) / 2;
+      const [x, y] = at(pts, e); token.setAttribute("cx", x); token.setAttribute("cy", y);
+      if (f < 1) raf = requestAnimationFrame(frame);
+      else { token.setAttribute("opacity", 0); anim = false; land(target); }
+    })();
+  }
+  function goNext(){
+    if (anim) return;
+    const opts = NEXT[cur], pick = opts[(Math.random() * opts.length) | 0];   // draw the branch once
+    const e = E.find(x => x.id === pick);
+    hist.push(e); travel(e, false);
+  }
+  function goPrev(){ if (anim || !hist.length) return; stopAuto(); travel(hist.pop(), true); }
+  function jumpTo(id){ if (anim) return; stopAuto(); highlight(cur, false); setEdgeHot(null); token.setAttribute("opacity", 0); hist = []; land(id); }
+  function stopAuto(){ auto = false; clearTimeout(autoT); document.getElementById("flowAuto").classList.remove("on"); document.getElementById("flowAuto").textContent = "Auto-play"; }
+  function toggleAuto(){
+    if (auto){ stopAuto(); return; }
+    auto = true; const b = document.getElementById("flowAuto"); b.classList.add("on"); b.textContent = "❚❚ Pause";
+    if (!anim) goNext();
+  }
+  function restart(){
+    stopAuto(); cancelAnimationFrame(raf); anim = false; token.setAttribute("opacity", 0);
+    Object.keys(N).forEach(id => highlight(id, false)); setEdgeHot(null); hist = []; cur = "pick";
+    highlight("pick", true); setCaption("pick"); updateBtns();
+  }
+  document.getElementById("flowNext").onclick = () => { stopAuto(); goNext(); };
+  document.getElementById("flowPrev").onclick = goPrev;
+  document.getElementById("flowRestart").onclick = restart;
+  document.getElementById("flowAuto").onclick = toggleAuto;
+  document.addEventListener("keydown", ev => {
+    if (document.getElementById("tabFlow").hidden || /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
+    if (ev.key === "ArrowRight"){ stopAuto(); goNext(); }
+    else if (ev.key === "ArrowLeft") goPrev();
+  });
+  document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => { if (b.dataset.tab !== "tabFlow") stopAuto(); }));
+  restart();
+})();
+</script>
+</body>
+</html>
